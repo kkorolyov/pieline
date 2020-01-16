@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+message ValidateRequest {
+
+}
+message ValidateReply { 
+  bool valid = 1; 
+}
+
+message Session {
+
+}
+
+// service Sessions { rpc Validate() }

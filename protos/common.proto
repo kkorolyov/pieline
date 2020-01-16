@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package common;
+
+// A unique identifier
+message UUID {
+  // UUID value
+  string value = 1;
+}

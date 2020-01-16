@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package user;
+
+import "common.proto";
+
+// Base user construct
+message User {
+  // User id
+  common.UUID id = 1;
+  Details details = 2;
+}
+// User details
+message Details {
+  string email = 1;
+}
+
+// Create user request
+message CreateRequest {}
+
+// Ping request, currently empty
+message PingRequest {}
+// Reply to a ping
+message PingReply {
+  string message = 1; // Custom reply
+}
+
+// Base Users service API
+service Users {
+  rpc Create(CreateRequest) returns (stream User) {}
+
+  // Pings service to check connection
+  rpc Ping(PingRequest) returns (PingReply) {}
+}
