@@ -1,0 +1,15 @@
+# Language
+.venv/
+__pycache__/
+*.egg-info
+*pb2*
+
+# Build
+build/
+dist/
+target/
+
+# IDE
+.idea/
+*.iml
+.vscode/
