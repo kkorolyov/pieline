@@ -8,27 +8,30 @@ import "common.proto";
 message User {
   // User id
   common.UUID id = 1;
+  // User details
   Details details = 2;
 }
 // User details
 message Details {
+  // Private user email
   string email = 1;
-}
-
-// Create user request
-message CreateRequest {}
-
-// Ping request, currently empty
-message PingRequest {}
-// Reply to a ping
-message PingReply {
-  string message = 1; // Custom reply
+  // Public user display name
+  string display_name = 2;
 }
 
 // Base Users service API
 service Users {
-  rpc Create(CreateRequest) returns (stream User) {}
+  /*
+   * Create/update users request.
+   * Incoming users with ID set are updated, those without are created under a new ID.
+   * Throws an error on the entire transaction if an incoming user's ID cannot
+   * be resolved.
+   */
+  rpc Upsert(stream User) returns (stream User) {}
 
-  // Pings service to check connection
-  rpc Ping(PingRequest) returns (PingReply) {}
+  /*
+   * Delete users request.
+   * Deletes all users matching given IDs and returns their representations.
+   */
+  rpc Delete(common.UuidList) returns (stream User) {}
 }

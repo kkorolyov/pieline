@@ -8,7 +8,9 @@ lint:
       - ENUMS_HAVE_COMMENT
       - ENUM_FIELDS_HAVE_COMMENT
       - SYNTAX_CONSISTENT
-      
+
   rules_option:
+    max_line_length:
+      max_chars: 120
     indent:
       newline: "\n"

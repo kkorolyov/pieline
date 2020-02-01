@@ -7,3 +7,8 @@ message UUID {
   // UUID value
   string value = 1;
 }
+// List of unique identifiers
+message UuidList {
+  // Identifiers
+  repeated UUID ids = 1;
+}
