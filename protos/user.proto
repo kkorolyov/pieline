@@ -7,7 +7,7 @@ import "common.proto";
 // Base user construct
 message User {
   // User id
-  common.UUID id = 1;
+  common.Uuid id = 1;
   // User details
   Details details = 2;
 }

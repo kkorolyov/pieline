@@ -3,12 +3,12 @@ syntax = "proto3";
 package common;
 
 // A unique identifier
-message UUID {
+message Uuid {
   // UUID value
   string value = 1;
 }
 // List of unique identifiers
 message UuidList {
   // Identifiers
-  repeated UUID ids = 1;
+  repeated Uuid ids = 1;
 }

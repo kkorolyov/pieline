@@ -1,11 +1,11 @@
-from setuptools import setup, find_namespace_packages, Command
-from setuptools.command.build_py import build_py
 import os
-from grpc_tools.protoc import main as protoc
+
+from setuptools import Command, find_namespace_packages, setup
+from setuptools.command.build_py import build_py
 
 HERE = os.path.dirname(__file__)
 PROTOS_FOLDER = os.path.join(HERE, "../protos/")
-TARGET_FOLDER = os.path.join(HERE, "src/")
+TARGET_FOLDER = os.path.join(HERE, ".")
 
 
 class BuildProtos(Command):
@@ -18,6 +18,8 @@ class BuildProtos(Command):
         pass
 
     def run(self):
+        from grpc_tools.protoc import main as protoc
+
         protoc(
             [
                 "",
@@ -41,10 +43,10 @@ setup(
     version="0.1",
     description="PieLine users service",
     author="kkorolyov",
-    package_dir={"": "src"},
-    packages=find_namespace_packages("src"),
+    package_dir={"": "."},
+    packages=find_namespace_packages("."),
     package_data={"": ["build"]},
-    install_requires=("grpcio", "SQLAlchemy"),
+    install_requires=("grpcio", "grpcio-tools", "SQLAlchemy"),
     cmdclass={"build_protos": BuildProtos, "build_py": BuildPy},
     entry_points={
         "console_scripts": (
