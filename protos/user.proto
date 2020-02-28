@@ -21,6 +21,8 @@ message Details {
 
 // Base Users service API
 service Users {
+  rpc Query(stream common.Uuid) returns (stream User) {}
+
   /*
    * Create/update users request.
    * Incoming users with ID set are updated, those without are created under a new ID.
@@ -33,5 +35,5 @@ service Users {
    * Delete users request.
    * Deletes all users matching given IDs and returns their representations.
    */
-  rpc Delete(common.UuidList) returns (stream User) {}
+  rpc Delete(stream common.Uuid) returns (stream User) {}
 }
