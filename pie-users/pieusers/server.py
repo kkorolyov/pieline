@@ -11,6 +11,20 @@ from user_pb2_grpc import add_UsersServicer_to_server
 
 
 class UsersServicer(ProtoUsersServicer):
+    def Get(self, id_it, context):
+        try:
+            with start_session() as session:
+                users = (
+                    session.query(User)
+                    .filter(User.id.in_([id.value for id in id_it]))
+                    .all()
+                )
+                result = [user.to_grpc() for user in users]
+
+            return iter(result)
+        except Exception:
+            logging.exception("get oopsie")
+
     def Upsert(self, user_it, context):
         try:
             userDaos = [User.from_grpc(user) for user in user_it]
@@ -19,9 +33,9 @@ class UsersServicer(ProtoUsersServicer):
 
             with start_session() as session:
                 session.add_all(userDaos)
-                result = iter([user.to_grpc() for user in userDaos])
+                result = [user.to_grpc() for user in userDaos]
 
-            return result
+            return iter(result)
         except Exception:
             logging.exception("upsert oopsie")
 
@@ -39,7 +53,9 @@ class UsersServicer(ProtoUsersServicer):
                 for user in users:
                     session.delete(user)
 
-            return iter([user.to_grpc() for user in users])
+                result = [user.to_grpc() for user in users]
+
+            return iter(result)
         except Exception:
             logging.exception("delete oopsie")
 

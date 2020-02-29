@@ -21,7 +21,11 @@ message Details {
 
 // Base Users service API
 service Users {
-  rpc Query(stream common.Uuid) returns (stream User) {}
+  /*
+   * Get users request.
+   * Returns all users matching given IDs.
+   */
+  rpc Get(stream common.Uuid) returns (stream User) {}
 
   /*
    * Create/update users request.
