@@ -1,6 +1,7 @@
 # Language
 .venv/
 __pycache__/
+node_modules/
 *.egg-info
 *pb2*
 
