@@ -1,8 +1,8 @@
-import { Button, Grid, Typography, CircularProgress } from "@material-ui/core";
-import React, { useState, useEffect } from "react";
-import { TextField } from "../common/components";
-import { useExecutor, useInitializer } from "../common/hooks";
+import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import { getProfile, saveProfile } from "../common/api";
+import { TextField } from "../common/components";
+import { useExecutor, useInitial, useResult } from "../common/hooks";
 
 type State = {
   displayName: string;
@@ -80,16 +80,20 @@ const Profile = ({ id }: ProfileProps) => {
     setDisplayName(displayName);
     setEmail(email);
   };
-  const [waitingInit] = useInitializer(() => getProfile(id), applyState);
-  const [saveExecutor, waitingSave, errorSave] = useExecutor(
-    saveProfile,
-    (state: State) => {
-      applyState(state);
-      setEditing(false);
-    }
-  );
+  const getExecutor = useExecutor(getProfile);
+  const saveExecutor = useExecutor(saveProfile);
 
-  return waitingInit ? (
+  // Apply state on init and update
+  useResult(getExecutor, applyState);
+  useResult(saveExecutor, (state: State) => {
+    applyState(state);
+    setEditing(false);
+  });
+
+  // Init
+  useInitial(getExecutor, id);
+
+  return getExecutor.waiting ? (
     <CircularProgress />
   ) : (
     <Grid container direction="column" spacing={2}>
@@ -113,8 +117,8 @@ const Profile = ({ id }: ProfileProps) => {
           <Editor
             displayName={displayName}
             email={email}
-            onSubmit={saveExecutor}
-            waiting={waitingSave}
+            onSubmit={saveExecutor.execute}
+            waiting={saveExecutor.waiting}
           />
         </Grid>
       )}
