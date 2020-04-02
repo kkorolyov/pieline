@@ -10,7 +10,7 @@ type State = {
 };
 
 type DisplayProps = State;
-const Display = ({ displayName, email }: DisplayProps) => (
+export const Display = ({ displayName, email }: DisplayProps) => (
   <Grid container direction="column">
     <Typography variant="h4">{displayName}</Typography>
     <Typography variant="h5">{email}</Typography>
@@ -18,14 +18,14 @@ const Display = ({ displayName, email }: DisplayProps) => (
 );
 
 type EditorProps = State & {
-  onSubmit: (arg0: State) => void;
-  waiting: boolean;
+  onSubmit: (state: State) => void;
+  waiting?: boolean;
 };
-const Editor = ({
+export const Editor = ({
   displayName: initDisplayName,
   email: initEmail,
   onSubmit,
-  waiting
+  waiting = false
 }: EditorProps) => {
   const [displayName, setDisplayName] = useState(initDisplayName);
   const [email, setEmail] = useState(initEmail);
@@ -40,12 +40,14 @@ const Editor = ({
       <Grid container direction="column" spacing={2}>
         <Grid container direction="column" item xs={3}>
           <TextField
+            required
             variant="outlined"
             label="Display Name"
             value={displayName}
             onChange={e => setDisplayName(e.target.value)}
           />
           <TextField
+            required
             variant="outlined"
             label="Email"
             value={email}

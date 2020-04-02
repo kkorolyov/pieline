@@ -45,6 +45,7 @@ export function useExecutor<T>(
       result,
       error
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [waiting, result, error]
   );
 }
@@ -55,9 +56,13 @@ export function useExecutor<T>(
  * @param action waiting action to invoke
  */
 export function useWaiting({ waiting }: Executor<any>, action: () => void) {
-  useEffect(() => {
-    waiting && action();
-  }, [waiting]);
+  useEffect(
+    () => {
+      waiting && action();
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [waiting]
+  );
 }
 /**
  * Invokes an `action` with execution `result` when an executor completes.
@@ -68,9 +73,13 @@ export function useResult<T>(
   { result }: Executor<T>,
   action: (result: T) => void
 ) {
-  useEffect(() => {
-    result && action(result);
-  }, [result]);
+  useEffect(
+    () => {
+      result && action(result);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [result]
+  );
 }
 /**
  * Invokes an `action` with `error` when an executor errors.
@@ -81,9 +90,13 @@ export function useError(
   { error }: Executor<any>,
   action: (error: any) => void
 ) {
-  useEffect(() => {
-    error && action(error);
-  }, [error]);
+  useEffect(
+    () => {
+      error && action(error);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [error]
+  );
 }
 
 /**
@@ -93,7 +106,11 @@ export function useError(
  * @param args args to invoke `executor` with
  */
 export function useInitial({ execute }: Executor<any>, ...args: any[]) {
-  useEffect(() => {
-    execute(...args);
-  }, []);
+  useEffect(
+    () => {
+      execute(...args);
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  );
 }
