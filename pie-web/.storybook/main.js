@@ -4,7 +4,7 @@ const webpack = require("webpack");
 module.exports = {
   stories: ["../src/**/*.stories.*"],
 
-  webpackFinal: config => {
+  webpackFinal: (config) => {
     config.plugins.push(
       new webpack.NormalModuleReplacementPlugin(
         /common\/api\/index.ts$/,
@@ -12,5 +12,5 @@ module.exports = {
       )
     );
     return config;
-  }
+  },
 };

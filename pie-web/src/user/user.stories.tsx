@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import Profile, { Display, Editor } from "./Profile";
 import { Snackbar } from "@material-ui/core";
+import React, { useState } from "react";
+import { Display, Editor } from "./Editor";
+import Profile from "./Profile";
 
 export default { title: "User" };
 
@@ -17,7 +18,7 @@ const ProfileEditor = () => {
       <Editor
         displayName="Changeme"
         email="Metoo"
-        onSubmit={state => {
+        onSubmit={(state) => {
           setSaveMessage(`Saved with state: ${JSON.stringify(state)}`);
           setSaveOpen(true);
         }}
