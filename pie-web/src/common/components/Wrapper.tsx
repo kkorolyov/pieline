@@ -4,6 +4,7 @@ import {
   TextField as MuiTextField,
 } from "@material-ui/core";
 import React, { useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const TextField = styled(MuiTextField)`
@@ -60,3 +61,8 @@ export const Menu = ({
     </>
   );
 };
+
+export const Link = styled(RouterLink)`
+  color: inherit;
+  text-decoration: inherit;
+`;

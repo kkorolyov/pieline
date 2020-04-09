@@ -1,4 +1,4 @@
-import { Container, createMuiTheme, CssBaseline } from "@material-ui/core";
+import { createMuiTheme, CssBaseline } from "@material-ui/core";
 import {
   StylesProvider,
   ThemeProvider as MuiThemeProvider,
@@ -20,7 +20,7 @@ export const Dark = ({ children }: DarkProps) => (
     <MuiThemeProvider theme={theme}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container maxWidth="lg">{children}</Container>
+        {children}
       </ThemeProvider>
     </MuiThemeProvider>
   </StylesProvider>

@@ -1,3 +1,7 @@
-export const getProfile = undefined;
+export const getProfile = () => ({
+  displayName: "Real display",
+  email: "Real email",
+});
 
-export const saveProfile = undefined;
+export const saveProfile = (state: { displayName: string; email: string }) =>
+  state;
