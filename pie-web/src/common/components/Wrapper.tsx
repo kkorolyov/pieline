@@ -66,3 +66,19 @@ export const Link = styled(RouterLink)`
   color: inherit;
   text-decoration: inherit;
 `;
+
+type FormProps = {
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+  children?: React.ReactNode;
+};
+export const Form = ({ onSubmit, children, ...props }: FormProps) => (
+  <form
+    onSubmit={(e) => {
+      e.preventDefault();
+      onSubmit(e);
+    }}
+    {...props}
+  >
+    {children}
+  </form>
+);

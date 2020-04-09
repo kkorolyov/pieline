@@ -1,6 +1,6 @@
 import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
 import React, { useState } from "react";
-import { TextField } from "../common/components";
+import { Form, TextField } from "../common/components";
 
 export type State = {
   displayName: string;
@@ -29,9 +29,8 @@ export const Editor = ({
   const [email, setEmail] = useState(initEmail);
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault();
+    <Form
+      onSubmit={() => {
         onSubmit({ displayName, email });
       }}
     >
@@ -63,6 +62,6 @@ export const Editor = ({
           )}
         </Grid>
       </Grid>
-    </form>
+    </Form>
   );
 };
