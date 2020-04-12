@@ -2,17 +2,35 @@ import {
   Menu as MuiMenu,
   MenuProps as MuiMenuProps,
   TextField as MuiTextField,
+  TextFieldProps as MuiTextFieldProps,
 } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import styled from "styled-components";
 
-export const TextField = styled(MuiTextField)`
+const StyledMuiTextField = styled(MuiTextField)`
   ${({ theme }) => `
   margin-top: ${theme.spacing(1)}px;
   margin-bottom: ${theme.spacing(1)}px;
   `}
 `;
+type TextFieldProps = Omit<MuiTextFieldProps, "onChange"> & {
+  /**
+   * Callback invoked on value change with current field value.
+   */
+  onChange: (value: string) => void;
+};
+/**
+ * Styled text field with a simplified `onChange` caller providing current field value.
+ */
+export const TextField = ({ onChange, ...props }: TextFieldProps) => (
+  <StyledMuiTextField
+    onChange={(e) => {
+      onChange && onChange(e.target.value);
+    }}
+    {...props}
+  />
+);
 
 type MenuProps = MuiMenuProps & {
   /**
@@ -20,6 +38,10 @@ type MenuProps = MuiMenuProps & {
    */
   anchor: React.ReactElement;
 };
+/**
+ * Spawns a menu on a given anchor element.
+ * `onClick` events on children also close the open menu.
+ */
 export const Menu = ({
   anchor,
   onClose,
@@ -62,15 +84,24 @@ export const Menu = ({
   );
 };
 
+/**
+ * Restyled `react-router` `link` component.
+ */
 export const Link = styled(RouterLink)`
   color: inherit;
   text-decoration: inherit;
 `;
 
 type FormProps = {
+  /**
+   * Form submission handler.
+   */
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  children?: React.ReactNode;
+  children: React.ReactNode;
 };
+/**
+ * Form container providing for submission handling.
+ */
 export const Form = ({ onSubmit, children, ...props }: FormProps) => (
   <form
     onSubmit={(e) => {

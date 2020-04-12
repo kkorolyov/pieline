@@ -41,14 +41,14 @@ export const Editor = ({
             variant="outlined"
             label="Display Name"
             value={displayName}
-            onChange={(e) => setDisplayName(e.target.value)}
+            onChange={setDisplayName}
           />
           <TextField
             required
             variant="outlined"
             label="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={setEmail}
           />
         </Grid>
 

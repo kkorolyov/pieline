@@ -1,17 +1,10 @@
-import {
-  AppBar,
-  Avatar,
-  MenuItem,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
-import React from "react";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
+import React, { useContext } from "react";
 import styled from "styled-components";
-import { Link, Menu } from "../common/components";
-
-const ProfileIcon = styled(Avatar)`
-  cursor: pointer;
-`;
+import { Link } from "../common/components";
+import { UserContext } from "../common/context";
+import AuthBar from "./AuthBar";
+import UserMenu from "./UserMenu";
 
 const StyledToolbar = styled(Toolbar)`
   display: flex;
@@ -24,18 +17,19 @@ type NavProps = {
    */
   title: string;
 };
+/**
+ * Main navigation bar.
+ */
 const Nav = ({ title }: NavProps) => {
+  const { id } = useContext(UserContext);
+
   return (
     <AppBar position="sticky">
       <StyledToolbar>
         <Link to="/">
           <Typography variant="h3">{title}</Typography>
         </Link>
-        <Menu anchor={<ProfileIcon />}>
-          <MenuItem component={Link} to="user">
-            Profile
-          </MenuItem>
-        </Menu>
+        {id ? <UserMenu /> : <AuthBar />}
       </StyledToolbar>
     </AppBar>
   );
