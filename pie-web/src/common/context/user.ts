@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 type UserContextProps = {
-  id?: string;
+  id?: string | null;
   setId: (id: string) => void;
 
   displayName?: string;
