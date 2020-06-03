@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package user;
+option java_package = "dev.kkorolyov.pieline.proto.user";
 
 import "common.proto";
 
