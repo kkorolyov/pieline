@@ -1,63 +1,73 @@
 import logging
 from concurrent import futures
-from contextlib import contextmanager
 
 import grpc
 
-from pieusers.persist.dao import Base, User
+from pieusers.persist.dao import User
 from pieusers.persist.session import start_session
 from user_pb2_grpc import UsersServicer as ProtoUsersServicer
 from user_pb2_grpc import add_UsersServicer_to_server
 
 
+logger = logging.getLogger(__name__)
+
+
 class UsersServicer(ProtoUsersServicer):
     def Get(self, id_it, context):
+        ids = [id.value for id in id_it]
+
+        logger.debug(f"get users for ids({ids}")
+
         try:
             with start_session() as session:
-                users = (
-                    session.query(User)
-                    .filter(User.id.in_([id.value for id in id_it]))
-                    .all()
-                )
-                result = [user.to_grpc() for user in users]
+                request = session.query(User)
+
+                if ids:
+                    request = request.filter(User.id.in_(ids))
+
+                result = [user.to_grpc() for user in request]
+
+            logger.info(f"get users for ids({ids}) = {result}")
 
             return iter(result)
         except Exception:
-            logging.exception("get oopsie")
+            logger.exception("get oopsie")
 
     def Upsert(self, user_it, context):
+        users = list(user_it)
+
+        logger.debug(f"upsert users({users}")
+
         try:
-            userDaos = [User.from_grpc(user) for user in user_it]
-
-            print(f"upserting: {userDaos}")
-
             with start_session() as session:
-                session.add_all(userDaos)
-                result = [user.to_grpc() for user in userDaos]
+                result = [
+                    session.merge(User.from_grpc(user)).to_grpc() for user in users
+                ]
+
+            logger.info(f"upsert users({users}) = {result}")
 
             return iter(result)
         except Exception:
-            logging.exception("upsert oopsie")
+            logger.exception("upsert oopsie")
 
     def Delete(self, id_it, context):
+        ids = [id.value for id in id_it]
+
+        logger.debug(f"delete users for ids({ids})")
+
         try:
             with start_session() as session:
-                users = (
-                    session.query(User)
-                    .filter(User.id.in_([id.value for id in id_it]))
-                    .all()
-                )
+                request = session.query(User).filter(User.id.in_(ids))
 
-                print(f"deleting: {users}")
+                result = [user.to_grpc() for user in request]
 
-                for user in users:
-                    session.delete(user)
+                request.delete(synchronize_session=False)
 
-                result = [user.to_grpc() for user in users]
+            logger.info(f"delete users for ids({ids}) = {result}")
 
             return iter(result)
         except Exception:
-            logging.exception("delete oopsie")
+            logger.exception("delete oopsie")
 
 
 def run():
@@ -70,6 +80,10 @@ def run():
     server.wait_for_termination()
 
 
-if __name__ == "__main__":
-    logging.basicConfig()
+def main():
+    logging.basicConfig(level=logging.INFO)
     run()
+
+
+if __name__ == "__main__":
+    main()

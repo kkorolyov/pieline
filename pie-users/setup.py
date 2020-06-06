@@ -50,8 +50,8 @@ setup(
     cmdclass={"build_protos": BuildProtos, "build_py": BuildPy},
     entry_points={
         "console_scripts": (
-            "pie-server = pieusers.server:run",
-            "pie-client = pieusers.client:run",
+            "pie-server = pieusers.server:main",
+            "pie-client = pieusers.client:main",
         )
     },
 )

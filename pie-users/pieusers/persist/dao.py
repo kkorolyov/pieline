@@ -22,7 +22,9 @@ Base = declarative_base(cls=Base)
 
 
 class User(Base):
-    details = relationship("Details", uselist=False, cascade="all, delete", passive_deletes=True)
+    details = relationship(
+        "Details", uselist=False, cascade="all, delete", passive_deletes=True
+    )
 
     @staticmethod
     def from_grpc(user):
