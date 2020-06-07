@@ -15,6 +15,7 @@ import graphql.schema.GraphQLSchema
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.features.CORS
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.HttpStatusCode
@@ -52,22 +53,31 @@ fun Application.main() {
 	install(ContentNegotiation) {
 		jackson {}
 	}
+	install(CORS) {
+		allowNonSimpleContentTypes = true
+		anyHost()
+	}
 
 	routing {
 		post("/") {
 			val json = call.receive<Map<String, Any>>()
 			val query = json["query"]
-
 			if (query == null || query !is String) {
-				call.respond(HttpStatusCode.BadRequest, emptyMap<String, Any>())
+				call.respond(HttpStatusCode.BadRequest)
 			}
-
 			val operationName = json["operationName"] as String?
+			val variables = json["variables"].let {
+				when (it) {
+					is Map<*, *> -> hashMapOf(*it.map { it.key as String to it.value as Any }.toTypedArray())
+					else -> hashMapOf()
+				}
+			}
 
 			val executionInput = ExecutionInput
 				.newExecutionInput()
 				.query(query as String?)
 				.operationName(operationName)
+				.variables(variables)
 				.build()
 
 			val executionResult = gql.execute(executionInput)
