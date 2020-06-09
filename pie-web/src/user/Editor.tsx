@@ -1,13 +1,9 @@
 import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { Form, TextField } from "../common/components";
+import { User_Details } from "../generated/graphql";
 
-export type State = {
-  displayName: string;
-  email: string;
-};
-
-type DisplayProps = State;
+type DisplayProps = User_Details;
 export const Display = ({ displayName, email }: DisplayProps) => (
   <Grid container direction="column">
     <Typography variant="h4">{displayName}</Typography>
@@ -15,8 +11,8 @@ export const Display = ({ displayName, email }: DisplayProps) => (
   </Grid>
 );
 
-type EditorProps = State & {
-  onSubmit: (state: State) => void;
+type EditorProps = User_Details & {
+  onSubmit: (details: User_Details) => void;
   waiting?: boolean;
 };
 export const Editor = ({

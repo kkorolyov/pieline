@@ -1,10 +1,16 @@
 import { Container } from "@material-ui/core";
-import React from "react";
+import React, { useContext } from "react";
+import { Redirect } from "react-router-dom";
+import { UserContext } from "../common/context";
 import Profile from "../user/Profile";
 
-const User = () => (
-  <Container maxWidth="xl">
-    <Profile id="boop" />
-  </Container>
-);
+const User = () => {
+  const { id } = useContext(UserContext);
+
+  return (
+    <Container maxWidth="xl">
+      {id ? <Profile id={id} /> : <Redirect to="/" />}
+    </Container>
+  );
+};
 export default User;

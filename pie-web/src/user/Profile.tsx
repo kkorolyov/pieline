@@ -2,27 +2,28 @@ import { Button, CircularProgress, Grid } from "@material-ui/core";
 import React, { useState } from "react";
 import { getProfile, saveProfile } from "../common/api";
 import { useExecutor, useInitial, useResult } from "../common/hooks";
-import { Display, Editor, State } from "./Editor";
+import { User_Details } from "../generated/graphql";
+import { Display, Editor } from "./Editor";
 
 type ProfileProps = {
   id: string;
 };
 const Profile = ({ id }: ProfileProps) => {
-  const [displayName, setDisplayName] = useState("none");
-  const [email, setEmail] = useState("none");
+  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
 
   const [isEditing, setEditing] = useState(false);
 
-  const applyState = ({ displayName, email }: State) => {
-    setDisplayName(displayName);
-    setEmail(email);
+  const applyState = ({ displayName, email }: User_Details) => {
+    displayName && setDisplayName(displayName);
+    email && setEmail(email);
   };
   const getExecutor = useExecutor(getProfile);
-  const saveExecutor = useExecutor(saveProfile);
+  const saveExecutor = useExecutor((details) => saveProfile(id, details));
 
   // Apply state on init and update
   useResult(getExecutor, applyState);
-  useResult(saveExecutor, (state: State) => {
+  useResult(saveExecutor, (state) => {
     applyState(state);
     setEditing(false);
   });
