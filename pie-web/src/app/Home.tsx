@@ -1,12 +1,26 @@
-import { Container, Typography } from "@material-ui/core";
-import React from "react";
+import { Container, Grid, Typography } from "@material-ui/core";
+import React, { useContext } from "react";
+import { i18nContext } from "../common/context";
+import ExploreWidget from "../widget/ExploreWidget";
+import MarketWidget from "../widget/MarketWidget";
 
-const Home = () => (
-  <Container maxWidth="xl">
-    <Typography variant="h3">
-      A platform for collaborative design, storage, and distribution of game
-      assets.
-    </Typography>
-  </Container>
-);
+const Home = () => {
+  const { tagline } = useContext(i18nContext);
+
+  return (
+    <Container maxWidth="xl">
+      <Grid container direction="column" spacing={8}>
+        <Grid item>
+          <Typography variant="h3">{tagline}</Typography>
+        </Grid>
+        <Grid item>
+          <ExploreWidget />
+        </Grid>
+        <Grid item>
+          <MarketWidget />
+        </Grid>
+      </Grid>
+    </Container>
+  );
+};
 export default Home;

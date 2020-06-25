@@ -7,4 +7,5 @@ export type i18nPack = {
   title: string;
   explore: string;
   market: string;
+  more: string;
 };

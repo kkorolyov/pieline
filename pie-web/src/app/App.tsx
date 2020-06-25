@@ -1,17 +1,18 @@
 import { ApolloProvider } from "@apollo/react-hooks";
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { en, geti18n } from "../common/api";
+import { geti18n } from "../common/api";
 import { client } from "../common/api/graphql/client";
 import { Dark } from "../common/components";
 import { i18nContext, UserContext } from "../common/context";
 import { useArgs, useExecutor, useResult } from "../common/hooks";
 import { Lang } from "../common/i18n";
+import en from "../common/i18n/en.json";
 import Nav from "../nav/Nav";
-import Home from "./Home";
-import User from "./User";
 import Explore from "./Explore";
+import Home from "./Home";
 import Market from "./Market";
+import User from "./User";
 
 function App() {
   const [id, setId] = useState<string | null>(null);

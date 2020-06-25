@@ -3,7 +3,7 @@ import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Dark } from "../src/common/components";
 import { i18nContext } from "../src/common/context";
-import {en} from "../src/common/api"
+import en from "../src/common/i18n/en.json";
 
 addDecorator((storyFn) => (
   <Router>

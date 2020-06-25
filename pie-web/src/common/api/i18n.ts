@@ -1,11 +1,5 @@
 import { i18nPack, Lang } from "../i18n";
-
-// TODO replace with retrieved pack
-export const en = {
-  title: "PieLine",
-  explore: "Explore",
-  market: "Market",
-};
+import en from "../i18n/en.json";
 
 /**
  * Retrieves i18n for given language.
