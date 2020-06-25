@@ -7,7 +7,10 @@ import { fullUser } from "./graphql/queries";
  * Authenticates a given `(userName, password)` combination.
  * @returns authenticated user ID
  */
-export const authenticate = (userName: string, password: string) => "bogoId";
+export const authenticate = async (
+  userName: string,
+  password: string
+): Promise<string> => "bogoId";
 
 /**
  * Retrieves a profile for a given user ID.
@@ -48,6 +51,6 @@ export const saveProfile = async (
   const {
     setUser: { details: resultDetails },
   } = data;
-  
+
   return resultDetails;
 };
