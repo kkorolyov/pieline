@@ -131,6 +131,16 @@
               "ofType": null
             },
             "defaultValue": null
+          },
+          {
+            "name": "lang",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "common_Lang",
+              "ofType": null
+            },
+            "defaultValue": null
           }
         ],
         "interfaces": null,
@@ -234,6 +244,23 @@
         "inputFields": null,
         "interfaces": [],
         "enumValues": null,
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "common_Lang",
+        "description": null,
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "EN",
+            "description": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
         "possibleTypes": null
       },
       {
@@ -345,6 +372,18 @@
             "type": {
               "kind": "OBJECT",
               "name": "common_Uuid",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "lang",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "ENUM",
+              "name": "common_Lang",
               "ofType": null
             },
             "isDeprecated": false,

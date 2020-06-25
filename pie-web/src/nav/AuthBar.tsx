@@ -23,7 +23,7 @@ const AuthBar = () => {
         authExecutor.execute(userName, password);
       }}
     >
-      <Grid container spacing={1} alignItems="center">
+      <Grid container spacing={1} alignItems="center" justify="center" wrap="nowrap">
         <Grid item>
           <TextField
             variant="filled"

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package i18n;
+option java_package = "dev.kkorolyov.pieline.proto.i18n";
+
+// System-supported language codes
+enum Lang { EN = 0; }
+
+// A localized message pack
+message i18nPack {
+  // Pack value
+  map<string, string> value = 1;
+}
+
+// Localization service API
+service i18n {
+  /*
+   * Pack getter.
+   * Returns localization pack for a given language.
+   */
+  rpc Get(Lang) returns (i18nPack) {}
+}
