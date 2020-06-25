@@ -10,6 +10,8 @@ import { Lang } from "../common/i18n";
 import Nav from "../nav/Nav";
 import Home from "./Home";
 import User from "./User";
+import Explore from "./Explore";
+import Market from "./Market";
 
 function App() {
   const [id, setId] = useState<string | null>(null);
@@ -30,6 +32,12 @@ function App() {
               <Nav />
 
               <Switch>
+                <Route path="/explore">
+                  <Explore />
+                </Route>
+                <Route path="/market">
+                  <Market />
+                </Route>
                 <Route path="/user">
                   <User />
                 </Route>
