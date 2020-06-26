@@ -43,7 +43,7 @@ export function useExecutor<T>(
       execute,
       waiting,
       result,
-      error
+      error,
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [waiting, result, error]
@@ -100,17 +100,17 @@ export function useError(
 }
 
 /**
- * Invokes an executor with given `args` a single time.
- * Useful for initialization.
+ * Invokes an executor with given `args`.
+ * Re-invokes on any arg change.
  * @param executor executor to invoke
  * @param args args to invoke `executor` with
  */
-export function useInitial({ execute }: Executor<any>, ...args: any[]) {
+export function useArgs({ execute }: Executor<any>, ...args: any[]) {
   useEffect(
     () => {
       execute(...args);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [...args]
   );
 }

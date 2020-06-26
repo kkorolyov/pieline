@@ -24,6 +24,7 @@ export type Input_User_Details = {
 export type Input_User_User = {
   details?: Maybe<Input_User_Details>;
   id?: Maybe<Input_Common_Uuid>;
+  lang?: Maybe<Common_Lang>;
 };
 
 export type MutationType = {
@@ -52,6 +53,10 @@ export type QueryTypeUsersArgs = {
   ids?: Maybe<Input_Common_UuidList>;
 };
 
+export enum Common_Lang {
+  En = 'EN'
+}
+
 export type Common_Uuid = {
   __typename?: 'common_Uuid';
   value?: Maybe<Scalars['String']>;
@@ -72,6 +77,7 @@ export type User_User = {
   __typename?: 'user_User';
   details?: Maybe<User_Details>;
   id?: Maybe<Common_Uuid>;
+  lang?: Maybe<Common_Lang>;
 };
 
 

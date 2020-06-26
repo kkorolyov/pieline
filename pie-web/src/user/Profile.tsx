@@ -1,7 +1,7 @@
 import { Button, CircularProgress, Grid } from "@material-ui/core";
 import React, { useState } from "react";
 import { getProfile, saveProfile } from "../common/api";
-import { useExecutor, useInitial, useResult } from "../common/hooks";
+import { useExecutor, useArgs, useResult } from "../common/hooks";
 import { User_Details } from "../generated/graphql";
 import { Display, Editor } from "./Editor";
 
@@ -29,7 +29,7 @@ const Profile = ({ id }: ProfileProps) => {
   });
 
   // Init
-  useInitial(getExecutor, id);
+  useArgs(getExecutor, id);
 
   return (
     <Grid container direction="column" spacing={2}>
