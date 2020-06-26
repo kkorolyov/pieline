@@ -5,7 +5,9 @@ export enum Lang {
 
 export type i18nPack = {
   title: string;
+  tagline: string;
   explore: string;
   market: string;
   more: string;
+  projects: string;
 };

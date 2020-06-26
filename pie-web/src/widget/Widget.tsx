@@ -11,12 +11,13 @@ import { Link } from "../common/components";
 import { i18nContext } from "../common/context";
 
 type WidgetProps = CardProps & {
+  // Widget title
   title: string;
-  location: string;
+  // Location of full dataset
+  location?: string;
 };
 /**
  * A minimal view on a dataset.
- * Provides a link to a full view.
  */
 const Widget = ({ children, title, location, ...props }: WidgetProps) => {
   const { more } = useContext(i18nContext);
@@ -25,11 +26,13 @@ const Widget = ({ children, title, location, ...props }: WidgetProps) => {
     <Card {...props}>
       <CardHeader title={title} />
       <CardContent>{children}</CardContent>
-      <CardActions>
-        <Link to={location}>
-          <Button>{more}</Button>
-        </Link>
-      </CardActions>
+      {location && (
+        <CardActions>
+          <Link to={location}>
+            <Button>{more}</Button>
+          </Link>
+        </CardActions>
+      )}
     </Card>
   );
 };
