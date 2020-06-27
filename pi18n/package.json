@@ -1,0 +1,21 @@
+{
+  "name": "pi18n",
+  "version": "1.0.0",
+  "description": "pieline i18n service",
+  "author": "kkorolyov",
+  "license": "MIT",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.5.4",
+    "grpc": "^1.24.3",
+    "typescript": "^3.9.5"
+  },
+  "devDependencies": {
+    "grpc-tools": "^1.9.0",
+    "grpc_tools_node_protoc_ts": "^4.1.0"
+  },
+  "scripts": {
+    "protoc": "mkdir -p src/proto && grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/proto --ts_out=./src/proto --grpc_out=./src/proto --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts -I=../protos i18n.proto",
+    "clean": "rm -r build",
+    "start": "yarn protoc && yarn clean && yarn tsc && node build/server.js"
+  }
+}
