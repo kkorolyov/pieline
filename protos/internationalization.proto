@@ -3,8 +3,6 @@ syntax = "proto3";
 package i18n;
 option java_package = "dev.kkorolyov.pieline.proto.i18n";
 
-import "common.proto";
-
 // System-supported locale codes
 enum Locale {
     EN_US = 0;
