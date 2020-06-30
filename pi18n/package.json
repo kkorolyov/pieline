@@ -11,11 +11,13 @@
   },
   "devDependencies": {
     "grpc-tools": "^1.9.0",
-    "grpc_tools_node_protoc_ts": "^4.1.0"
+    "grpc_tools_node_protoc_ts": "^4.1.0",
+    "ts-node-dev": "^1.0.0-pre.49"
   },
   "scripts": {
-    "protoc": "mkdir -p src/proto && grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/proto --ts_out=./src/proto --grpc_out=./src/proto --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts -I=../protos i18n.proto",
+    "proto": "mkdir -p src/generated/proto && grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/generated/proto --ts_out=./src/generated/proto --grpc_out=./src/generated/proto --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts -I=../protos internationalization.proto",
     "clean": "rm -r build",
-    "start": "yarn protoc && yarn clean && yarn tsc && node build/server.js"
+    "start": "yarn proto && yarn tsc && node build/server.js",
+    "dev": "yarn proto && ts-node-dev --respawn src/server.ts"
   }
 }
