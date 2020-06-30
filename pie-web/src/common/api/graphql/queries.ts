@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { userFields } from "./fragments";
+import { userFields, i18nPackFields } from "./fragments";
 
 export const fullUser = gql`
   query fullUser($id: Input_common_Uuid) {
@@ -16,4 +16,13 @@ export const fullUsers = gql`
     }
   }
   ${userFields}
+`;
+
+export const localeI18n = gql`
+  query i18n($locale: i18n_Locale) {
+    i18n(locale: $locale) {
+      ...i18nPackFields
+    }
+  }
+  ${i18nPackFields}
 `;

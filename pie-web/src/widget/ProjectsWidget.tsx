@@ -8,7 +8,7 @@ const ProjectsWidget = () => {
   const { id } = useContext(UserContext);
 
   return (
-    <Widget title={projects} location={id ? `${id}/projects` : undefined}>
+    <Widget title={projects} location={id ? `/${id}/projects` : undefined}>
       <Typography variant="h4">Projects widget placeholder</Typography>
     </Widget>
   );

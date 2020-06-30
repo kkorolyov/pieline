@@ -11,3 +11,12 @@ export const userFields = gql`
     }
   }
 `;
+
+export const i18nPackFields = gql`
+  fragment i18nPackFields on i18n_i18nPack {
+    value {
+      key
+      value
+    }
+  }
+`;

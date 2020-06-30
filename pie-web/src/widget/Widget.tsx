@@ -12,14 +12,14 @@ import { i18nContext } from "../common/context";
 
 type WidgetProps = CardProps & {
   // Widget title
-  title: string;
+  title?: string;
   // Location of full dataset
   location?: string;
 };
 /**
  * A minimal view on a dataset.
  */
-const Widget = ({ children, title, location, ...props }: WidgetProps) => {
+const Widget = ({ children, title = "", location, ...props }: WidgetProps) => {
   const { more } = useContext(i18nContext);
 
   return (

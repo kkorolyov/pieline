@@ -18,7 +18,7 @@ class i18nServer implements Ii18nServer {
       for (const [key, val] of Object.entries(pack)) {
         result.getValueMap().set(key, val);
 			}
-			console.log(`result = ${JSON.stringify(result.getValueMap())}`)
+			console.log("result = %O", result.getValueMap().toArray())
       callback(null, result);
     } else {
 			console.error(`unsupported local: ${locale}`)
