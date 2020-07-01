@@ -8,6 +8,7 @@ node_modules/
 # Build
 .gradle/
 build/
+generated/
 dist/
 target/
 
@@ -15,3 +16,4 @@ target/
 .idea/
 *.iml
 .vscode/
+yarn-error.log*

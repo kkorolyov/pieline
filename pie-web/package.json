@@ -54,7 +54,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "storybook": "start-storybook",
-    "gqlgen": "graphql-codegen --config codegen.yml"
+    "gql": "graphql-codegen --config codegen.yml"
   },
   "browserslist": {
     "production": [

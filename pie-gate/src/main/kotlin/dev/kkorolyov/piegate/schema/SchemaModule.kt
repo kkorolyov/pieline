@@ -8,5 +8,6 @@ import com.google.inject.AbstractModule
 object SchemaModule : AbstractModule() {
 	override fun configure() {
 		install(UsersSchema)
+		install(i18nSchema)
 	}
 }

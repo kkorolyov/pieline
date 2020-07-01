@@ -6,6 +6,3 @@ generates:
       - "typescript"
       - "typescript-operations"
       - "fragment-matcher"
-  ./graphql.schema.json:
-    plugins:
-      - "introspection"
