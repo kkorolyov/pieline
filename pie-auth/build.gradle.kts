@@ -10,7 +10,7 @@ val grpcVersion: String by project
 val grpcKtVersion: String by project
 
 tasks.wrapper {
-	gradleVersion = "6.3"
+	gradleVersion = "6.5.1"
 	distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -29,19 +29,16 @@ java {
 }
 
 application {
-	mainClassName = "io.ktor.server.netty.EngineMain"
+	mainClassName = "dev.kkorolyov.pieauth.ServerKt"
 }
 
 repositories {
 	jcenter()
 }
 dependencies {
-	val coroutinesVersion: String by project
 	val tomcatAnnotationsVersion: String by project
-	val ktorVersion: String by project
-	val log4jVersion: String by project
-	val guavaVersion: String by project
-	val rejoinerVersion: String by project
+
+	implementation(kotlin("stdlib-jdk8"))
 
 	// grpc
 	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
@@ -55,33 +52,6 @@ dependencies {
 		implementation("io.grpc:$it")
 	}
 	implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
-
-	implementation("com.google.guava:guava:$guavaVersion")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:$coroutinesVersion")
-	implementation("com.google.api.graphql:rejoiner:$rejoinerVersion")
-
-	// ktor
-	implementation(platform("io.ktor:ktor-bom:$ktorVersion"))
-	listOf(
-		"ktor-server-netty",
-		"ktor-server-core",
-		"ktor-auth",
-		"ktor-auth-jwt",
-		"ktor-jackson"
-	).forEach {
-		implementation(("io.ktor:$it"))
-	}
-
-	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
-	listOf(
-		"log4j-api",
-		"log4j-core",
-		"log4j-slf4j-impl"
-	).forEach {
-		implementation("org.apache.logging.log4j:$it")
-	}
-
-	testImplementation("io.ktor:ktor-server-tests")
 
 	dependencyLocking {
 		lockAllConfigurations()
