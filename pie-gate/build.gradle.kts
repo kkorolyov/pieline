@@ -6,8 +6,6 @@ import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
 import org.gradle.api.JavaVersion.VERSION_11
 
-val kotlinVersion = "1.3.72"
-
 val protobufVersion: String by project
 val grpcVersion: String by project
 val grpcKtVersion: String by project
@@ -31,46 +29,60 @@ java {
 	targetCompatibility = VERSION_11
 }
 
-configure<JavaApplication> {
+application {
 	mainClassName = "io.ktor.server.netty.EngineMain"
 }
 
 repositories {
 	jcenter()
-	maven(url = "https://kotlin.bintray.com/ktor")
 }
 dependencies {
 	val coroutinesVersion: String by project
 	val tomcatAnnotationsVersion: String by project
 	val ktorVersion: String by project
 	val log4jVersion: String by project
+	val guavaVersion: String by project
 	val rejoinerVersion: String by project
-
-	// kotlin
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:$coroutinesVersion")
 
 	// grpc
 	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
-	implementation("io.grpc:grpc-netty-shaded:$grpcVersion")
-	implementation("io.grpc:grpc-protobuf:$grpcVersion")
-	implementation("io.grpc:grpc-stub:$grpcVersion")
+
+	implementation(platform("io.grpc:grpc-bom:$grpcVersion"))
+	listOf(
+		"grpc-netty-shaded",
+		"grpc-protobuf",
+		"grpc-stub"
+	).forEach {
+		implementation("io.grpc:$it")
+	}
 	implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
 
-	implementation("com.google.guava:guava:29.0-jre")
+	implementation("com.google.guava:guava:$guavaVersion")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:$coroutinesVersion")
 	implementation("com.google.api.graphql:rejoiner:$rejoinerVersion")
 
 	// ktor
-	implementation("io.ktor:ktor-server-netty:$ktorVersion")
-	implementation("io.ktor:ktor-server-core:$ktorVersion")
-	implementation("io.ktor:ktor-auth:$ktorVersion")
-	implementation("io.ktor:ktor-auth-jwt:$ktorVersion")
-	implementation("io.ktor:ktor-jackson:$ktorVersion")
+	implementation(platform("io.ktor:ktor-bom:$ktorVersion"))
+	listOf(
+		"ktor-server-netty",
+		"ktor-server-core",
+		"ktor-auth",
+		"ktor-auth-jwt",
+		"ktor-jackson"
+	).forEach {
+		implementation(("io.ktor:$it"))
+	}
 
-	implementation("org.apache.logging.log4j:log4j-api:$log4jVersion")
-	implementation("org.apache.logging.log4j:log4j-core:$log4jVersion")
-	implementation("org.apache.logging.log4j:log4j-slf4j-impl:$log4jVersion")
+	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
+	listOf(
+		"log4j-api",
+		"log4j-core",
+		"log4j-slf4j-impl"
+	).forEach {
+		implementation("org.apache.logging.log4j:$it")
+	}
 
-	testImplementation("io.ktor:ktor-server-tests:$ktorVersion")
+	testImplementation("io.ktor:ktor-server-tests")
 
 	dependencyLocking {
 		lockAllConfigurations()
