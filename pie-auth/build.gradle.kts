@@ -36,13 +36,17 @@ repositories {
 	jcenter()
 }
 dependencies {
+	val argon2Version: String by project
+	val h2Version: String by project
 	val tomcatAnnotationsVersion: String by project
+	val exposedVersion: String by project
+	val log4jVersion: String by project
 
 	implementation(kotlin("stdlib-jdk8"))
+	implementation("de.mkammerer:argon2-jvm:$argon2Version")
+	implementation("com.h2database:h2:$h2Version")
 
 	// grpc
-	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
-
 	implementation(platform("io.grpc:grpc-bom:$grpcVersion"))
 	listOf(
 		"grpc-netty-shaded",
@@ -52,6 +56,25 @@ dependencies {
 		implementation("io.grpc:$it")
 	}
 	implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
+	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
+
+	// exposed
+	listOf(
+		"core",
+		"jdbc"
+	).forEach {
+		implementation(("org.jetbrains.exposed:exposed-$it:$exposedVersion"))
+	}
+
+	// logging
+	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
+	listOf(
+		"log4j-api",
+		"log4j-core",
+		"log4j-slf4j-impl"
+	).forEach {
+		implementation("org.apache.logging.log4j:$it")
+	}
 
 	dependencyLocking {
 		lockAllConfigurations()
