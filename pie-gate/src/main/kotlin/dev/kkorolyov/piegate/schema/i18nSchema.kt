@@ -18,6 +18,9 @@ import org.slf4j.LoggerFactory
 object i18nSchema : SchemaModule() {
 	private val log = LoggerFactory.getLogger(i18nSchema::class.java)
 
+	/**
+	 * Gets the [i18nPack] for the given [locale].
+	 */
 	@Query("i18n")
 	fun i18n(@Arg("locale") locale: Locale, i18nStub: i18nCoroutineStub): ListenableFuture<i18nPack> {
 		return runBlocking {

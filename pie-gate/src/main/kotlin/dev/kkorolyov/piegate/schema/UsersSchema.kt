@@ -18,7 +18,7 @@ import kotlinx.coroutines.runBlocking
 import org.slf4j.LoggerFactory
 
 /**
- * `Users` module of the GraphQL schema.
+ * `users` module of the GraphQL schema.
  */
 object UsersSchema : SchemaModule() {
 	private val log = LoggerFactory.getLogger(UsersSchema::class.java)

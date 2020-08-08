@@ -1,6 +1,7 @@
 package dev.kkorolyov.piegate.client
 
 import com.google.inject.AbstractModule
+import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineStub
 import dev.kkorolyov.pieline.proto.i18n.i18nGrpcKt.i18nCoroutineStub
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
 
@@ -9,6 +10,14 @@ import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
  */
 object ClientModule : AbstractModule() {
 	override fun configure() {
+		install(
+			Client(
+				AuthCoroutineStub::class.java,
+				::AuthCoroutineStub,
+				"localhost",
+				50053
+			)
+		)
 		install(
 			Client(
 				UsersCoroutineStub::class.java,

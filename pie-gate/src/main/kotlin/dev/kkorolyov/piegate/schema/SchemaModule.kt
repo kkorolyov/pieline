@@ -7,6 +7,7 @@ import com.google.inject.AbstractModule
  */
 object SchemaModule : AbstractModule() {
 	override fun configure() {
+		install(AuthSchema)
 		install(UsersSchema)
 		install(i18nSchema)
 	}
