@@ -1,6 +1,8 @@
 package dev.kkorolyov.pieauth.service
 
-import dev.kkorolyov.pieauth.PassMaster
+import dev.kkorolyov.pieauth.cred.PassMaster
+import dev.kkorolyov.pieauth.cred.RoleMaster
+import dev.kkorolyov.pieauth.cred.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
 import dev.kkorolyov.pieauth.db.DbConfig
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
@@ -51,8 +53,7 @@ object AuthService : AuthCoroutineImplBase() {
 			}.firstOrNull { row -> PassMaster.verify(row[Credentials.pass], request.pass.toCharArray()) }?.get(Credentials.id)
 		}?.let {
 			AuthResponse.newBuilder().apply {
-				// TODO
-				jwt = "{id=$it}"
+				token = TokenMaster.generate(it, *RoleMaster.get(it))
 			}.build().also {
 				log.info("authenticated user {{}}", request.user)
 			}
@@ -68,20 +69,20 @@ object AuthService : AuthCoroutineImplBase() {
 			try {
 				addLogger(Slf4jSqlDebugLogger)
 
-				val result = Credentials.insert {
+				val id = Credentials.insert {
 					it[key] = request.user
 					it[pass] = PassMaster.hash(request.pass.toCharArray())
 					it[id] = UUID.randomUUID()
 				}.also {
 					log.info("created credentials for user {{}}", request.user)
-				}
+				}[Credentials.id]
 
 				runBlocking {
 					usersStub.upsert(
 						flowOf(
 							User.newBuilder().apply {
-								id = Uuid.newBuilder().apply {
-									value = result[Credentials.id].toString()
+								this.id = Uuid.newBuilder().apply {
+									value = id.toString()
 								}.build()
 								details = Details.newBuilder().apply {
 									email = request.user
@@ -102,8 +103,7 @@ object AuthService : AuthCoroutineImplBase() {
 		log.info("registered user {{}}", request.user)
 
 		return AuthResponse.newBuilder().apply {
-			// TODO
-			jwt = "{id=$id}"
+			token = TokenMaster.generate(id, *RoleMaster.get(id))
 		}.build()
 	}
 }

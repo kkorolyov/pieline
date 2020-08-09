@@ -41,10 +41,12 @@ dependencies {
 	val tomcatAnnotationsVersion: String by project
 	val exposedVersion: String by project
 	val log4jVersion: String by project
+	val jwtVersion: String by project
 
 	implementation(kotlin("stdlib-jdk8"))
 	implementation("de.mkammerer:argon2-jvm:$argon2Version")
 	implementation("com.h2database:h2:$h2Version")
+	implementation("com.auth0:java-jwt:$jwtVersion")
 
 	// grpc
 	implementation(platform("io.grpc:grpc-bom:$grpcVersion"))

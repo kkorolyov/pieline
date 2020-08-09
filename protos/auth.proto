@@ -12,8 +12,8 @@ message AuthRequest {
 }
 // Authentication response
 message AuthResponse {
-  // JWT generated from successful authentication
-  string jwt = 1;
+  // Access token generated from successful authentication
+  string token = 1;
 }
 
 // Base Auth service API

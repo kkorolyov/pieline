@@ -1,4 +1,4 @@
-package dev.kkorolyov.pieauth
+package dev.kkorolyov.pieauth.cred
 
 import de.mkammerer.argon2.Argon2
 import de.mkammerer.argon2.Argon2Factory
@@ -19,7 +19,10 @@ object PassMaster {
 	 */
 	fun hash(pass: CharArray): String {
 		try {
-			return argon2.hash(ITERATIONS, MEMORY, PARALLELISM, pass)
+			return argon2.hash(
+				ITERATIONS,
+				MEMORY,
+				PARALLELISM, pass)
 		} finally {
 			argon2.wipeArray(pass)
 		}
