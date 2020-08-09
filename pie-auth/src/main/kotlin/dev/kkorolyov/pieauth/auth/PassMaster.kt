@@ -1,4 +1,4 @@
-package dev.kkorolyov.pieauth.cred
+package dev.kkorolyov.pieauth.auth
 
 import de.mkammerer.argon2.Argon2
 import de.mkammerer.argon2.Argon2Factory
@@ -22,7 +22,9 @@ object PassMaster {
 			return argon2.hash(
 				ITERATIONS,
 				MEMORY,
-				PARALLELISM, pass)
+				PARALLELISM,
+				pass
+			)
 		} finally {
 			argon2.wipeArray(pass)
 		}

@@ -1,4 +1,4 @@
-package dev.kkorolyov.pieauth.cred
+package dev.kkorolyov.pieauth.auth
 
 import java.util.UUID
 

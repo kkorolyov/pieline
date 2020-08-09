@@ -1,8 +1,8 @@
 package dev.kkorolyov.pieauth.service
 
-import dev.kkorolyov.pieauth.cred.PassMaster
-import dev.kkorolyov.pieauth.cred.RoleMaster
-import dev.kkorolyov.pieauth.cred.TokenMaster
+import dev.kkorolyov.pieauth.auth.PassMaster
+import dev.kkorolyov.pieauth.auth.RoleMaster
+import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
 import dev.kkorolyov.pieauth.db.DbConfig
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
@@ -15,6 +15,7 @@ import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SchemaUtils
@@ -89,9 +90,9 @@ object AuthService : AuthCoroutineImplBase() {
 								}.build()
 							}.build()
 						)
-					)
+					).first()
 				}.also {
-					log.info("created profile for user {{}}", request.user)
+					log.info("created profile for user {{}}", request.user, it.id)
 				}
 				id
 			} catch (e: Exception) {
