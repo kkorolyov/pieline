@@ -1,5 +1,7 @@
 package dev.kkorolyov.piegate
 
+import com.auth0.jwt.JWT
+import com.auth0.jwt.algorithms.Algorithm
 import com.google.api.graphql.execution.GuavaListenableFutureSupport
 import com.google.api.graphql.rejoiner.Schema
 import com.google.api.graphql.rejoiner.SchemaProviderModule
@@ -15,6 +17,11 @@ import graphql.schema.GraphQLSchema
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.auth.Authentication
+import io.ktor.auth.authenticate
+import io.ktor.auth.authentication
+import io.ktor.auth.jwt.JWTPrincipal
+import io.ktor.auth.jwt.jwt
 import io.ktor.features.CORS
 import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
@@ -57,13 +64,28 @@ fun Application.main() {
 		allowNonSimpleContentTypes = true
 		anyHost()
 	}
+	install(Authentication) {
+		jwt {
+			realm = environment.config.property("jwt.realm").getString()
+
+			val issuer = environment.config.property("jwt.issuer").getString()
+			val secret = environment.config.property("jwt.secret").getString()
+
+			verifier(
+				JWT.require(Algorithm.HMAC256(secret))
+					.withIssuer(issuer)
+					.build()
+			)
+			validate { credential -> JWTPrincipal(credential.payload) }
+		}
+	}
 
 	routing {
 		post("/") {
 			val json = call.receive<Map<String, Any>>()
 			val query = json["query"]
 			if (query == null || query !is String) {
-				call.respond(HttpStatusCode.BadRequest)
+				call.respond(HttpStatusCode.BadRequest, "bad request")
 			}
 			val operationName = json["operationName"] as String?
 			val variables = json["variables"].let {
@@ -87,6 +109,22 @@ fun Application.main() {
 
 		get("/health") {
 			call.respond("I'm alive")
+		}
+
+		authenticate {
+			get("/jwt") {
+				val claims = call.authentication.principal<JWTPrincipal>()?.payload?.claims?.mapValues { e ->
+					e.value.asString() ?: e.value.asArray(String::class.java)?.run { contentToString() } ?: e.value.asDate()
+				}
+				call.respond(
+					claims?.asSequence()
+						?.joinToString(
+							System.lineSeparator(),
+							"Your JWT claims are:${System.lineSeparator()}"
+						) { e -> "${e.key}=${e.value}" }
+						?: "no claims to show"
+				)
+			}
 		}
 	}
 }
