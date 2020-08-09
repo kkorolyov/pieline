@@ -5,8 +5,8 @@ import com.google.api.graphql.rejoiner.Mutation
 import com.google.api.graphql.rejoiner.Query
 import com.google.api.graphql.rejoiner.SchemaModule
 import com.google.common.util.concurrent.ListenableFuture
+import dev.kkorolyov.piegate.util.authRequest
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineStub
-import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthRequest
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthResponse
 import kotlinx.coroutines.guava.future
 import kotlinx.coroutines.runBlocking
@@ -29,10 +29,7 @@ object AuthSchema : SchemaModule() {
 	): ListenableFuture<AuthResponse> {
 		return runBlocking {
 			future {
-				authStub.authenticate(AuthRequest.newBuilder().apply {
-					this.user = user
-					this.pass = pass
-				}.build()).also {
+				authStub.authenticate(authRequest(user, pass)).also {
 					log.info("authenticated user{{}}", user)
 				}
 			}
@@ -40,14 +37,18 @@ object AuthSchema : SchemaModule() {
 	}
 
 	/**
-	 * Registers a user for [request]].
+	 * Registers a [user] with [pass].
 	 */
 	@Mutation("register")
-	fun register(@Arg("request") request: AuthRequest, authStub: AuthCoroutineStub): ListenableFuture<AuthResponse> {
+	fun register(
+		@Arg("user") user: String,
+		@Arg("pass") pass: String,
+		authStub: AuthCoroutineStub
+	): ListenableFuture<AuthResponse> {
 		return runBlocking {
 			future {
-				authStub.register(request).also {
-					log.info("registered user{{}}", request.user)
+				authStub.register(authRequest(user, pass)).also {
+					log.info("registered user{{}}", user)
 				}
 			}
 		}

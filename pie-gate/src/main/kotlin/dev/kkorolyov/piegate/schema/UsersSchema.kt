@@ -5,7 +5,7 @@ import com.google.api.graphql.rejoiner.Mutation
 import com.google.api.graphql.rejoiner.Query
 import com.google.api.graphql.rejoiner.SchemaModule
 import com.google.common.util.concurrent.ListenableFuture
-import dev.kkorolyov.pieline.proto.common.Common.Uuid
+import dev.kkorolyov.piegate.util.uuid
 import dev.kkorolyov.pieline.proto.common.Common.UuidList
 import dev.kkorolyov.pieline.proto.user.UserOuterClass.User
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
@@ -27,10 +27,13 @@ object UsersSchema : SchemaModule() {
 	 * Gets user for [id], if any.
 	 */
 	@Query("user")
-	fun user(@Arg("id") id: Uuid, usersStub: UsersCoroutineStub): ListenableFuture<User?> {
+	fun user(
+		@Arg("id") id: String,
+		usersStub: UsersCoroutineStub
+	): ListenableFuture<User?> {
 		return runBlocking {
 			future {
-				usersStub.get(flowOf(id)).firstOrNull().also {
+				usersStub.get(flowOf(uuid(id))).firstOrNull().also {
 					log.info("get user for id{{}} = {}", id, it)
 				}
 			}

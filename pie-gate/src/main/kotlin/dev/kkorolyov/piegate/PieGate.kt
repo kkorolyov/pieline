@@ -12,7 +12,6 @@ import dev.kkorolyov.piegate.schema.SchemaModule
 import graphql.ExecutionInput
 import graphql.GraphQL
 import graphql.execution.instrumentation.ChainedInstrumentation
-import graphql.execution.instrumentation.tracing.TracingInstrumentation
 import graphql.schema.GraphQLSchema
 import io.ktor.application.Application
 import io.ktor.application.call
@@ -27,6 +26,7 @@ import io.ktor.features.CallLogging
 import io.ktor.features.ContentNegotiation
 import io.ktor.http.HttpStatusCode
 import io.ktor.jackson.jackson
+import io.ktor.request.authorization
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.get
@@ -40,8 +40,7 @@ private val schema: GraphQLSchema = Guice.createInjector(
 ).getInstance(Key.get(GraphQLSchema::class.java, Schema::class.java))
 private val instrumentation = ChainedInstrumentation(
 	listOf(
-		GuavaListenableFutureSupport.listenableFutureInstrumentation(),
-		TracingInstrumentation()
+		GuavaListenableFutureSupport.listenableFutureInstrumentation()
 	)
 )
 
