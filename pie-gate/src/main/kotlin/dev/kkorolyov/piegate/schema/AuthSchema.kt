@@ -19,14 +19,21 @@ object AuthSchema : SchemaModule() {
 	private val log = LoggerFactory.getLogger(AuthSchema::class.java)
 
 	/**
-	 * Authenticates a user for [request].
+	 * Authenticates a {[user], [pass]} combination.
 	 */
 	@Query("authenticate")
-	fun auth(@Arg("request") request: AuthRequest, authStub: AuthCoroutineStub): ListenableFuture<AuthResponse> {
+	fun auth(
+		@Arg("user") user: String,
+		@Arg("pass") pass: String,
+		authStub: AuthCoroutineStub
+	): ListenableFuture<AuthResponse> {
 		return runBlocking {
 			future {
-				authStub.authenticate(request).also {
-					log.info("authenticated user{{}}", request.user)
+				authStub.authenticate(AuthRequest.newBuilder().apply {
+					this.user = user
+					this.pass = pass
+				}.build()).also {
+					log.info("authenticated user{{}}", user)
 				}
 			}
 		}
