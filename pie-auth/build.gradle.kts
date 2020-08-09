@@ -10,7 +10,7 @@ val grpcVersion: String by project
 val grpcKtVersion: String by project
 
 tasks.wrapper {
-	gradleVersion = "6.3"
+	gradleVersion = "6.5.1"
 	distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -29,23 +29,26 @@ java {
 }
 
 application {
-	mainClassName = "io.ktor.server.netty.EngineMain"
+	mainClassName = "dev.kkorolyov.pieauth.ServerKt"
 }
 
 repositories {
 	jcenter()
 }
 dependencies {
-	val coroutinesVersion: String by project
+	val argon2Version: String by project
+	val h2Version: String by project
 	val tomcatAnnotationsVersion: String by project
-	val ktorVersion: String by project
+	val exposedVersion: String by project
 	val log4jVersion: String by project
-	val guavaVersion: String by project
-	val rejoinerVersion: String by project
+	val jwtVersion: String by project
+
+	implementation(kotlin("stdlib-jdk8"))
+	implementation("de.mkammerer:argon2-jvm:$argon2Version")
+	implementation("com.h2database:h2:$h2Version")
+	implementation("com.auth0:java-jwt:$jwtVersion")
 
 	// grpc
-	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
-
 	implementation(platform("io.grpc:grpc-bom:$grpcVersion"))
 	listOf(
 		"grpc-netty-shaded",
@@ -55,23 +58,17 @@ dependencies {
 		implementation("io.grpc:$it")
 	}
 	implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
+	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
 
-	implementation("com.google.guava:guava:$guavaVersion")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:$coroutinesVersion")
-	implementation("com.google.api.graphql:rejoiner:$rejoinerVersion")
-
-	// ktor
-	implementation(platform("io.ktor:ktor-bom:$ktorVersion"))
+	// exposed
 	listOf(
-		"ktor-server-netty",
-		"ktor-server-core",
-		"ktor-auth",
-		"ktor-auth-jwt",
-		"ktor-jackson"
+		"core",
+		"jdbc"
 	).forEach {
-		implementation(("io.ktor:$it"))
+		implementation(("org.jetbrains.exposed:exposed-$it:$exposedVersion"))
 	}
 
+	// logging
 	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
 	listOf(
 		"log4j-api",
@@ -80,8 +77,6 @@ dependencies {
 	).forEach {
 		implementation("org.apache.logging.log4j:$it")
 	}
-
-	testImplementation("io.ktor:ktor-server-tests")
 
 	dependencyLocking {
 		lockAllConfigurations()

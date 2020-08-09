@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package user;
+option java_package = "dev.kkorolyov.pieline.proto.auth";
+
+// Authentication request
+message AuthRequest {
+  // User to verify
+  string user = 1;
+  // Password to verify
+  string pass = 2;
+}
+// Authentication response
+message AuthResponse {
+  // Access token generated from successful authentication
+  string token = 1;
+}
+
+// Base Auth service API
+service Auth {
+  /*
+   * Authentication request.
+   * Returns JWT for requested user.
+   */
+  rpc Authenticate(AuthRequest) returns (AuthResponse) {}
+
+  /**
+   * Registration request.
+   * Returns JWT for newly-registered user.
+   */
+  rpc Register(AuthRequest) returns (AuthResponse) {}
+}
