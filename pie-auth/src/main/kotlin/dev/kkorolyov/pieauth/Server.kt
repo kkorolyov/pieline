@@ -33,7 +33,7 @@ fun main() {
 			): Listener<ReqT> {
 				log.info("INTERCEPTING")
 				return Contexts.interceptCall(
-					Context.current().withToken(headers.getToken()),
+					Context.current().withToken(headers.token),
 					call,
 					headers,
 					next

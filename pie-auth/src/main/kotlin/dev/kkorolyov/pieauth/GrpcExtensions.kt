@@ -13,12 +13,13 @@ fun Context.withToken(token: String?): Context = token?.let {
 } ?: this
 
 /**
- * Returns this context's access token.
+ * This context's access token.
  */
-fun Context.getToken(): String? = tokenKey.get(this)
+val Context.token: String?
+	get() = tokenKey.get(this)
 
 /**
- * Returns `Authorization` header's access token.
+ * `Authorization` header's access token.
  */
-fun Metadata.getToken(): String? =
-	get(Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER))?.removePrefix("Bearer ")
+val Metadata.token: String?
+	get() = get(Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER))?.removePrefix("Bearer ")

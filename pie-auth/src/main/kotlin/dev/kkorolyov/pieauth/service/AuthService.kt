@@ -5,7 +5,7 @@ import dev.kkorolyov.pieauth.auth.RoleMaster
 import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
 import dev.kkorolyov.pieauth.db.DbConfig
-import dev.kkorolyov.pieauth.getToken
+import dev.kkorolyov.pieauth.token
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthRequest
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthResponse
@@ -48,7 +48,7 @@ object AuthService : AuthCoroutineImplBase() {
 	}
 
 	override suspend fun authenticate(request: AuthRequest): AuthResponse {
-		log.info("got caller token: ${Context.current().getToken()}")
+		log.info("got caller token: ${Context.current().token}")
 
 		return transaction {
 			addLogger(Slf4jSqlDebugLogger)
