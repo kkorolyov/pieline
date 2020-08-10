@@ -5,6 +5,7 @@ import dev.kkorolyov.pieauth.auth.RoleMaster
 import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
 import dev.kkorolyov.pieauth.db.DbConfig
+import dev.kkorolyov.pieauth.getToken
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthRequest
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthResponse
@@ -12,6 +13,7 @@ import dev.kkorolyov.pieline.proto.common.Common.Uuid
 import dev.kkorolyov.pieline.proto.user.UserOuterClass.Details
 import dev.kkorolyov.pieline.proto.user.UserOuterClass.User
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
+import io.grpc.Context
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
@@ -46,6 +48,8 @@ object AuthService : AuthCoroutineImplBase() {
 	}
 
 	override suspend fun authenticate(request: AuthRequest): AuthResponse {
+		log.info("got caller token: ${Context.current().getToken()}")
+
 		return transaction {
 			addLogger(Slf4jSqlDebugLogger)
 

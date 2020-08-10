@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm
 import com.google.api.graphql.execution.GuavaListenableFutureSupport
 import com.google.api.graphql.rejoiner.Schema
 import com.google.api.graphql.rejoiner.SchemaProviderModule
+import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Key
 import dev.kkorolyov.piegate.client.ClientModule
@@ -13,6 +14,7 @@ import graphql.ExecutionInput
 import graphql.GraphQL
 import graphql.execution.instrumentation.ChainedInstrumentation
 import graphql.schema.GraphQLSchema
+import io.grpc.Metadata
 import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
@@ -33,23 +35,30 @@ import io.ktor.routing.get
 import io.ktor.routing.post
 import io.ktor.routing.routing
 
-private val schema: GraphQLSchema = Guice.createInjector(
-	SchemaProviderModule(),
-	ClientModule,
-	SchemaModule
-).getInstance(Key.get(GraphQLSchema::class.java, Schema::class.java))
 private val instrumentation = ChainedInstrumentation(
 	listOf(
 		GuavaListenableFutureSupport.listenableFutureInstrumentation()
 	)
 )
 
-/**
- * `pie-gate` GraphQL executor.
- */
-val gql: GraphQL = GraphQL.newGraphQL(schema).instrumentation(
-	instrumentation
-).build()
+private fun getGql(headers: Metadata): GraphQL {
+	return GraphQL.newGraphQL(getSchema(headers)).instrumentation(
+		instrumentation
+	).build()
+}
+
+private fun getSchema(headers: Metadata): GraphQLSchema {
+	return Guice.createInjector(
+		SchemaProviderModule(),
+		ClientModule,
+		SchemaModule,
+		object : AbstractModule() {
+			override fun configure() {
+				bind(Metadata::class.java).toInstance(headers)
+			}
+		}
+	).getInstance(Key.get(GraphQLSchema::class.java, Schema::class.java))
+}
 
 /**
  * PieGate application configuration.
@@ -101,7 +110,13 @@ fun Application.main() {
 				.variables(variables)
 				.build()
 
-			val executionResult = gql.execute(executionInput)
+			val executionResult = getGql(
+				call.request.authorization()?.let {
+					Metadata().apply {
+						put(Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER), it)
+					}
+				} ?: Metadata()
+			).execute(executionInput)
 
 			call.respond(executionResult.toSpecification())
 		}

@@ -1,7 +1,14 @@
 package dev.kkorolyov.pieauth
 
 import dev.kkorolyov.pieauth.service.AuthService
+import io.grpc.Context
+import io.grpc.Contexts
+import io.grpc.Metadata
 import io.grpc.ServerBuilder
+import io.grpc.ServerCall
+import io.grpc.ServerCall.Listener
+import io.grpc.ServerCallHandler
+import io.grpc.ServerInterceptor
 import org.slf4j.LoggerFactory
 
 private const val PORT = 50053
@@ -18,6 +25,21 @@ fun main() {
 
 	val server = ServerBuilder.forPort(PORT)
 		.addService(AuthService)
+		.intercept(object : ServerInterceptor {
+			override fun <ReqT : Any?, RespT : Any?> interceptCall(
+				call: ServerCall<ReqT, RespT>,
+				headers: Metadata,
+				next: ServerCallHandler<ReqT, RespT>
+			): Listener<ReqT> {
+				log.info("INTERCEPTING")
+				return Contexts.interceptCall(
+					Context.current().withToken(headers.getToken()),
+					call,
+					headers,
+					next
+				)
+			}
+		})
 		.build()
 		.start()
 
