@@ -1,13 +1,13 @@
 from uuid import uuid4 as uuid
 
+from lib.proto.common_pb2 import Uuid as UuidGrpc
+from lib.proto.user_pb2 import Details as DetailsGrpc
+from lib.proto.user_pb2 import User as UserGrpc
 from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import relationship
 
-from common_pb2 import Uuid as UuidGrpc
 from pieusers.persist.session import engine
-from user_pb2 import Details as DetailsGrpc
-from user_pb2 import User as UserGrpc
 
 
 class Base:

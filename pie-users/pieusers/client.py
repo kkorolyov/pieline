@@ -2,8 +2,8 @@ import logging
 
 import grpc
 
-from user_pb2 import Details, User
-from user_pb2_grpc import UsersStub
+from lib.proto.user_pb2 import Details, User
+from lib.proto.user_pb2_grpc import UsersStub
 
 logger = logging.getLogger(__name__)
 

@@ -2,12 +2,11 @@ import logging
 from concurrent import futures
 
 import grpc
+from lib.proto.user_pb2_grpc import UsersServicer as ProtoUsersServicer
+from lib.proto.user_pb2_grpc import add_UsersServicer_to_server
 
 from pieusers.persist.dao import User
 from pieusers.persist.session import start_session
-from user_pb2_grpc import UsersServicer as ProtoUsersServicer
-from user_pb2_grpc import add_UsersServicer_to_server
-
 
 logger = logging.getLogger(__name__)
 
