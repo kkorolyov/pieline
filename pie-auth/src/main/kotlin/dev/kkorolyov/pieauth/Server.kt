@@ -11,7 +11,7 @@ import io.grpc.ServerCallHandler
 import io.grpc.ServerInterceptor
 import org.slf4j.LoggerFactory
 
-private const val PORT = 50053
+private val PORT = Integer.parseInt(System.getenv("PORT"))
 
 /**
  * Starts pie-auth server.
