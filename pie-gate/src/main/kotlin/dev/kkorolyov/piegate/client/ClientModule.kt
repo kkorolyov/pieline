@@ -12,6 +12,10 @@ import io.grpc.Metadata
 import io.grpc.kotlin.AbstractCoroutineStub
 import io.grpc.stub.MetadataUtils
 
+private val PORT_AUTH = Integer.parseInt(System.getenv("PORT_AUTH"))
+private val PORT_USERS = Integer.parseInt(System.getenv("PORT_USERS"))
+private val PORT_I18N = Integer.parseInt(System.getenv("PORT_I18N"))
+
 /**
  * Bundles all injectable client modules.
  */
@@ -20,15 +24,15 @@ object ClientModule : AbstractModule() {
 
 	@Provides
 	private fun getAuth(headers: Metadata): AuthCoroutineStub =
-		get("localhost", 50053, headers, ::AuthCoroutineStub)
+		get("localhost", PORT_AUTH, headers, ::AuthCoroutineStub)
 
 	@Provides
 	private fun getUsers(headers: Metadata): UsersCoroutineStub =
-		get("localhost", 50051, headers, ::UsersCoroutineStub)
+		get("localhost", PORT_USERS, headers, ::UsersCoroutineStub)
 
 	@Provides
 	private fun getI18n(headers: Metadata): i18nCoroutineStub =
-		get("localhost", 50051, headers, ::i18nCoroutineStub)
+		get("localhost", PORT_I18N, headers, ::i18nCoroutineStub)
 
 	// TODO Remove usePlaintext
 	private fun <T : AbstractCoroutineStub<T>> get(
