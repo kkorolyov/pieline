@@ -1,5 +1,6 @@
 import logging
 from concurrent import futures
+from os import environ
 
 import grpc
 from lib.proto.user_pb2_grpc import UsersServicer as ProtoUsersServicer
@@ -9,6 +10,8 @@ from pieusers.persist.dao import User
 from pieusers.persist.session import start_session
 
 logger = logging.getLogger(__name__)
+
+port = environ["PORT"]
 
 
 class UsersServicer(ProtoUsersServicer):
@@ -74,7 +77,7 @@ def run():
 
     add_UsersServicer_to_server(UsersServicer(), server)
 
-    server.add_insecure_port("[::]:50051")
+    server.add_insecure_port(f"[::]:{port}")
     server.start()
     server.wait_for_termination()
 

@@ -7,11 +7,5 @@ setup(
     author="kkorolyov",
     package_dir={"": "."},
     packages=find_namespace_packages("."),
-    install_requires=("grpcio", "SQLAlchemy"),
-    entry_points={
-        "console_scripts": (
-            "pie-server = pieusers.server:main",
-            "pie-client = pieusers.client:main",
-        )
-    },
+    install_requires=("grpcio", "SQLAlchemy")
 )
