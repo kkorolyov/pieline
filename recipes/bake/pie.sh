@@ -2,9 +2,10 @@
 
 cwd=$(dirname $0)
 services=(
+	"pie-gate"
 	"pie-auth"
 	"pie-users"
-	"pie-gate"
+	"pi18n"
 )
 
 for service in "${services[@]}"; do

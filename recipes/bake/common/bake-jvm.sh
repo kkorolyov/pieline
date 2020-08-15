@@ -4,17 +4,17 @@ cwd=$(dirname "$0")
 swd=${cwd}/../../..
 
 # prep
-. ${swd}/prep.sh
+. ${cwd}/prep.sh
 buildah unshare ${cwd}/mount.sh $container coreutils which java-latest-openjdk
 
 # build
-pushd /pie/${service}
+pushd ${swd}/${service}
 ./gradlew installDist
-buildah copy $container build/install/${service} /${service}
+buildah copy $container build/install/${service} $service
 popd
 
 # configure
-buildah config --author $author --env PORT=$port --port $port --entrypoint "${service}/bin/${service}" $container
+buildah config --author $author --env PORT=$port --port $port --workingdir "${service}/bin" --entrypoint "${service}" $container
 
 # publish
 publish

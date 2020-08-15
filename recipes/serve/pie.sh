@@ -13,6 +13,7 @@ run() {
 
 podman pod create --name $pod -p 5000:5000
 
+run pie-gate
 run pie-auth
 run pie-users
-run pie-gate
+run pi18n

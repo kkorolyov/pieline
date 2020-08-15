@@ -5,7 +5,7 @@ swd=${cwd}/../../..
 
 # prep
 . ${cwd}/prep.sh
-buildah unshare ${cwd}/mount.sh $container coreutils python pip gcc
+buildah unshare ${cwd}/mount.sh $container python pip gcc
 
 # build
 buildah copy $container ${swd}/protos /protos
