@@ -1,9 +1,10 @@
 #!/bin/bash -e
 
 cwd=$(dirname "$0")
+swd=${cwd}/../../..
 
 # prep
-. ${cwd}/prep.sh
+. ${swd}/prep.sh
 buildah unshare ${cwd}/mount.sh $container coreutils which java-latest-openjdk
 
 # build
