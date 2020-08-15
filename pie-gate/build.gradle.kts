@@ -10,7 +10,7 @@ val grpcVersion: String by project
 val grpcKtVersion: String by project
 
 tasks.wrapper {
-	gradleVersion = "6.3"
+	gradleVersion = File("gradle-version").useLines { it.firstOrNull() }
 	distributionType = Wrapper.DistributionType.ALL
 }
 

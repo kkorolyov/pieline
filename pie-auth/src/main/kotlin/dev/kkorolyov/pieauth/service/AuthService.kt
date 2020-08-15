@@ -6,6 +6,7 @@ import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
 import dev.kkorolyov.pieauth.db.DbConfig
 import dev.kkorolyov.pieauth.token
+import dev.kkorolyov.pieauth.util.Address
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthRequest
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthResponse
@@ -29,8 +30,9 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
 import java.util.UUID
 
-private val usersStub: UsersCoroutineStub =
-	UsersCoroutineStub(ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build())
+private val usersStub: UsersCoroutineStub = Address.forEnv("ADDR_USERS").let { (host, port) ->
+	UsersCoroutineStub(ManagedChannelBuilder.forAddress(host, port).usePlaintext().build())
+}
 
 /**
  * Services auth-related requests.
