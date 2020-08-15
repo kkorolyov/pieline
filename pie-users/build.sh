@@ -2,16 +2,29 @@
 
 set -e
 
+me=$(basename "$0")
+
+usage() {
+	echo "$me [-e]"
+	echo "options:"
+	echo "-e	install with 'pip -e'"
+}
+
 devmode=false
 [ -n "$VIRTUAL_ENV" ] && pip="pip install" || pip="pip install --user"
 
-while getopts ":e" opt; do
+while getopts ":eh" opt; do
 	case $opt in
 	e)
 		devmode=true
 		;;
+	h)
+		usage
+		exit 0
+		;;
 	\?)
-		echo "supported options: [-e] devmode"
+		echo -e "unknown option: -$OPTARG\n"
+		usage
 		exit 1
 		;;
 	esac

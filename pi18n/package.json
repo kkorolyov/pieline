@@ -16,8 +16,9 @@
   },
   "scripts": {
     "proto": "mkdir -p src/generated/proto && grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/generated/proto --ts_out=./src/generated/proto --grpc_out=./src/generated/proto --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts -I=../protos internationalization.proto",
-    "clean": "rm -r build",
-    "start": "yarn proto && yarn tsc && node build/server.js",
-    "dev": "yarn proto && ts-node-dev --respawn src/server.ts"
+    "clean": "rm -rf build",
+    "build": "yarn proto && yarn tsc",
+    "start": "node build/server.js",
+    "dev": "ts-node-dev --respawn src/server.ts"
   }
 }
