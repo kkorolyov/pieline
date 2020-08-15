@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+cwd=$(dirname $0)
 pod="pieline"
 
 run() {
@@ -11,9 +12,12 @@ run() {
 	echo "$service started"
 }
 
-podman pod create --name $pod -p 5000:5000
+podman pod exists $pod && podman pod rm -f $pod
+podman pod create --name $pod -p 5000:5000 -p 16686:16686
 
 run pie-gate
 run pie-auth
 run pie-users
 run pi18n
+
+echo $pod

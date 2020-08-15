@@ -5,21 +5,22 @@ swd=${cwd}/../../..
 
 # prep
 . ${cwd}/prep.sh
-buildah unshare ${cwd}/mount.sh $container nodejs
+install nodejs
 
 # build
 pushd ${swd}/${service}
-rm -rf build
+rm -rf node_modules
 yarn
+yarn clean
 yarn build
-buildah copy $container build $service
+copy build $service
 # may be running on a shared folder - buildah copy chokes on copying hefty directories from a shared folder
 cp -r node_modules /tmp
-buildah copy $container /tmp/node_modules node_modules
+copy /tmp/node_modules node_modules
 popd
 
 # configure
-buildah config --author "kkorolyov" --env PORT=$port --port $port --workingdir $service --entrypoint "node server.js" $container
+config --workingdir $service --entrypoint "node server.js"
 
 # publish
 publish

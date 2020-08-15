@@ -10,6 +10,6 @@ services=(
 
 for service in "${services[@]}"; do
 	echo "building $service image..."
-	${cwd}/${service}.sh
+	${cwd}/bake/${service}.sh
 	echo "$service image done"
 done

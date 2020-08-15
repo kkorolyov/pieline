@@ -1,7 +1,14 @@
 #!/bin/bash -e
 
 # Base buildscript
-# Higher level scripts should source this and apply their own additional build logic
+# Higher level scripts may source this to apply common configuration
+# Exports members usable in sourcing scripts:
+#  $container - id of the current buildah container
+#  install - function invoked with packages to install on the current container
+#  copy - function invoked with <fromDir> <toDir> to copy files to the current container
+#  run - function invoked with command to execute in the current container
+#  config - function invoked with additional config arguments for the current container
+#  publish - function to commit the current container and deletes it
 
 author="kkorolyov"
 
@@ -15,6 +22,18 @@ usage() {
 	echo "	-e	additional environment variables (e.g. -e foo=bar -e baz=bat)"
 }
 
+install() {
+	buildah unshare ${cwd}/install.sh $container "$@"
+}
+copy() {
+	buildah copy $container "$@"
+}
+run() {
+	buildah run $container "$@"
+}
+config() {
+	buildah config "$@" $container
+}
 publish() {
 	buildah commit $container ${service}
 	buildah rm $container
@@ -34,7 +53,7 @@ while getopts ":s:p:e:h" opt; do
 	h)
 		echo -e "Builds OCI images for PieLine services.\n"
 		usage
-		exit 0
+		exit
 		;;
 	\?)
 		echo -e "unknown option: -$OPTARG\n"
@@ -53,6 +72,7 @@ fi
 
 # common prep
 container=$(buildah from scratch)
+config --author $author --port $port --env PORT=$port
 for env in "${envs[@]}"; do
-	buildah config --env "$env" $container
+	config --env "$env"
 done

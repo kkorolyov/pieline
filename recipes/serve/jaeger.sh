@@ -1,6 +1,11 @@
 #!/bin/bash -e
 
-podman run -d --pod pieline --name jaeger \
+if [ $# -lt 1 ]; then
+	echo "jaeger requires <pod> to attach to"
+	exit 1
+fi
+
+podman run -d --pod "$1" --name jaeger \
 	-p 6831:6831/udp \
 	-p 6832:6832/udp \
 	-p 5778:5778 \
