@@ -1,4 +1,5 @@
 import { sendUnaryData, ServerUnaryCall, status } from "grpc";
+import { Tags } from "opentracing";
 import { Ii18nServer } from "../generated/proto/internationalization_grpc_pb";
 import {
   i18nPack,
@@ -6,9 +7,7 @@ import {
   PackRequest,
 } from "../generated/proto/internationalization_pb";
 import en_us from "../resources/en_us.json";
-
 import { startSpan } from "../tracing";
-import { Tags } from "opentracing";
 
 const packs = {
   [Locale.EN_US]: en_us,
