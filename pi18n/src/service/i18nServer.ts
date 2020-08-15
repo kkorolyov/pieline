@@ -7,7 +7,7 @@ import {
   PackRequest,
 } from "../generated/proto/internationalization_pb";
 import en_us from "../resources/en_us.json";
-import { startSpan } from "../tracing";
+import tracer from "../tracing";
 
 const packs = {
   [Locale.EN_US]: en_us,
@@ -16,7 +16,7 @@ const packs = {
 
 class i18nServer implements Ii18nServer {
   get(call: ServerUnaryCall<PackRequest>, callback: sendUnaryData<i18nPack>) {
-    const span = startSpan("get-i18n");
+    const span = tracer.startSpan("get-i18n");
     try {
       const locale = call.request.getValue();
       span.setTag("locale", locale);
