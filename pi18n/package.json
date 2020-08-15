@@ -6,7 +6,10 @@
   "license": "MIT",
   "dependencies": {
     "@grpc/proto-loader": "^0.5.4",
+    "@types/jaeger-client": "^3.15.4",
     "grpc": "^1.24.3",
+    "jaeger-client": "^3.18.1",
+    "opentracing": "^0.14.4",
     "typescript": "^3.9.5"
   },
   "devDependencies": {
@@ -15,8 +18,8 @@
     "ts-node-dev": "^1.0.0-pre.49"
   },
   "scripts": {
-    "proto": "mkdir -p src/generated/proto && grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/generated/proto --ts_out=./src/generated/proto --grpc_out=./src/generated/proto --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts -I=../protos internationalization.proto",
-    "clean": "rm -rf build",
+    "proto": "mkdir -p src/generated/proto && grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/generated/proto --ts_out=./src/generated/proto --grpc_out=./src/generated/proto --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts -I=../protos ../protos/internationalization.proto",
+    "clean": "rm -rf src/generated build",
     "build": "yarn proto && yarn tsc",
     "start": "node build/server.js",
     "dev": "ts-node-dev --respawn src/server.ts"
