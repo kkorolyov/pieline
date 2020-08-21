@@ -1,13 +1,11 @@
-#!/bin/bash
-
-set -e
+#!/bin/bash -e
 
 me=$(basename "$0")
 
 usage() {
-	echo "$me [-e]"
+	echo "usage: $me [-e]"
 	echo "options:"
-	echo "-e	install with 'pip -e'"
+	echo "	-e	install with 'pip -e'"
 }
 
 devmode=false
@@ -20,7 +18,7 @@ while getopts ":eh" opt; do
 		;;
 	h)
 		usage
-		exit 0
+		exit
 		;;
 	\?)
 		echo -e "unknown option: -$OPTARG\n"
@@ -41,7 +39,7 @@ mkdir -p $protoTarget
 python -m grpc.tools.protoc -I $protoSource --python_out=$protoTarget --grpc_python_out=$protoTarget $protoSource/*.proto
 sed -i -r 's/import (.+_pb2.*)/from . import \1/g' $protoTarget/*_pb2*.py
 
-if [ $devmode = true ]; then
+if $devmode; then
 	$pip -e $cwd
 else
 	$pip $cwd

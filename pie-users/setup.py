@@ -7,5 +7,5 @@ setup(
     author="kkorolyov",
     package_dir={"": "."},
     packages=find_namespace_packages("."),
-    install_requires=("grpcio", "SQLAlchemy")
+    install_requires=("grpcio", "SQLAlchemy", "opentracing", "jaeger-client", "grpcio-opentracing")
 )

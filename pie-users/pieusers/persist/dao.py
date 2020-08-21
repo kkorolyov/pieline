@@ -53,6 +53,7 @@ class Details(Base):
     @staticmethod
     def from_grpc(user, user_id):
         """Constructs a Details DAO from a Details GRPC message.
+
         Args:
             user: user grpc message containing details
         """
