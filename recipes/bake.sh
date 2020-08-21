@@ -1,12 +1,7 @@
 #!/bin/bash -e
 
 cwd=$(dirname $0)
-services=(
-	"pie-gate"
-	"pie-auth"
-	"pie-users"
-	"pi18n"
-)
+mapfile -t services <"${cwd}/services.txt"
 
 for service in "${services[@]}"; do
 	echo "building $service image..."
