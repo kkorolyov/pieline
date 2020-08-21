@@ -1,7 +1,12 @@
 #!/bin/bash -e
 
 cwd=$(dirname $0)
-mapfile -t services <"${cwd}/services.txt"
+
+if [ $# -gt 0 ]; then
+	services=$@
+else
+	mapfile -t services <"${cwd}/services.txt"
+fi
 
 for service in "${services[@]}"; do
 	echo "building $service image..."

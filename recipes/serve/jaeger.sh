@@ -5,6 +5,7 @@ if [ $# -lt 1 ]; then
 	exit 1
 fi
 
+podman rm -if jaeger
 podman run -d --pod "$1" --name jaeger \
 	-p 6831:6831/udp \
 	-p 6832:6832/udp \
