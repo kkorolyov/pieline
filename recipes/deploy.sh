@@ -66,30 +66,30 @@ if $clean; then
 fi
 
 if [ -n "$cleans" ]; then
-	echo "cleaning ${cleans}"
+	echo "cleaning ${cleans[@]}..."
 
-	podman rm -if $cleans
-	${cwd}/bake.sh $cleans
-	${cwd}/serve.sh $pod $cleans
+	podman rm -if "${cleans[@]}"
+	${cwd}/bake.sh "${cleans[@]}"
+	${cwd}/serve.sh $pod "${cleans[@]}"
 fi
 
 if [ -n "$dels" ]; then
-	echo "deleting ${dels}"
+	echo "deleting ${dels[@]}..."
 
-	podman rm -if $dels
+	podman rm -if "${dels[@]}"
 fi
 if [ -n "$adds" ]; then
-	echo "adding ${adds}"
+	echo "adding ${adds[@]}..."
 	
-	${cwd}/serve.sh $pod $adds
+	${cwd}/serve.sh $pod "${adds[@]}"
 fi
 
 if $deployJaeger; then
-	echo "restarting jaeger"
+	echo "restarting jaeger..."
 	${cwd}/serve/jaeger.sh $pod
 fi
 
 if [ -n "$temp" ]; then
-	echo "starting temp ${temp}"
+	echo "starting temp ${temp}..."
 	podman run -it --rm --pod $pod $temp
 fi

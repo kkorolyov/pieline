@@ -10,7 +10,7 @@ pod=$1
 shift
 
 if [ $# -gt 0 ]; then
-	services=$@
+	services=("$@")
 else
 	mapfile -t services <"${cwd}/services.txt"
 fi
