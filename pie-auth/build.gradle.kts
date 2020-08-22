@@ -46,7 +46,6 @@ dependencies {
 	val opentracingGrpcVersion: String by project
 	val jaegerVersion: String by project
 
-	implementation(kotlin("stdlib-jdk8"))
 	implementation("de.mkammerer:argon2-jvm:$argon2Version")
 	implementation("com.h2database:h2:$h2Version")
 	implementation("com.auth0:java-jwt:$jwtVersion")

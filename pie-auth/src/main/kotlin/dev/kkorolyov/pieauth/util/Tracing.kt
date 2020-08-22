@@ -6,12 +6,12 @@ import io.jaegertracing.Configuration.SamplerConfiguration
 import io.opentracing.Scope
 import io.opentracing.Span
 import io.opentracing.Tracer
-import io.opentracing.contrib.grpc.OpenTracingContextKey
+import io.opentracing.contrib.grpc.TracingClientInterceptor
+import io.opentracing.contrib.grpc.TracingServerInterceptor
 import io.opentracing.tag.Tags
 import io.opentracing.util.GlobalTracer
 import java.io.PrintWriter
 import java.io.StringWriter
-import java.lang.Exception
 
 /**
  * Application tracer
@@ -28,6 +28,28 @@ val tracer: Tracer by lazy {
 				.withLogSpans(true)
 		)
 		.tracer.also { GlobalTracer.registerIfAbsent(it) }
+}
+
+/**
+ * Application gRPC client interceptor.
+ */
+val clientInterceptor: TracingClientInterceptor by lazy {
+	TracingClientInterceptor.newBuilder()
+		.withTracer(tracer)
+		.withStreaming()
+		.withVerbosity()
+		.build()
+}
+
+/**
+ * Application gRPC server interceptor.
+ */
+val serverInterceptor: TracingServerInterceptor by lazy {
+	TracingServerInterceptor.newBuilder()
+		.withTracer(tracer)
+		.withStreaming()
+		.withVerbosity()
+		.build()
 }
 
 /**
@@ -53,11 +75,18 @@ class UsableSpan(private val span: Span, private val scope: Scope) : Span by spa
 	 * Tags `this` span as [Tags.ERROR] and logs [e].
 	 */
 	private fun error(e: Exception) {
-		val stringWriter = StringWriter()
-		e.printStackTrace(PrintWriter(stringWriter))
-
 		setTag(Tags.ERROR, true)
-		log(mapOf("error.object" to stringWriter.toString()))
+		log(
+			mapOf(
+				"event" to "error",
+				"error.kind" to e::class.qualifiedName,
+				"error.object" to e,
+				"message" to e.message,
+				"stack" to StringWriter().also {
+					e.printStackTrace(PrintWriter(it))
+				}.toString()
+			)
+		)
 	}
 
 	override fun close() {
@@ -67,12 +96,13 @@ class UsableSpan(private val span: Span, private val scope: Scope) : Span by spa
 }
 
 /**
- * Starts a new active span with a given [operationName] and [kind].
+ * Starts a new active span with a given [operationName], [kind], and [parent] span.
  */
-fun Tracer.span(operationName: String, kind: String = Tags.SPAN_KIND_SERVER): UsableSpan = buildSpan(operationName)
-	.withTag(Tags.SPAN_KIND, kind)
-	.asChildOf(OpenTracingContextKey.activeSpan())
-	.start()
-	.let {
-		UsableSpan(it, activateSpan(it))
-	}
+fun Tracer.span(operationName: String, kind: String = Tags.SPAN_KIND_SERVER, parent: Span? = null): UsableSpan =
+	buildSpan(operationName)
+		.withTag(Tags.SPAN_KIND, kind)
+		.asChildOf(parent)
+		.start()
+		.let {
+			UsableSpan(it, activateSpan(it))
+		}

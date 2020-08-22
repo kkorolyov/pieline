@@ -5,8 +5,8 @@ import dev.kkorolyov.pieauth.auth.RoleMaster
 import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
 import dev.kkorolyov.pieauth.db.DbConfig
-import dev.kkorolyov.pieauth.util.token
 import dev.kkorolyov.pieauth.util.Address
+import dev.kkorolyov.pieauth.util.clientInterceptor
 import dev.kkorolyov.pieauth.util.span
 import dev.kkorolyov.pieauth.util.tracer
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
@@ -16,10 +16,10 @@ import dev.kkorolyov.pieline.proto.common.Common.Uuid
 import dev.kkorolyov.pieline.proto.user.UserOuterClass.Details
 import dev.kkorolyov.pieline.proto.user.UserOuterClass.User
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
-import io.grpc.Context
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
+import io.opentracing.contrib.grpc.OpenTracingContextKey
 import io.opentracing.tag.Tags
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
@@ -34,7 +34,12 @@ import org.slf4j.LoggerFactory
 import java.util.UUID
 
 private val usersStub: UsersCoroutineStub = Address.forEnv("ADDR_USERS").let { (host, port) ->
-	UsersCoroutineStub(ManagedChannelBuilder.forAddress(host, port).usePlaintext().build())
+	UsersCoroutineStub(
+		ManagedChannelBuilder.forAddress(host, port)
+			.intercept(clientInterceptor)
+			.usePlaintext()
+			.build()
+	)
 }
 
 /**
@@ -52,10 +57,8 @@ object AuthService : AuthCoroutineImplBase() {
 		}
 	}
 
-	override suspend fun authenticate(request: AuthRequest): AuthResponse {
-		log.info("got caller token: ${Context.current().token}")
-
-		return tracer.span("transaction").use {
+	override suspend fun authenticate(request: AuthRequest): AuthResponse =
+		tracer.span("transaction", parent = OpenTracingContextKey.activeSpan()).use {
 			it.setTag(Tags.DB_TYPE, "sql")
 
 			transaction {
@@ -75,10 +78,9 @@ object AuthService : AuthCoroutineImplBase() {
 		} ?: throw StatusRuntimeException(Status.UNAUTHENTICATED).also {
 			log.error("failed to authenticate user {{}}", request.user)
 		}
-	}
 
-	override suspend fun register(request: AuthRequest): AuthResponse {
-		return tracer.span("transaction").use {
+	override suspend fun register(request: AuthRequest): AuthResponse =
+		tracer.span("transaction", parent = OpenTracingContextKey.activeSpan()).use {
 			it.setTag(Tags.DB_TYPE, "sql")
 
 			// Both credentials and user profile must be created together
@@ -123,5 +125,4 @@ object AuthService : AuthCoroutineImplBase() {
 				token = TokenMaster.generate(id, *RoleMaster.get(id))
 			}.build()
 		}
-	}
 }
