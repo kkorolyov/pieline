@@ -65,16 +65,22 @@ if $clean; then
 	${cwd}/serve.sh $pod
 fi
 
-if [ -n $cleans ]; then
+if [ -n "$cleans" ]; then
+	echo "cleaning ${cleans}"
+
 	podman rm -if $cleans
 	${cwd}/bake.sh $cleans
 	${cwd}/serve.sh $pod $cleans
 fi
 
 if [ -n "$dels" ]; then
+	echo "deleting ${dels}"
+
 	podman rm -if $dels
 fi
 if [ -n "$adds" ]; then
+	echo "adding ${adds}"
+	
 	${cwd}/serve.sh $pod $adds
 fi
 
