@@ -56,20 +56,19 @@ done
 shift $((OPTIND - 1))
 
 if $clean; then
-	if [ -z $cleans ]; then
-		echo "recreating pod..."
+	echo "recreating pod..."
 
-		${cwd}/serve/pod.sh $pod
-		${cwd}/serve/jaeger.sh $pod
+	${cwd}/serve/pod.sh $pod
+	${cwd}/serve/jaeger.sh $pod
 
-		${cwd}/bake.sh
-		${cwd}/serve.sh $pod
+	${cwd}/bake.sh
+	${cwd}/serve.sh $pod
+fi
 
-	else
-		podman rm -if $cleans
-		${cwd}/bake.sh $cleans
-		${cwd}/serve.sh $pod $cleans
-	fi
+if [ -n $cleans ]; then
+	podman rm -if $cleans
+	${cwd}/bake.sh $cleans
+	${cwd}/serve.sh $pod $cleans
 fi
 
 if [ -n "$dels" ]; then
