@@ -5,8 +5,10 @@ import dev.kkorolyov.pieauth.auth.RoleMaster
 import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
 import dev.kkorolyov.pieauth.db.DbConfig
-import dev.kkorolyov.pieauth.token
+import dev.kkorolyov.pieauth.util.token
 import dev.kkorolyov.pieauth.util.Address
+import dev.kkorolyov.pieauth.util.span
+import dev.kkorolyov.pieauth.util.tracer
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthRequest
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthResponse
@@ -18,6 +20,7 @@ import io.grpc.Context
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
+import io.opentracing.tag.Tags
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
@@ -52,65 +55,73 @@ object AuthService : AuthCoroutineImplBase() {
 	override suspend fun authenticate(request: AuthRequest): AuthResponse {
 		log.info("got caller token: ${Context.current().token}")
 
-		return transaction {
-			addLogger(Slf4jSqlDebugLogger)
+		return tracer.span("transaction").wrap {
+			it.setTag(Tags.DB_TYPE, "sql")
 
-			Credentials.select {
-				Credentials.key eq request.user
-			}.firstOrNull { row -> PassMaster.verify(row[Credentials.pass], request.pass.toCharArray()) }?.get(Credentials.id)
-		}?.let {
-			AuthResponse.newBuilder().apply {
-				token = TokenMaster.generate(it, *RoleMaster.get(it))
-			}.build().also {
-				log.info("authenticated user {{}}", request.user)
+			transaction {
+				addLogger(Slf4jSqlDebugLogger)
+
+				Credentials.select {
+					Credentials.key eq request.user
+				}.firstOrNull { row -> PassMaster.verify(row[Credentials.pass], request.pass.toCharArray()) }
+					?.get(Credentials.id)
+			}?.let {
+				AuthResponse.newBuilder().apply {
+					token = TokenMaster.generate(it, *RoleMaster.get(it))
+				}.build().also {
+					log.info("authenticated user {{}}", request.user)
+				}
 			}
-
 		} ?: throw StatusRuntimeException(Status.UNAUTHENTICATED).also {
 			log.error("failed to authenticate user {{}}", request.user)
 		}
 	}
 
 	override suspend fun register(request: AuthRequest): AuthResponse {
-		// Both credentials and user profile must be created together
-		val id = transaction {
-			try {
-				addLogger(Slf4jSqlDebugLogger)
+		return tracer.span("transaction").wrap {
+			it.setTag(Tags.DB_TYPE, "sql")
 
-				val id = Credentials.insert {
-					it[key] = request.user
-					it[pass] = PassMaster.hash(request.pass.toCharArray())
-					it[id] = UUID.randomUUID()
-				}.also {
-					log.info("created credentials for user {{}}", request.user)
-				}[Credentials.id]
+			// Both credentials and user profile must be created together
+			val id = transaction {
+				try {
+					addLogger(Slf4jSqlDebugLogger)
 
-				runBlocking {
-					usersStub.upsert(
-						flowOf(
-							User.newBuilder().apply {
-								this.id = Uuid.newBuilder().apply {
-									value = id.toString()
+					val id = Credentials.insert { statement ->
+						statement[key] = request.user
+						statement[pass] = PassMaster.hash(request.pass.toCharArray())
+						statement[id] = UUID.randomUUID()
+					}.also {
+						log.info("created credentials for user {{}}", request.user)
+					}[Credentials.id]
+
+					runBlocking {
+						usersStub.upsert(
+							flowOf(
+								User.newBuilder().apply {
+									this.id = Uuid.newBuilder().apply {
+										value = id.toString()
+									}.build()
+									details = Details.newBuilder().apply {
+										email = request.user
+									}.build()
 								}.build()
-								details = Details.newBuilder().apply {
-									email = request.user
-								}.build()
-							}.build()
-						)
-					).first()
-				}.also {
-					log.info("created profile for user {{}}", request.user, it.id)
+							)
+						).first()
+					}.also {
+						log.info("created profile for user {{}}", request.user, it.id)
+					}
+					id
+				} catch (e: Exception) {
+					rollback()
+					log.error("failed to register user {{${request.user}}}", e)
+					throw e
 				}
-				id
-			} catch (e: Exception) {
-				rollback()
-				log.error("failed to register user {{${request.user}}}", e)
-				throw e
 			}
-		}
-		log.info("registered user {{}}", request.user)
+			log.info("registered user {{}}", request.user)
 
-		return AuthResponse.newBuilder().apply {
-			token = TokenMaster.generate(id, *RoleMaster.get(id))
-		}.build()
+			AuthResponse.newBuilder().apply {
+				token = TokenMaster.generate(id, *RoleMaster.get(id))
+			}.build()
+		}
 	}
 }

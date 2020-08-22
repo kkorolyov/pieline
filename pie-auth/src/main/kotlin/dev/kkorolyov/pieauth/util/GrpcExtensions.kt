@@ -1,4 +1,4 @@
-package dev.kkorolyov.pieauth
+package dev.kkorolyov.pieauth.util
 
 import io.grpc.Context
 import io.grpc.Metadata
