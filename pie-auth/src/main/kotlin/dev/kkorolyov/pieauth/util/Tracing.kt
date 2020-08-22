@@ -31,27 +31,28 @@ val tracer: Tracer by lazy {
 }
 
 /**
- * A [Span] usable in a `try-with-resources`.
+ * A convenience [Span] wrapper for tracing the execution of a block.
  */
-class CloseableSpan(private val span: Span, private val scope: Scope) : Span by span, AutoCloseable {
+class UsableSpan(private val span: Span, private val scope: Scope) : Span by span, AutoCloseable {
 	/**
 	 * Traces the execution of a [block] and returns its result.
 	 * Closes this span and its scope afterward.
-	 * If any exceptions occur within [block], this span tags as `error` and logs the exception stack trace.
+	 * If any exceptions occur within [block], this span tags as `error`, logs the exception stack trace, and re-throws the exception.
 	 */
-	fun <R> wrap(block: (CloseableSpan) -> R): R = use {
+	fun <R> use(block: (UsableSpan) -> R): R =
 		try {
 			block(this)
 		} catch (e: Exception) {
 			error(e)
 			throw e
+		} finally {
+			close()
 		}
-	}
 
 	/**
 	 * Tags `this` span as [Tags.ERROR] and logs [e].
 	 */
-	fun error(e: Exception) {
+	private fun error(e: Exception) {
 		val stringWriter = StringWriter()
 		e.printStackTrace(PrintWriter(stringWriter))
 
@@ -68,10 +69,10 @@ class CloseableSpan(private val span: Span, private val scope: Scope) : Span by 
 /**
  * Starts a new active span with a given [operationName] and [kind].
  */
-fun Tracer.span(operationName: String, kind: String = Tags.SPAN_KIND_SERVER): CloseableSpan = buildSpan(operationName)
+fun Tracer.span(operationName: String, kind: String = Tags.SPAN_KIND_SERVER): UsableSpan = buildSpan(operationName)
 	.withTag(Tags.SPAN_KIND, kind)
 	.asChildOf(OpenTracingContextKey.activeSpan())
 	.start()
 	.let {
-		CloseableSpan(it, activateSpan(it))
+		UsableSpan(it, activateSpan(it))
 	}

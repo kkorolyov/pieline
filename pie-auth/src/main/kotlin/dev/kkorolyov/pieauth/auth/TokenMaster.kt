@@ -19,7 +19,7 @@ object TokenMaster {
 	 * Generates an access token for a given user [id] and set of [roles].
 	 */
 	fun generate(id: UUID, vararg roles: String): String {
-		return tracer.span("token-generate").wrap {
+		return tracer.span("token-generate").use {
 			it.setTag("id", id.toString())
 
 			val now = Instant.now()

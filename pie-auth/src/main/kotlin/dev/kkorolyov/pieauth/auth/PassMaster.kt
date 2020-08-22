@@ -20,7 +20,7 @@ object PassMaster {
 	 * Hashes [pass], wipes it, and returns the hashed value.
 	 */
 	fun hash(pass: CharArray): String {
-		return tracer.span("pass-hash").wrap {
+		return tracer.span("pass-hash").use {
 			try {
 				argon2.hash(
 					ITERATIONS,
@@ -38,7 +38,7 @@ object PassMaster {
 	 * Verifies [pass] against [hash], wipes [pass], and returns whether [pass] matches [hash].
 	 */
 	fun verify(hash: String, pass: CharArray): Boolean {
-		return tracer.span("pass-verify").wrap {
+		return tracer.span("pass-verify").use {
 			try {
 				argon2.verify(hash, pass)
 			} finally {

@@ -55,7 +55,7 @@ object AuthService : AuthCoroutineImplBase() {
 	override suspend fun authenticate(request: AuthRequest): AuthResponse {
 		log.info("got caller token: ${Context.current().token}")
 
-		return tracer.span("transaction").wrap {
+		return tracer.span("transaction").use {
 			it.setTag(Tags.DB_TYPE, "sql")
 
 			transaction {
@@ -78,7 +78,7 @@ object AuthService : AuthCoroutineImplBase() {
 	}
 
 	override suspend fun register(request: AuthRequest): AuthResponse {
-		return tracer.span("transaction").wrap {
+		return tracer.span("transaction").use {
 			it.setTag(Tags.DB_TYPE, "sql")
 
 			// Both credentials and user profile must be created together

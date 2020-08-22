@@ -14,7 +14,7 @@ object RoleMaster {
 	/**
 	 * Gets all roles of a given user [id].
 	 */
-	fun get(id: UUID): Array<String> = tracer.span("roles-get").wrap {
+	fun get(id: UUID): Array<String> = tracer.span("roles-get").use {
 		it.setTag("id", id.toString())
 
 		STUB_ROLES
