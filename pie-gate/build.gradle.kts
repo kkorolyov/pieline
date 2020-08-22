@@ -42,6 +42,9 @@ dependencies {
 	val log4jVersion: String by project
 	val guavaVersion: String by project
 	val rejoinerVersion: String by project
+	val opentracingVersion: String by project
+	val opentracingGrpcVersion: String by project
+	val jaegerVersion: String by project
 
 	// grpc
 	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
@@ -80,6 +83,11 @@ dependencies {
 	).forEach {
 		implementation("org.apache.logging.log4j:$it")
 	}
+
+	// tracing
+	implementation("io.opentracing:opentracing-api:$opentracingVersion")
+	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
+	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
 
 	testImplementation("io.ktor:ktor-server-tests")
 

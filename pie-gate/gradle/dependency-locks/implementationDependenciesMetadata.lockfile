@@ -8,7 +8,6 @@ com.fasterxml.jackson.core:jackson-annotations:2.10.2
 com.fasterxml.jackson.core:jackson-core:2.10.2
 com.fasterxml.jackson.core:jackson-databind:2.10.2
 com.fasterxml.jackson.module:jackson-module-kotlin:2.10.2
-com.google.android:annotations:4.1.1.4
 com.google.api.graphql:rejoiner:0.3.1
 com.google.api.grpc:proto-google-common-protos:1.17.0
 com.google.auto.value:auto-value:1.5.2
@@ -29,8 +28,6 @@ com.graphql-java:java-dataloader:2.1.1
 com.squareup.okhttp3:okhttp:4.2.2
 com.squareup.okio:okio:2.2.2
 com.typesafe:config:1.3.1
-commons-codec:commons-codec:1.13
-commons-io:commons-io:2.6
 io.grpc:grpc-api:1.31.1
 io.grpc:grpc-bom:1.31.1
 io.grpc:grpc-context:1.31.1
@@ -61,10 +58,8 @@ io.ktor:ktor-utils-jvm:1.3.2
 io.netty:netty-buffer:4.1.48.Final
 io.netty:netty-codec-http2:4.1.48.Final
 io.netty:netty-codec-http:4.1.48.Final
-io.netty:netty-codec-socks:4.1.48.Final
 io.netty:netty-codec:4.1.48.Final
 io.netty:netty-common:4.1.48.Final
-io.netty:netty-handler-proxy:4.1.48.Final
 io.netty:netty-handler:4.1.48.Final
 io.netty:netty-resolver:4.1.48.Final
 io.netty:netty-transport-native-epoll:4.1.44.Final
@@ -76,7 +71,6 @@ io.opentracing.contrib:opentracing-tracerresolver:0.1.8
 io.opentracing:opentracing-api:0.33.0
 io.opentracing:opentracing-noop:0.33.0
 io.opentracing:opentracing-util:0.33.0
-io.perfmark:perfmark-api:0.19.0
 javax.annotation:javax.annotation-api:1.3.2
 javax.inject:javax.inject:1
 org.antlr:antlr4-runtime:4.7.2
@@ -85,9 +79,7 @@ org.apache.logging.log4j:log4j-bom:2.13.3
 org.apache.logging.log4j:log4j-core:2.13.3
 org.apache.logging.log4j:log4j-slf4j-impl:2.13.3
 org.apache.thrift:libthrift:0.13.0
-org.apache.tomcat:annotations-api:6.0.53
 org.checkerframework:checker-qual:2.11.1
-org.codehaus.mojo:animal-sniffer-annotations:1.18
 org.eclipse.jetty.alpn:alpn-api:1.1.3.v20160715
 org.jetbrains.kotlin:kotlin-reflect:1.3.70
 org.jetbrains.kotlin:kotlin-stdlib-common:1.3.71

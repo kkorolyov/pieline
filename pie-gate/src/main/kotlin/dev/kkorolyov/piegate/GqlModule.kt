@@ -4,6 +4,8 @@ import com.google.api.graphql.execution.GuavaListenableFutureSupport
 import com.google.api.graphql.rejoiner.Schema
 import com.google.inject.AbstractModule
 import com.google.inject.Provides
+import dev.kkorolyov.piegate.util.span
+import dev.kkorolyov.piegate.util.tracer
 import graphql.GraphQL
 import graphql.execution.instrumentation.ChainedInstrumentation
 import graphql.schema.GraphQLSchema
@@ -24,8 +26,10 @@ object GqlModule : AbstractModule() {
 	 * Returns executable GraphQL object.
 	 */
 	@Provides
-	fun get(@Schema schema: GraphQLSchema): GraphQL = GraphQL
-		.newGraphQL(schema)
-		.instrumentation(instrumentation)
-		.build()
+	fun get(@Schema schema: GraphQLSchema): GraphQL = tracer.span("graphql-build").use {
+		GraphQL
+			.newGraphQL(schema)
+			.instrumentation(instrumentation)
+			.build()
+	}
 }

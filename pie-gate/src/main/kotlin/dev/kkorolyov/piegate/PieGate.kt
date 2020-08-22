@@ -7,13 +7,20 @@ import com.google.inject.Injector
 import com.google.inject.Key
 import dev.kkorolyov.piegate.client.ClientModule
 import dev.kkorolyov.piegate.schema.SchemaModule
+import dev.kkorolyov.piegate.util.span
+import dev.kkorolyov.piegate.util.tracer
 import io.grpc.Metadata
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
 import io.ktor.application.ApplicationCallPipeline
 import io.ktor.application.call
 import io.ktor.request.authorization
+import io.ktor.request.httpMethod
+import io.ktor.request.uri
 import io.ktor.util.AttributeKey
+import io.opentracing.tag.Tags
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * PieGate application configuration.
@@ -33,6 +40,18 @@ fun Application.main() {
 			SchemaProviderModule()
 		)
 	}
+	intercept(ApplicationCallPipeline.Monitoring) {
+		launch {
+			tracer.span("ktor-${call.request.uri}").use {
+				it.setTag(Tags.HTTP_URL, call.request.uri)
+				it.setTag(Tags.HTTP_METHOD, call.request.httpMethod.value)
+
+				runBlocking { proceed() }
+
+				it.setTag(Tags.HTTP_STATUS, call.response.status()?.value)
+			}
+		}
+	}
 }
 
 /**
@@ -43,7 +62,7 @@ fun <T> ApplicationCall.getInstance(key: Key<T>): T = injector.getInstance(key)
 private val injectorKey = AttributeKey<Injector>("injector")
 private var ApplicationCall.injector: Injector
 	get() = attributes[injectorKey]
-	set(injector: Injector) {
+	set(injector) {
 		attributes.put(injectorKey, injector)
 	}
 

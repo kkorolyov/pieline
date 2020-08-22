@@ -3,6 +3,7 @@ package dev.kkorolyov.piegate.client
 import com.google.inject.AbstractModule
 import com.google.inject.Provides
 import dev.kkorolyov.piegate.util.Address
+import dev.kkorolyov.piegate.util.clientInterceptor
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineStub
 import dev.kkorolyov.pieline.proto.i18n.i18nGrpcKt.i18nCoroutineStub
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
@@ -38,9 +39,10 @@ object ClientModule : AbstractModule() {
 	): T = address.let { (host, port) ->
 		// TODO Remove usePlaintext
 		initializer(
-			ManagedChannelBuilder.forAddress(host, port).intercept(
-				MetadataUtils.newAttachHeadersInterceptor(headers)
-			).usePlaintext().build(), CallOptions.DEFAULT
+			ManagedChannelBuilder.forAddress(host, port)
+				.intercept(MetadataUtils.newAttachHeadersInterceptor(headers))
+				.intercept(clientInterceptor)
+				.usePlaintext().build(), CallOptions.DEFAULT
 		)
 	}
 }
