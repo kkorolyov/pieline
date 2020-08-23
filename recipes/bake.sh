@@ -1,15 +1,15 @@
 #!/bin/bash -e
 
 cwd=$(dirname $0)
-services=(
-	"pie-gate"
-	"pie-auth"
-	"pie-users"
-	"pi18n"
-)
+
+if [ $# -gt 0 ]; then
+	services=("$@")
+else
+	mapfile -t services <"${cwd}/services.txt"
+fi
 
 for service in "${services[@]}"; do
 	echo "building $service image..."
-	${cwd}/${service}.sh
+	${cwd}/bake/${service}.sh
 	echo "$service image done"
 done

@@ -2,6 +2,8 @@ package dev.kkorolyov.pieauth.auth
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import dev.kkorolyov.pieauth.util.span
+import dev.kkorolyov.pieauth.util.tracer
 import java.time.Duration
 import java.time.Instant
 import java.util.Date
@@ -17,18 +19,22 @@ object TokenMaster {
 	 * Generates an access token for a given user [id] and set of [roles].
 	 */
 	fun generate(id: UUID, vararg roles: String): String {
-		val now = Instant.now()
+		return tracer.span("token-generate").use {
+			it.setTag("id", id.toString())
 
-		return JWT.create()
-			.withIssuer("pie-auth")
+			val now = Instant.now()
 
-			.withIssuedAt(Date.from(now))
-			.withNotBefore(Date.from(now.plusSeconds(1)))
-			.withExpiresAt(Date.from(now.plus(Duration.ofMinutes(15))))
+			JWT.create()
+				.withIssuer("pie-auth")
 
-			.withClaim("id", id.toString())
-			.withArrayClaim("role", roles)
+				.withIssuedAt(Date.from(now))
+				.withNotBefore(Date.from(now.plusSeconds(1)))
+				.withExpiresAt(Date.from(now.plus(Duration.ofMinutes(15))))
 
-			.sign(algorithm)
+				.withClaim("id", id.toString())
+				.withArrayClaim("role", roles)
+
+				.sign(algorithm)
+		}
 	}
 }

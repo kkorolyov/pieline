@@ -42,8 +42,10 @@ dependencies {
 	val exposedVersion: String by project
 	val log4jVersion: String by project
 	val jwtVersion: String by project
+	val opentracingVersion: String by project
+	val opentracingGrpcVersion: String by project
+	val jaegerVersion: String by project
 
-	implementation(kotlin("stdlib-jdk8"))
 	implementation("de.mkammerer:argon2-jvm:$argon2Version")
 	implementation("com.h2database:h2:$h2Version")
 	implementation("com.auth0:java-jwt:$jwtVersion")
@@ -77,6 +79,11 @@ dependencies {
 	).forEach {
 		implementation("org.apache.logging.log4j:$it")
 	}
+
+	// tracing
+	implementation("io.opentracing:opentracing-api:$opentracingVersion")
+	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
+	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
 
 	dependencyLocking {
 		lockAllConfigurations()

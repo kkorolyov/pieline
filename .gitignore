@@ -16,4 +16,5 @@ target/
 .idea/
 *.iml
 .vscode/
+out/
 yarn-error.log*
