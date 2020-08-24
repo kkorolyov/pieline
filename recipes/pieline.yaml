@@ -42,8 +42,22 @@ spec:
       env:
         - name: PORT
           value: "5001"
+        - name: DB_URL
+          value: jdbc:h2:tcp://localhost:1521//opt/h2-data/auth
         - name: ADDR_USERS
           value: localhost:5002
+    - name: db-auth
+      image: oscarfonts/h2
+      resources:
+        limits:
+          cpu: 100m
+          memory: 500M
+      volumeMounts:
+        - name: mnt-auth
+          mountPath: /opt/h2-data
+      env:
+        - name: H2_OPTIONS
+          value: -ifNotExists
 
     - name: pie-users
       image: localhost/pie-users
@@ -93,8 +107,12 @@ spec:
           memory: 1G
 
   volumes:
+    - name: mnt-auth
+      hostPath:
+        path: /var/vol/auth
+        type: DirectoryOrCreate
     - name: mnt-users
       hostPath:
-          path: /home/vagrant/db/users
-          type: DirectoryOrCreate
+        path: /var/vol/users
+        type: DirectoryOrCreate
 status: {}
