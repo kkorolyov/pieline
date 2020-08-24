@@ -11,9 +11,9 @@ from pieusers.persist.dao import User
 from pieusers.persist.session import start_session
 from pieusers.tracing import init_tracer, intercept_server, tracer
 
-logger = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
-port = environ["PORT"]
+PORT = environ["PORT"]
 
 
 class UsersServicer(ProtoUsersServicer):
@@ -21,7 +21,7 @@ class UsersServicer(ProtoUsersServicer):
         with tracer().scope_manager.activate(context.get_active_span(), True) as scope:
             ids = [id.value for id in id_it]
 
-            logger.debug(f"get users for ids({ids}")
+            LOG.debug(f"get users for ids({ids}")
 
             try:
                 with start_session() as session:
@@ -32,18 +32,18 @@ class UsersServicer(ProtoUsersServicer):
 
                     result = [user.to_grpc() for user in request]
 
-                logger.info(f"get users for ids({ids}) = {result}")
+                LOG.info(f"get users for ids({ids}) = {result}")
 
                 return iter(result)
             except Exception as e:
                 scope.span.set_tag(tags.ERROR, e)
-                logger.exception("get oopsie")
+                LOG.exception("get oopsie")
 
     def Upsert(self, user_it, context):
         with tracer().scope_manager.activate(context.get_active_span(), True) as scope:
             users = list(user_it)
 
-            logger.debug(f"upsert users({users}")
+            LOG.debug(f"upsert users({users}")
 
             try:
                 with start_session() as session:
@@ -51,18 +51,18 @@ class UsersServicer(ProtoUsersServicer):
                         session.merge(User.from_grpc(user)).to_grpc() for user in users
                     ]
 
-                logger.info(f"upsert users({users}) = {result}")
+                LOG.info(f"upsert users({users}) = {result}")
 
                 return iter(result)
             except Exception as e:
                 scope.span.set_tag(tags.ERROR, e)
-                logger.exception("upsert oopsie")
+                LOG.exception("upsert oopsie")
 
     def Delete(self, id_it, context):
         with tracer().scope_manager.activate(context.get_active_span(), True) as scope:
             ids = [id.value for id in id_it]
 
-            logger.debug(f"delete users for ids({ids})")
+            LOG.debug(f"delete users for ids({ids})")
 
             try:
                 with start_session() as session:
@@ -72,12 +72,12 @@ class UsersServicer(ProtoUsersServicer):
 
                     request.delete(synchronize_session=False)
 
-                logger.info(f"delete users for ids({ids}) = {result}")
+                LOG.info(f"delete users for ids({ids}) = {result}")
 
                 return iter(result)
             except Exception as e:
                 scope.span.set_tag(tags.ERROR, e)
-                logger.exception("delete oopsie")
+                LOG.exception("delete oopsie")
 
 
 def run():
@@ -85,7 +85,7 @@ def run():
 
     add_UsersServicer_to_server(UsersServicer(), server)
 
-    server.add_insecure_port(f"[::]:{port}")
+    server.add_insecure_port(f"[::]:{PORT}")
     server.start()
     server.wait_for_termination()
 

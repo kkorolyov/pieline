@@ -7,7 +7,7 @@ from sqlalchemy import Column, ForeignKey, String
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import relationship
 
-from pieusers.persist.session import engine
+from pieusers.persist.session import ENGINE
 
 
 class Base:
@@ -72,4 +72,4 @@ class Details(Base):
         return f"Details {{id={self.id}, email={self.email}, display_name={self.display_name}}}"
 
 
-Base.metadata.create_all(engine)
+Base.metadata.create_all(ENGINE)
