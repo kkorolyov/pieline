@@ -35,8 +35,7 @@ class UsersServicer(ProtoUsersServicer):
                 LOG.info(f"get users for ids({ids}) = {result}")
 
                 return iter(result)
-            except Exception as e:
-                scope.span.set_tag(tags.ERROR, e)
+            except Exception:
                 LOG.exception("get oopsie")
 
     def Upsert(self, user_it, context):
@@ -54,8 +53,7 @@ class UsersServicer(ProtoUsersServicer):
                 LOG.info(f"upsert users({users}) = {result}")
 
                 return iter(result)
-            except Exception as e:
-                scope.span.set_tag(tags.ERROR, e)
+            except Exception:
                 LOG.exception("upsert oopsie")
 
     def Delete(self, id_it, context):
@@ -75,8 +73,7 @@ class UsersServicer(ProtoUsersServicer):
                 LOG.info(f"delete users for ids({ids}) = {result}")
 
                 return iter(result)
-            except Exception as e:
-                scope.span.set_tag(tags.ERROR, e)
+            except Exception:
                 LOG.exception("delete oopsie")
 
 

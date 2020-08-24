@@ -1,13 +1,18 @@
+import logging
+from time import sleep
 from uuid import uuid4 as uuid
 
 from lib.proto.common_pb2 import Uuid as UuidGrpc
 from lib.proto.user_pb2 import Details as DetailsGrpc
 from lib.proto.user_pb2 import User as UserGrpc
 from sqlalchemy import Column, ForeignKey, String
+from sqlalchemy.exc import OperationalError
 from sqlalchemy.ext.declarative import declarative_base, declared_attr
 from sqlalchemy.orm import relationship
 
 from pieusers.persist.session import ENGINE
+
+LOG = logging.getLogger(__name__)
 
 
 class Base:
@@ -72,4 +77,11 @@ class Details(Base):
         return f"Details {{id={self.id}, email={self.email}, display_name={self.display_name}}}"
 
 
-Base.metadata.create_all(ENGINE)
+while True:
+    try:
+        Base.metadata.create_all(ENGINE)
+        LOG.info("initialized persistence metadata")
+        break
+    except OperationalError:
+        LOG.exception("cannot connect to DB, retrying...")
+        sleep(1)
