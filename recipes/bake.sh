@@ -5,7 +5,7 @@ cwd=$(dirname $0)
 if [ $# -gt 0 ]; then
 	services=("$@")
 else
-	mapfile -t services <"${cwd}/services.txt"
+	mapfile -t services <"${cwd}/services"
 fi
 
 for service in "${services[@]}"; do

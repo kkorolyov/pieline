@@ -1,0 +1,4 @@
+PORT=5000
+ADDR_AUTH=localhost:5001
+ADDR_USERS=localhost:5002
+ADDR_I18N=localhost:5003

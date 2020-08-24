@@ -12,11 +12,11 @@ shift
 if [ $# -gt 0 ]; then
 	services=("$@")
 else
-	mapfile -t services <"${cwd}/services.txt"
+	mapfile -t services <"${cwd}/services"
 fi
 
 for service in "${services[@]}"; do
 	echo "starting ${service} in ${pod}..."
-	podman run -dt --pod $pod --name $service $service
+	podman run -dt --pod $pod --env-file "${cwd}/env/${service}" --name $service $service
 	echo "$service started"
 done

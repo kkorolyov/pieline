@@ -91,5 +91,5 @@ fi
 
 if [ -n "$temp" ]; then
 	echo "starting temp ${temp}..."
-	podman run -it --rm --pod $pod $temp
+	podman run -it --rm --pod $pod --env-file "${cwd}/env/${temp}" $temp
 fi
