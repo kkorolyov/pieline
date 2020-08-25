@@ -19,7 +19,6 @@ usage() {
 	echo "usage: $me -s <service> -p <port> [-e env=val]"
 	echo "	-s	service name"
 	echo "	-p	service port"
-	echo "	-e	additional environment variables (e.g. -e foo=bar -e baz=bat)"
 }
 
 install() {
@@ -39,16 +38,13 @@ publish() {
 	buildah rm $container
 }
 
-while getopts ":s:p:e:h" opt; do
+while getopts ":s:p:h" opt; do
 	case "$opt" in
 	s)
 		service=$OPTARG
 		;;
 	p)
 		port=$OPTARG
-		;;
-	e)
-		envs+=($OPTARG)
 		;;
 	h)
 		echo -e "Builds OCI images for PieLine services.\n"
@@ -73,6 +69,3 @@ fi
 # common prep
 container=$(buildah from scratch)
 config --author $author --port $port --env PORT=$port
-for env in "${envs[@]}"; do
-	config --env "$env"
-done

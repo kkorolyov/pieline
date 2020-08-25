@@ -5,7 +5,7 @@ import org.jetbrains.exposed.sql.Database
 import org.slf4j.LoggerFactory
 import javax.sql.DataSource
 
-private const val URL = "jdbc:h2:./temp"
+private val URL = System.getenv("DB_URL")
 
 /**
  * Global database configuration.

@@ -1,0 +1,2 @@
+PORT=5002
+DB_URL=postgresql://users:users@localhost:5432/users

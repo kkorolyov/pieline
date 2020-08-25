@@ -1,22 +1,38 @@
 #!/bin/bash -e
 
-if [ $# -lt 1 ]; then
-	echo "requires pod name"
-	exit 1
-fi
-
+me=$(basename "$0")
 cwd=$(dirname $0)
-pod=$1
-shift
 
-if [ $# -gt 0 ]; then
-	services=("$@")
-else
-	mapfile -t services <"${cwd}/services.txt"
+clean=false
+
+usage() {
+	echo "usage: $me [-c]"
+	echo "	-c	clear existing deployment first"
+}
+
+while getopts ":ch" opt; do
+	case $opt in
+	c)
+		clean=true
+		;;
+	h)
+		echo -e "Deploys local PieLine distribution.\n"
+		usage
+		exit
+		;;
+	\?)
+		echo -e "unknown option: -$OPTARG\n"
+		usage
+		exit 1
+		;;
+	esac
+done
+shift $((OPTIND - 1))
+
+if $clean; then
+	echo "removing existing deployment..."
+	podman pod rm -f pieline
 fi
 
-for service in "${services[@]}"; do
-	echo "starting ${service} in ${pod}..."
-	podman run -dt --pod $pod --name $service $service
-	echo "$service started"
-done
+echo "deploying PieLine configuration..."
+podman play kube "${cwd}/pieline.yaml"
