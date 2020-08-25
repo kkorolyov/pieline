@@ -1,13 +1,11 @@
 import ApolloClient from "apollo-boost";
 import { Common_Uuid, Common_UuidList } from "../../../generated/graphql";
 
-const HOST = "http://localhost:8080";
-
 /**
  * GQL client.
  */
 export const client = new ApolloClient({
-  uri: HOST,
+  uri: process.env.REACT_APP_ADDR_GATE,
 });
 
 /**
