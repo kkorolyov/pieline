@@ -4,7 +4,7 @@ import com.google.protobuf.gradle.ofSourceSet
 import com.google.protobuf.gradle.plugins
 import com.google.protobuf.gradle.protobuf
 import com.google.protobuf.gradle.protoc
-import org.gradle.api.JavaVersion.VERSION_11
+import org.gradle.api.JavaVersion.VERSION_14
 
 val grpcVersion: String by project
 val grpcKtVersion: String by project
@@ -24,8 +24,8 @@ group = "dev.kkorolyov"
 version = "0.1"
 
 java {
-	sourceCompatibility = VERSION_11
-	targetCompatibility = VERSION_11
+	sourceCompatibility = VERSION_14
+	targetCompatibility = VERSION_14
 }
 
 application {
