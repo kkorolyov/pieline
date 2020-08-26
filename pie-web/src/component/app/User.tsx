@@ -1,7 +1,7 @@
 import { Container } from "@material-ui/core";
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { UserContext } from "../common/context";
+import { UserContext } from "../../context";
 import Profile from "../user/Profile";
 
 const User = () => {

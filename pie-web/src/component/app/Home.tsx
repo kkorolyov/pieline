@@ -1,6 +1,6 @@
 import { Container, Grid, Typography } from "@material-ui/core";
 import React, { useContext } from "react";
-import { i18nContext } from "../common/context";
+import { i18nContext } from "../../context";
 import ExploreWidget from "../widget/ExploreWidget";
 import MarketWidget from "../widget/MarketWidget";
 import ProjectsWidget from "../widget/ProjectsWidget";

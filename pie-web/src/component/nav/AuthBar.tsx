@@ -1,9 +1,9 @@
 import { Button, Grid, CircularProgress } from "@material-ui/core";
 import React, { useContext, useState } from "react";
-import { authenticate } from "../common/api";
-import { Form, TextField } from "../common/components";
-import { UserContext } from "../common/context";
-import { useExecutor, useResult } from "../common/hooks";
+import { authenticate } from "../../api";
+import { Form, TextField } from "../common";
+import { UserContext } from "../../context";
+import { useExecutor, useResult } from "../../hooks";
 
 /**
  * Medium for user authentication.

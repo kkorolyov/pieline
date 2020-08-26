@@ -1,4 +1,4 @@
-import { User_Details } from "../../generated/graphql";
+import { User_Details } from "../generated/graphql";
 import { client, wrapId } from "./graphql/client";
 import { setUser } from "./graphql/mutations";
 import { fullUser } from "./graphql/queries";

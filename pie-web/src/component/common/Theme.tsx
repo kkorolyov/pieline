@@ -15,6 +15,9 @@ const theme = createMuiTheme({
 type DarkProps = {
   children: React.ReactNode;
 };
+/**
+ * Dark MUI theme.
+ */
 export const Dark = ({ children }: DarkProps) => (
   <StylesProvider injectFirst>
     <MuiThemeProvider theme={theme}>

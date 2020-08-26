@@ -7,7 +7,7 @@ module.exports = {
   webpackFinal: (config) => {
     config.plugins.push(
       new webpack.NormalModuleReplacementPlugin(
-        /common\/api\/index.ts$/,
+        /api\/index.ts$/,
         path.resolve(__dirname, "stub/api/index.ts")
       )
     );

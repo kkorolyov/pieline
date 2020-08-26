@@ -1,7 +1,7 @@
 import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
 import React, { useState } from "react";
-import { Form, TextField } from "../common/components";
-import { User_Details } from "../generated/graphql";
+import { Form, TextField } from "../common";
+import { User_Details } from "../../generated/graphql";
 
 type DisplayProps = User_Details;
 export const Display = ({ displayName, email }: DisplayProps) => (

@@ -4,7 +4,7 @@ import ExploreWidget from "./ExploreWidget";
 import MarketWidget from "./MarketWidget";
 import Widget from "./Widget";
 import ProjectsWidget from "./ProjectsWidget";
-import { UserContext } from "../common/context";
+import { UserContext } from "../../context";
 
 export default { title: "Widget" };
 

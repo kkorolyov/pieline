@@ -1,5 +1,5 @@
 import ApolloClient from "apollo-boost";
-import { Common_Uuid, Common_UuidList } from "../../../generated/graphql";
+import { Common_Uuid, Common_UuidList } from "../../generated/graphql";
 
 /**
  * GQL client.

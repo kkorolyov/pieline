@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "./Nav";
-import { UserContext } from "../common/context";
+import { UserContext } from "../../context";
 import AuthBar from "./AuthBar";
 
 export default { title: "Navigation" };

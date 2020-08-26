@@ -7,8 +7,8 @@ import {
   CardProps,
 } from "@material-ui/core";
 import React, { useContext } from "react";
-import { Link } from "../common/components";
-import { i18nContext } from "../common/context";
+import { Link } from "../common";
+import { i18nContext } from "../../context";
 
 type WidgetProps = CardProps & {
   // Widget title

@@ -1,10 +1,10 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { Link } from "../common/components";
+import { Link } from "../common";
 import AuthBar from "./AuthBar";
 import UserMenu from "./UserMenu";
-import { UserContext, i18nContext } from "../common/context";
+import { UserContext, i18nContext } from "../../context";
 
 const StyledToolbar = styled(Toolbar)`
   display: flex;

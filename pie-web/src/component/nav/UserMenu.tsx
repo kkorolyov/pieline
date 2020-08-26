@@ -1,7 +1,7 @@
 import { Avatar, MenuItem } from "@material-ui/core";
 import React from "react";
 import styled from "styled-components";
-import { Link, Menu } from "../common/components";
+import { Link, Menu } from "../common";
 
 const ProfileIcon = styled(Avatar)`
   cursor: pointer;
