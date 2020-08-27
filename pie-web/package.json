@@ -21,6 +21,8 @@
   "devDependencies": {
     "@babel/core": "^7.11.4",
     "@graphql-codegen/cli": "1.17.8",
+    "@graphql-codegen/fragment-matcher": "^1.17.8",
+    "@graphql-codegen/typescript-operations": "^1.17.8",
     "@storybook/addon-actions": "^6.0.19",
     "@storybook/addon-essentials": "^6.0.19",
     "@storybook/addon-links": "^6.0.19",
