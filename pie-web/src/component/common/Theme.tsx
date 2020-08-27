@@ -16,7 +16,7 @@ type DarkProps = {
   children: React.ReactNode;
 };
 /**
- * Dark MUI theme.
+ * Dark application theme.
  */
 export const Dark = ({ children }: DarkProps) => (
   <StylesProvider injectFirst>

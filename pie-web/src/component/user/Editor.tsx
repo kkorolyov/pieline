@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Form, TextField } from "../common";
 import { User_Details } from "../../generated/graphql";
 
-type DisplayProps = User_Details;
+export type DisplayProps = User_Details;
 export const Display = ({ displayName, email }: DisplayProps) => (
   <Grid container direction="column">
     <Typography variant="h4">{displayName}</Typography>
@@ -11,7 +11,7 @@ export const Display = ({ displayName, email }: DisplayProps) => (
   </Grid>
 );
 
-type EditorProps = User_Details & {
+export type EditorProps = User_Details & {
   onSubmit: (details: User_Details) => void;
   waiting?: boolean;
 };

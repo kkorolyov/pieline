@@ -14,7 +14,7 @@ const StyledMuiTextField = styled(MuiTextField)`
   margin-bottom: ${theme.spacing(1)}px;
   `}
 `;
-type TextFieldProps = Omit<MuiTextFieldProps, "onChange"> & {
+export type TextFieldProps = Omit<MuiTextFieldProps, "onChange"> & {
   /**
    * Callback invoked on value change with current field value.
    */
@@ -92,7 +92,7 @@ export const Link = styled(RouterLink)`
   text-decoration: inherit;
 `;
 
-type FormProps = {
+export type FormProps = {
   /**
    * Form submission handler.
    */

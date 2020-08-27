@@ -5,7 +5,7 @@ import { useExecutor, useArgs, useResult } from "../../hooks";
 import { User_Details } from "../../generated/graphql";
 import { Display, Editor } from "./Editor";
 
-type ProfileProps = {
+export type ProfileProps = {
   id: string;
 };
 const Profile = ({ id }: ProfileProps) => {

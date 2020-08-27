@@ -10,7 +10,7 @@ import React, { useContext } from "react";
 import { Link } from "../common";
 import { i18nContext } from "../../context";
 
-type WidgetProps = CardProps & {
+export type WidgetProps = CardProps & {
   // Widget title
   title?: string;
   // Location of full dataset

@@ -1,12 +1,12 @@
 import React from "react";
 import { UserContext } from "../../context";
-import Nav from "./Nav";
+import ProjectsWidget from "./ProjectsWidget";
 
-export default { title: "Navigation/Nav", component: Nav };
+export default { title: "Widget/Projects", component: ProjectsWidget };
 
-export const Unauthenticated = () => <Nav />;
+export const Unauthenticated = () => <ProjectsWidget />;
 export const Authenticated = () => (
   <UserContext.Provider value={{ id: "bogoId", setId: () => {} }}>
-    <Nav />
+    <ProjectsWidget />
   </UserContext.Provider>
 );

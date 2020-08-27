@@ -1,4 +1,4 @@
-import ApolloClient from "apollo-boost";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { Common_Uuid, Common_UuidList } from "../../generated/graphql";
 
 /**
@@ -6,6 +6,7 @@ import { Common_Uuid, Common_UuidList } from "../../generated/graphql";
  */
 export const client = new ApolloClient({
   uri: process.env.REACT_APP_ADDR_GATE,
+  cache: new InMemoryCache(),
 });
 
 /**
