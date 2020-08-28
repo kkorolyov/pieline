@@ -1,9 +1,10 @@
 import { Button, CircularProgress, Grid } from "@material-ui/core";
+import { getProfile, saveProfile } from "api";
+import { User_Details } from "generated/graphql";
+import { useArgs, useExecutor, useResult } from "hooks";
 import React, { useState } from "react";
-import { getProfile, saveProfile } from "../../api";
-import { useExecutor, useArgs, useResult } from "../../hooks";
-import { User_Details } from "../../generated/graphql";
-import { Display, Editor } from "./Editor";
+import Display from "./Display";
+import Editor from "./Editor";
 
 export type ProfileProps = {
   id: string;

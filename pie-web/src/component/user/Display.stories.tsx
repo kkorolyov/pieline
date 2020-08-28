@@ -1,6 +1,6 @@
 import { Story } from "@storybook/react";
 import React from "react";
-import { Display, DisplayProps } from "./Editor";
+import Display, { DisplayProps } from "./Display";
 
 export default { title: "User/Display", component: Display };
 

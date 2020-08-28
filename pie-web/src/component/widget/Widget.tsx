@@ -4,11 +4,11 @@ import {
   CardActions,
   CardContent,
   CardHeader,
-  CardProps,
+  CardProps
 } from "@material-ui/core";
 import React, { useContext } from "react";
-import { Link } from "../common";
-import { i18nContext } from "../../context";
+import Link from "component/common/control/Link";
+import { i18nContext } from "context";
 
 export type WidgetProps = CardProps & {
   // Widget title

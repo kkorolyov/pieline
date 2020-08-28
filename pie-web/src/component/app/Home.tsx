@@ -1,9 +1,9 @@
 import { Container, Grid, Typography } from "@material-ui/core";
+import ExploreWidget from "component/widget/ExploreWidget";
+import MarketWidget from "component/widget/MarketWidget";
+import ProjectsWidget from "component/widget/ProjectsWidget";
+import { i18nContext } from "context";
 import React, { useContext } from "react";
-import { i18nContext } from "../../context";
-import ExploreWidget from "../widget/ExploreWidget";
-import MarketWidget from "../widget/MarketWidget";
-import ProjectsWidget from "../widget/ProjectsWidget";
 
 const Home = () => {
   const { tagline } = useContext(i18nContext);

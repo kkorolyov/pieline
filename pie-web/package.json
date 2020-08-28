@@ -7,6 +7,7 @@
     "@apollo/client": "^3.1.3",
     "@material-ui/core": "^4.9.9",
     "@material-ui/icons": "^4.9.1",
+    "@types/react-dom": "^16.9.8",
     "@types/react-router-dom": "^5.1.5",
     "@types/styled-components": "^5.1.2",
     "graphql": "^15.0.0",
@@ -29,8 +30,8 @@
     "@storybook/node-logger": "^6.0.19",
     "@storybook/preset-create-react-app": "^3.1.4",
     "@storybook/react": "^6.0.19",
-    "@typescript-eslint/eslint-plugin": "^3.10.1",
-    "@typescript-eslint/parser": "^3.10.1",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "eslint": "^6.8.0",
@@ -42,11 +43,11 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-react": "^7.20.0",
-    "eslint-plugin-react-hooks": "^2",
+    "eslint-plugin-react-hooks": "^2.0.0",
     "prettier": "^2.1.1",
     "react-is": "^16.13.1",
     "rimraf": "^3.0.2",
-    "webpack": "^4.44.1"
+    "webpack": "4.42.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -57,8 +58,8 @@
     "clean": "rimraf src/generated build",
     "clean:full": "yarn clean && rimraf node_modules",
     "storybook": "start-storybook -p 6006 -s public",
-    "gql": "graphql-codegen --config codegen.yml",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "gql": "graphql-codegen --config codegen.yml"
   },
   "browserslist": {
     "production": [

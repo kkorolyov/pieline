@@ -1,8 +1,8 @@
 import { Story } from "@storybook/react";
 import React from "react";
-import { TextField, TextFieldProps } from "./Wrapper";
+import TextField, { TextFieldProps } from "./TextField";
 
-export default { title: "Wrapper/TextField", component: TextField };
+export default { title: "Common/Control/TextField", component: TextField };
 
 const Template: Story<TextFieldProps> = (args) => <TextField {...args} />;
 

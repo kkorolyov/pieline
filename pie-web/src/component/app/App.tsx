@@ -1,12 +1,12 @@
 import { CircularProgress } from "@material-ui/core";
+import { geti18n } from "api";
+import { Dark } from "component/common/Theme";
+import Nav from "component/nav/Nav";
+import { i18nContext, i18nDefault, UserContext } from "context";
+import { I18n_Locale } from "generated/graphql";
+import { useArgs, useExecutor, useResult } from "hooks";
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { geti18n } from "../../api";
-import { Dark } from "../common";
-import { i18nContext, i18nDefault, UserContext } from "../../context";
-import { useArgs, useExecutor, useResult } from "../../hooks";
-import { I18n_Locale } from "../../generated/graphql";
-import Nav from "../nav/Nav";
 import Explore from "./Explore";
 import Home from "./Home";
 import Market from "./Market";

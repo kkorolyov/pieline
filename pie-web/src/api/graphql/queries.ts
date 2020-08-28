@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
-import { userFields, i18nPackFields } from "./fragments";
+import { i18nPackFields, userFields } from "./fragments";
 
 export const fullUser = gql`
-  query fullUser($id: Input_common_Uuid) {
+  query fullUser($id: String) {
     user(id: $id) {
       ...userFields
     }

@@ -1,6 +1,6 @@
 import { Typography } from "@material-ui/core";
+import { i18nContext, UserContext } from "context";
 import React, { useContext } from "react";
-import { i18nContext, UserContext } from "../../context";
 import Widget from "./Widget";
 
 const ProjectsWidget = () => {

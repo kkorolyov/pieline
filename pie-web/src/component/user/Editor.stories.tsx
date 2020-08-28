@@ -1,6 +1,6 @@
 import { Story } from "@storybook/react";
 import React from "react";
-import { Editor, EditorProps } from "./Editor";
+import Editor, { EditorProps } from "./Editor";
 
 export default { title: "User/Editor", component: Editor };
 

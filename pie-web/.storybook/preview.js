@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Dark, Light } from "../src/component/common";
+import { Dark, Light } from "../src/component/common/Theme";
 
 const themes = {
   light: Light,

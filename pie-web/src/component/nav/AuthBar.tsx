@@ -1,9 +1,10 @@
-import { Button, Grid, CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress, Grid } from "@material-ui/core";
+import { authenticate } from "api";
+import Form from "component/common/control/Form";
+import TextField from "component/common/control/TextField";
+import { UserContext } from "context";
+import { useExecutor, useResult } from "hooks";
 import React, { useContext, useState } from "react";
-import { Form, TextField } from "../common";
-import { UserContext } from "../../context";
-import { useExecutor, useResult } from "../../hooks";
-import { authenticate } from "../../api";
 
 /**
  * Medium for user authentication.
@@ -23,7 +24,13 @@ const AuthBar = () => {
         authExecutor.execute(userName, password);
       }}
     >
-      <Grid container spacing={1} alignItems="center" justify="center" wrap="nowrap">
+      <Grid
+        container
+        spacing={1}
+        alignItems="center"
+        justify="center"
+        wrap="nowrap"
+      >
         <Grid item>
           <TextField
             variant="filled"

@@ -1,5 +1,5 @@
+import { UserContext } from "context";
 import React from "react";
-import { UserContext } from "../../context";
 import ProjectsWidget from "./ProjectsWidget";
 
 export default { title: "Widget/Projects", component: ProjectsWidget };

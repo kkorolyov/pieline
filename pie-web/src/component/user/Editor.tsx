@@ -1,21 +1,14 @@
-import { Button, CircularProgress, Grid, Typography } from "@material-ui/core";
+import { Button, CircularProgress, Grid } from "@material-ui/core";
+import Form from "component/common/control/Form";
+import TextField from "component/common/control/TextField";
+import { User_Details } from "generated/graphql";
 import React, { useState } from "react";
-import { Form, TextField } from "../common";
-import { User_Details } from "../../generated/graphql";
-
-export type DisplayProps = User_Details;
-export const Display = ({ displayName, email }: DisplayProps) => (
-  <Grid container direction="column">
-    <Typography variant="h4">{displayName}</Typography>
-    <Typography variant="h5">{email}</Typography>
-  </Grid>
-);
 
 export type EditorProps = User_Details & {
   onSubmit: (details: User_Details) => void;
   waiting?: boolean;
 };
-export const Editor = ({
+const Editor = ({
   displayName: initDisplayName,
   email: initEmail,
   onSubmit,
@@ -61,3 +54,4 @@ export const Editor = ({
     </Form>
   );
 };
+export default Editor;
