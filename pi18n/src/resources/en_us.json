@@ -1,8 +1,14 @@
 {
   "title": "PieLine",
   "tagline": "A platform for collaborative design, storage, and distribution of game assets.",
+
   "explore": "Explore",
   "market": "Market",
+  "projects": "Projects",
+
   "more": "More",
-  "projects": "Projects"
+
+  "username": "Username",
+  "password": "Password",
+  "register": "Register"
 }

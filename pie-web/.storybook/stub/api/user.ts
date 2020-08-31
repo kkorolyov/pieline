@@ -1,9 +1,13 @@
 import { sleep } from "./util";
 import { User_Details } from "../../../src/generated/graphql";
 
-export const authenticate = async (userName: string, pasword: string) => {
+export const register = async () => {
   await sleep(500);
-  return "bogoId";
+  return "bogoToken";
+};
+export const authenticate = async () => {
+  await sleep(500);
+  return "bogoToken";
 };
 
 export const getProfile = async (id: string) => {

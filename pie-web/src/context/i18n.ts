@@ -7,6 +7,10 @@ export const i18nDefault = [
   "market",
   "more",
   "projects",
+
+  "username",
+  "password",
+  "register",
 ].reduce((result: { [key: string]: string }, val) => {
   result[val] = val;
   return result;
@@ -19,5 +23,9 @@ export type i18nContextProps = {
   market?: string;
   more?: string;
   projects?: string;
+
+  username?: string;
+  password?: string;
+  register?: string;
 };
 export const i18nContext = createContext(i18nDefault as i18nContextProps);

@@ -1,6 +1,17 @@
 import gql from "graphql-tag";
 import { i18nPackFields, userFields } from "./fragments";
 
+/**
+ * Authenticates using given `user: String, pass: String`.
+ */
+export const auth = gql`
+  query auth($user: String, $pass: String) {
+    authenticate(user: $user, pass: $pass) {
+      token
+    }
+  }
+`;
+
 export const fullUser = gql`
   query fullUser($id: String) {
     user(id: $id) {

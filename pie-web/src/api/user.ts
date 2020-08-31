@@ -1,16 +1,47 @@
 import { User_Details } from "generated/graphql";
 import { client, wrapId } from "./graphql/client";
-import { setUser } from "./graphql/mutations";
-import { fullUser } from "./graphql/queries";
+import * as queries from "./graphql/queries";
+import * as mutations from "./graphql/mutations";
 
 /**
- * Authenticates a given `(userName, password)` combination.
- * @returns authenticated user ID
+ * Registers a given `(user, pass)` combination.
+ * @param user user name
+ * @param pass user password
+ * @returns registered user token
+ */
+export const register = async (user: string, pass: string): Promise<string> => {
+  const { data } = await client.mutate({
+    mutation: mutations.register,
+    variables: {
+      user,
+      pass,
+    },
+  });
+  const { token } = data;
+
+  return token;
+};
+/**
+ * Authenticates a given `(user, pass)` combination.
+ * @param user user name
+ * @param pass user password
+ * @returns authenticated user token
  */
 export const authenticate = async (
-  userName: string,
-  password: string
-): Promise<string> => "bogoId";
+  user: string,
+  pass: string
+): Promise<string> => {
+  const { data } = await client.query({
+    query: queries.auth,
+    variables: {
+      user,
+      pass,
+    },
+  });
+  const { token } = data;
+
+  return token;
+};
 
 /**
  * Retrieves a profile for a given user ID.
@@ -18,14 +49,13 @@ export const authenticate = async (
  * @returns associated profile state
  */
 export const getProfile = async (id: string): Promise<User_Details> => {
-  const {
-    data: {
-      user: { details },
-    },
-  } = await client.query({
-    query: fullUser,
+  const { data } = await client.query({
+    query: queries.fullUser,
     variables: { id: wrapId(id) },
   });
+  const {
+    user: { details },
+  } = data;
 
   return details;
 };
@@ -40,7 +70,7 @@ export const saveProfile = async (
   details: User_Details
 ): Promise<User_Details> => {
   const { data } = await client.mutate({
-    mutation: setUser,
+    mutation: mutations.setUser,
     variables: {
       user: {
         id: wrapId(id),

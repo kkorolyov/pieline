@@ -9,3 +9,14 @@ export const setUser = gql`
   }
   ${userFields}
 `;
+
+/**
+ * Register a new user given `user: String, pass: String`.
+ */
+export const register = gql`
+  mutation register($user: String, $pass: String) {
+    register(user: $user, pass: $pass) {
+      token
+    }
+  }
+`;

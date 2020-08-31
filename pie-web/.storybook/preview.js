@@ -1,14 +1,15 @@
+import { themes } from "@storybook/theming";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Dark, Light } from "../src/component/common/Theme";
 
-const themes = {
+const appThemes = {
   light: Light,
   dark: Dark,
 };
 export const decorators = [
   (Story, { globals: { theme } }) => {
-    const Theme = themes[theme];
+    const Theme = appThemes[theme];
 
     return (
       <Router>
@@ -36,4 +37,7 @@ export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: { expanded: true, hideNoControlsWarning: true },
   backgrounds: { disable: true },
+  docs: {
+    theme: themes.dark,
+  },
 };
