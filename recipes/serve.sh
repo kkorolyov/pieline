@@ -31,8 +31,8 @@ shift $((OPTIND - 1))
 
 if $clean; then
 	echo "removing existing deployment..."
-	podman pod rm -f pieline
+	podman pod rm -f pieline-deploy-pod-0
 fi
 
 echo "deploying PieLine configuration..."
-podman play kube "${cwd}/pieline.yaml"
+podman play kube "${cwd}/pieline.yml"
