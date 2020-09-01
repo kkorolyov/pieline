@@ -1,0 +1,127 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pieline-deploy
+  labels:
+    app: pieline
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pieline
+  template:
+    metadata:
+      labels:
+        app: pieline
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+
+      containers:
+        - name: pie-gate
+          image: localhost/pie-gate
+          ports:
+            - containerPort: 5000
+              hostPort: 5000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          env:
+            - name: PORT
+              value: "5000"
+            - name: ADDR_AUTH
+              value: localhost:5001
+            - name: ADDR_USERS
+              value: localhost:5002
+            - name: ADDR_I18N
+              value: localhost:5003
+
+        - name: pie-auth
+          image: localhost/pie-auth
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          env:
+            - name: PORT
+              value: "5001"
+            - name: DB_URL
+              value: jdbc:h2:tcp://localhost:1521//opt/h2-data/auth
+            - name: ADDR_USERS
+              value: localhost:5002
+        - name: db-auth
+          image: oscarfonts/h2
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500M
+          volumeMounts:
+            - name: mnt-auth
+              mountPath: /opt/h2-data
+          env:
+            - name: H2_OPTIONS
+              value: -ifNotExists
+
+        - name: pie-users
+          image: localhost/pie-users
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          env:
+            - name: PORT
+              value: "5002"
+            - name: DB_URL
+              value: postgresql://users:users@localhost:5432/users
+        - name: db-users
+          image: postgres
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500M
+          volumeMounts:
+            - name: mnt-users
+              mountPath: /var/lib/postgresql/data
+          env:
+            - name: POSTGRES_USER
+              value: users
+            - name: POSTGRES_PASSWORD
+              value: users
+
+        - name: pi18n
+          image: localhost/pi18n
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          env:
+            - name: PORT
+              value: "5003"
+
+        - name: jaeger
+          image: jaegertracing/all-in-one
+          ports:
+            - containerPort: 16686
+              hostPort: 16686
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+
+      volumes:
+        - name: mnt-auth
+          hostPath:
+            path: /var/vol/auth
+            type: DirectoryOrCreate
+        - name: mnt-users
+          hostPath:
+            path: /var/vol/users
+            type: DirectoryOrCreate
+status: {}

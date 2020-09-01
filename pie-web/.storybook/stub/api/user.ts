@@ -1,8 +1,13 @@
 import { sleep } from "./util";
+import { User_Details } from "../../../src/generated/graphql";
 
-export const authenticate = async (userName: string, pasword: string) => {
+export const register = async () => {
   await sleep(500);
-  return "bogoId";
+  return "bogoToken";
+};
+export const authenticate = async () => {
+  await sleep(500);
+  return "bogoToken";
 };
 
 export const getProfile = async (id: string) => {
@@ -12,10 +17,7 @@ export const getProfile = async (id: string) => {
     email: "Fake email",
   };
 };
-export const saveProfile = async (state: {
-  displayName: string;
-  email: string;
-}) => {
+export const saveProfile = async (id: string, state: User_Details) => {
   await sleep(500);
   return state;
 };

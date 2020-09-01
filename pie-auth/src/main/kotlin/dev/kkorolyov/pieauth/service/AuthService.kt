@@ -116,7 +116,7 @@ object AuthService : AuthCoroutineImplBase() {
 				} catch (e: Exception) {
 					rollback()
 					log.error("failed to register user {{${request.user}}}", e)
-					throw e
+					throw StatusRuntimeException(Status.ALREADY_EXISTS)
 				}
 			}
 			log.info("registered user {{}}", request.user)

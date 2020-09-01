@@ -9,6 +9,4 @@ The `bake/` folder contains `buildah` scripts for building and packaging service
 
 ## Running
 
-The `serve/` directory contains `podman` scripts for running [built images](#packaging).  
-[`serve.sh`](serve.sh) will run given services (or all known services if none provided) in a given pod.  
-[`deploy.sh`](deploy.sh) creates and manages pod services.
+[`serve.sh`](serve.sh) will create a `pieline` deployment on `podman`.  
