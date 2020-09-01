@@ -16,7 +16,7 @@ export const i18nDefault = [
   return result;
 }, {});
 
-export type i18nContextProps = {
+export type I18nContextProps = {
   title?: string;
   tagline?: string;
   explore?: string;
@@ -28,4 +28,4 @@ export type i18nContextProps = {
   password?: string;
   register?: string;
 };
-export const i18nContext = createContext(i18nDefault as i18nContextProps);
+export default createContext(i18nDefault as I18nContextProps);

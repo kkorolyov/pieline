@@ -1,10 +1,9 @@
 import { Grid } from "@material-ui/core";
 import { Alert } from "@material-ui/lab";
-import { register } from "api";
 import Form from "component/common/control/Form";
 import Submit from "component/common/control/Submit";
 import TextField from "component/common/control/TextField";
-import { i18nContext } from "context";
+import { I18nContext, ApiContext } from "context";
 import { useExecutor } from "hooks";
 import React, { useContext, useState } from "react";
 
@@ -15,7 +14,8 @@ const RegistrationForm = () => {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
 
-  const i18n = useContext(i18nContext);
+  const { register } = useContext(ApiContext);
+  const i18n = useContext(I18nContext);
 
   const registerExecutor = useExecutor(register);
 

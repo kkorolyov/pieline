@@ -1,8 +1,8 @@
-import { Button, CircularProgress, Grid } from "@material-ui/core";
-import { authenticate } from "api";
+import { Grid } from "@material-ui/core";
 import Form from "component/common/control/Form";
+import Submit from "component/common/control/Submit";
 import TextField from "component/common/control/TextField";
-import { UserContext } from "context";
+import { ApiContext, UserContext } from "context";
 import { useExecutor, useResult } from "hooks";
 import React, { useContext, useState } from "react";
 
@@ -13,6 +13,7 @@ const AuthBar = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
+  const { authenticate } = useContext(ApiContext);
   const { setId } = useContext(UserContext);
 
   const authExecutor = useExecutor(authenticate);
@@ -54,13 +55,7 @@ const AuthBar = () => {
         </Grid>
 
         <Grid item>
-          {authExecutor.waiting ? (
-            <CircularProgress color="secondary" />
-          ) : (
-            <Button variant="contained" type="submit">
-              Log In
-            </Button>
-          )}
+          <Submit waiting={authExecutor.waiting}>Log In</Submit>
         </Grid>
       </Grid>
     </Form>

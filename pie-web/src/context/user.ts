@@ -6,6 +6,6 @@ type UserContextProps = {
 
   displayName?: string;
 };
-export const UserContext = createContext({
+export default createContext({
   setId: () => {},
 } as UserContextProps);

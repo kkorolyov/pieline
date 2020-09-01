@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import React, { useContext } from "react";
 import Link from "component/common/control/Link";
-import { i18nContext } from "context";
+import { I18nContext } from "context";
 
 export type WidgetProps = CardProps & {
   // Widget title
@@ -20,7 +20,7 @@ export type WidgetProps = CardProps & {
  * A minimal view on a dataset.
  */
 const Widget = ({ children, title = "", location, ...props }: WidgetProps) => {
-  const { more } = useContext(i18nContext);
+  const { more } = useContext(I18nContext);
 
   return (
     <Card {...props}>

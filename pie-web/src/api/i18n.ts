@@ -7,7 +7,7 @@ import { localeI18n } from "./graphql/queries";
  * @param locale locale to get i18n pack for
  * @returns associated i18n pack
  */
-export const geti18n = async (
+export const getI18n = async (
   locale: I18n_Locale
 ): Promise<{ [key: string]: string }> => {
   const { data } = await client.query({

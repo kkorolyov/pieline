@@ -1,8 +1,8 @@
 import { Button, CircularProgress, Grid } from "@material-ui/core";
-import { getProfile, saveProfile } from "api";
+import { ApiContext } from "context";
 import { User_Details } from "generated/graphql";
 import { useArgs, useExecutor, useResult } from "hooks";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Display from "./Display";
 import Editor from "./Editor";
 
@@ -14,6 +14,8 @@ const Profile = ({ id }: ProfileProps) => {
   const [email, setEmail] = useState("");
 
   const [isEditing, setEditing] = useState(false);
+
+  const { getProfile, saveProfile } = useContext(ApiContext);
 
   const applyState = ({ displayName, email }: User_Details) => {
     displayName && setDisplayName(displayName);

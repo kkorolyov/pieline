@@ -2,6 +2,8 @@ import { themes } from "@storybook/theming";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Dark, Light } from "../src/component/common/Theme";
+import { ApiContext } from "../src/context";
+import * as api from "./stub/api";
 
 const appThemes = {
   light: Light,
@@ -14,7 +16,9 @@ export const decorators = [
     return (
       <Router>
         <Theme>
-          <Story />
+          <ApiContext.Provider value={api}>
+            <Story />
+          </ApiContext.Provider>
         </Theme>
       </Router>
     );

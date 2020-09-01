@@ -1,10 +1,10 @@
 import { Typography } from "@material-ui/core";
-import { i18nContext } from "context";
+import { I18nContext } from "context";
 import React, { useContext } from "react";
 import Widget from "./Widget";
 
 const ExploreWidget = () => {
-  const { explore } = useContext(i18nContext);
+  const { explore } = useContext(I18nContext);
 
   return (
     <Widget title={explore} location="/explore">

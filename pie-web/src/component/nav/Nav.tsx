@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import Link from "component/common/control/Link";
-import { i18nContext, UserContext } from "context";
+import { I18nContext, UserContext } from "context";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import AuthBar from "./AuthBar";
@@ -25,7 +25,7 @@ const Links = styled.span`
  */
 const Nav = () => {
   const { id } = useContext(UserContext);
-  const { title, explore, market } = useContext(i18nContext);
+  const { title, explore, market } = useContext(I18nContext);
 
   return (
     <AppBar position="sticky">

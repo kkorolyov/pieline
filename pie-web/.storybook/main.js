@@ -8,13 +8,4 @@ module.exports = {
     "@storybook/addon-essentials",
     "@storybook/preset-create-react-app",
   ],
-  webpackFinal: (config) => {
-    config.plugins.push(
-      new webpack.NormalModuleReplacementPlugin(
-        /api\/index.ts$/,
-        path.resolve(__dirname, "stub/api/index.ts")
-      )
-    );
-    return config;
-  },
 };
