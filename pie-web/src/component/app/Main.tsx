@@ -15,19 +15,20 @@ import User from "./User";
  * Main application component.
  */
 const Main = () => {
-  const [id, setId] = useState<string | null>(null);
+  const [token, setToken] = useState<string>();
   // TODO Add lang selector
   const [locale, setLocale] = useState<I18n_Locale>(I18n_Locale.EnUs);
-  const [i18nPack, setI18nPack] = useState(i18nDefault);
+  const [i18nPack, setI18nPack] = useState({});
 
   const { getI18n } = useContext(ApiContext);
   const i18nGetter = useExecutor(getI18n);
+  
   useResult(i18nGetter, setI18nPack);
   useArgs(i18nGetter, locale);
 
   return (
-    <I18nContext.Provider value={i18nPack}>
-      <UserContext.Provider value={{ id, setId }}>
+    <I18nContext.Provider value={{ ...i18nDefault, ...i18nPack }}>
+      <UserContext.Provider value={{ token, setToken }}>
         {i18nGetter.waiting ? (
           <CircularProgress />
         ) : (

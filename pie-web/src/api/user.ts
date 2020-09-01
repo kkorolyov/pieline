@@ -3,12 +3,6 @@ import { client, wrapId } from "./graphql/client";
 import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
 
-/**
- * Registers a given `(user, pass)` combination.
- * @param user user name
- * @param pass user password
- * @returns registered user token
- */
 export const register = async (user: string, pass: string): Promise<string> => {
   const { data } = await client.mutate({
     mutation: mutations.register,
@@ -17,16 +11,12 @@ export const register = async (user: string, pass: string): Promise<string> => {
       pass,
     },
   });
-  const { token } = data;
+  const {
+    register: { token },
+  } = data;
 
   return token;
 };
-/**
- * Authenticates a given `(user, pass)` combination.
- * @param user user name
- * @param pass user password
- * @returns authenticated user token
- */
 export const authenticate = async (
   user: string,
   pass: string
@@ -38,16 +28,13 @@ export const authenticate = async (
       pass,
     },
   });
-  const { token } = data;
+  const {
+    authenticate: { token },
+  } = data;
 
   return token;
 };
 
-/**
- * Retrieves a profile for a given user ID.
- * @param id user ID
- * @returns associated profile state
- */
 export const getProfile = async (id: string): Promise<User_Details> => {
   const { data } = await client.query({
     query: queries.fullUser,
@@ -59,12 +46,6 @@ export const getProfile = async (id: string): Promise<User_Details> => {
 
   return details;
 };
-/**
- * Persists user profile state.
- * @param id user ID
- * @param state profile state to persist
- * @returns persisted profile state
- */
 export const saveProfile = async (
   id: string,
   details: User_Details

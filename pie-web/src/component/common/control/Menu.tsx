@@ -17,14 +17,14 @@ const Menu = ({
   children,
   ...props
 }: Omit<MenuProps, "open">) => {
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement>();
 
   const processedChildren = React.Children.toArray(children).map((child) =>
     React.isValidElement(child)
       ? React.cloneElement(child, {
           onClick: (...args: any[]) => {
             child.props.onClick && child.props.onClick(...args);
-            setAnchorEl(null);
+            setAnchorEl(undefined);
           },
         })
       : child
@@ -43,7 +43,7 @@ const Menu = ({
         keepMounted
         onClose={(...args) => {
           onClose && onClose(...args);
-          setAnchorEl(null);
+          setAnchorEl(undefined);
         }}
         {...props}
       >

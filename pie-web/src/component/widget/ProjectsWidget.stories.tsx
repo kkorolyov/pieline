@@ -6,7 +6,7 @@ export default { title: "Widget/Projects", component: ProjectsWidget };
 
 export const Unauthenticated = () => <ProjectsWidget />;
 export const Authenticated = () => (
-  <UserContext.Provider value={{ id: "bogoId", setId: () => {} }}>
+  <UserContext.Provider value={{ token: "bogoToken", setToken: () => {} }}>
     <ProjectsWidget />
   </UserContext.Provider>
 );

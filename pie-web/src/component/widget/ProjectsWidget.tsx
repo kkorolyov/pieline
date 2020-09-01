@@ -5,7 +5,7 @@ import Widget from "./Widget";
 
 const ProjectsWidget = () => {
   const { projects } = useContext(I18nContext);
-  const { id } = useContext(UserContext);
+  const { token: id } = useContext(UserContext);
 
   return (
     <Widget title={projects} location={id ? `/${id}/projects` : undefined}>

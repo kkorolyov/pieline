@@ -1,7 +1,7 @@
-import { Grid } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 import Form from "component/common/control/Form";
-import Submit from "component/common/control/Submit";
 import TextField from "component/common/control/TextField";
+import Waitable from "component/common/wrapper/Waitable";
 import { User_Details } from "generated/graphql";
 import React, { useState } from "react";
 
@@ -24,7 +24,7 @@ const Editor = ({
         onSubmit({ displayName, email });
       }}
     >
-      <Grid container direction="column" alignItems="center" spacing={2}>
+      <Grid container direction="column" spacing={2}>
         <Grid container direction="column" item xs={2}>
           <TextField
             required
@@ -43,7 +43,9 @@ const Editor = ({
         </Grid>
 
         <Grid item>
-          <Submit waiting={waiting}>Save</Submit>
+          <Waitable waiting={waiting}>
+            <Button type="submit" variant="contained">Save</Button>
+          </Waitable>
         </Grid>
       </Grid>
     </Form>

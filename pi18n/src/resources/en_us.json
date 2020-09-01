@@ -5,10 +5,16 @@
   "explore": "Explore",
   "market": "Market",
   "projects": "Projects",
+  "profile": "Profile",
 
   "more": "More",
 
   "username": "Username",
   "password": "Password",
-  "register": "Register"
+  "register": "Register",
+  "logIn": "Log In",
+  "logOut": "Log Out",
+
+  "errorRegister": "Failed to register",
+  "errorLogIn": "Failed to log in"
 }

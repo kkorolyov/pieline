@@ -29,6 +29,9 @@ export const fullUsers = gql`
   ${userFields}
 `;
 
+/**
+ * Gets i18n pack for `locale: Locale`.
+ */
 export const localeI18n = gql`
   query i18n($locale: i18n_Locale) {
     i18n(locale: $locale) {

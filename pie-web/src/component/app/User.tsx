@@ -5,11 +5,11 @@ import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 const User = () => {
-  const { id } = useContext(UserContext);
+  const { token } = useContext(UserContext);
 
   return (
     <Container maxWidth="xl">
-      {id ? <Profile id={id} /> : <Redirect to="/" />}
+      {token ? <Profile id={token} /> : <Redirect to="/" />}
     </Container>
   );
 };

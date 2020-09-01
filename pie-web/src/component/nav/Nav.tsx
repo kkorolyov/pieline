@@ -24,7 +24,7 @@ const Links = styled.span`
  * Main navigation bar.
  */
 const Nav = () => {
-  const { id } = useContext(UserContext);
+  const { token } = useContext(UserContext);
   const { title, explore, market } = useContext(I18nContext);
 
   return (
@@ -41,7 +41,7 @@ const Nav = () => {
             <Typography variant="h4">{market}</Typography>
           </Link>
         </Links>
-        {id ? <UserMenu /> : <AuthBar />}
+        {token ? <UserMenu /> : <AuthBar />}
       </StyledToolbar>
     </AppBar>
   );

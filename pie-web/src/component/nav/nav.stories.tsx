@@ -6,7 +6,7 @@ export default { title: "Navigation/Nav", component: Nav };
 
 export const Unauthenticated = () => <Nav />;
 export const Authenticated = () => (
-  <UserContext.Provider value={{ id: "bogoId", setId: () => {} }}>
+  <UserContext.Provider value={{ token: "bogoToken", setToken: () => {} }}>
     <Nav />
   </UserContext.Provider>
 );

@@ -3,8 +3,8 @@ import { useState, useCallback, useMemo, useEffect } from "react";
 type Executor<T> = {
   execute: (...args: any[]) => void;
   waiting: boolean;
-  result: T | null;
-  error: any;
+  result?: T;
+  error?: any;
 };
 
 /**
@@ -18,8 +18,8 @@ export function useExecutor<T>(
   action: (...args: any[]) => T | Promise<T>
 ): Executor<T> {
   const [waiting, setWaiting] = useState(false);
-  const [result, setResult] = useState<T | null>(null);
-  const [error, setError] = useState(null);
+  const [result, setResult] = useState<T>();
+  const [error, setError] = useState();
 
   const execute = useCallback(
     async (...args: any[]) => {
@@ -27,9 +27,9 @@ export function useExecutor<T>(
 
       try {
         setResult(await action(...args));
-        setError(null);
+        setError(undefined);
       } catch (e) {
-        setResult(null);
+        setResult(undefined);
         setError(e);
       } finally {
         setWaiting(false);
