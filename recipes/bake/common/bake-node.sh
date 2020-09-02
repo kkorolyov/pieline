@@ -9,8 +9,8 @@ install nodejs
 
 # build
 pushd ${swd}/${service}
-yarn clean:full
 yarn
+yarn clean
 yarn build
 copy build $service
 # may be running on a shared folder - buildah copy chokes on copying hefty directories from a shared folder

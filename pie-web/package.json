@@ -52,7 +52,7 @@
     "webpack": "4.42.0"
   },
   "scripts": {
-    "clean": "rimraf src/generated build",
+    "clean": "rimraf build",
     "clean:full": "yarn clean && rimraf node_modules",
     "gql": "graphql-codegen --config codegen.yml",
     "lint": "eslint .",

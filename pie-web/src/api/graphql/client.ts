@@ -1,11 +1,18 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { Common_Uuid, Common_UuidList } from "generated/graphql";
 
+declare global {
+  interface Window {
+    ADDR_GATE: string;
+  }
+}
+
 /**
  * GQL client.
  */
 export const client = new ApolloClient({
-  uri: process.env.REACT_APP_ADDR_GATE,
+  // Get runtime var with fallback to static var
+  uri: window.ADDR_GATE || process.env.REACT_APP_ADDR_GATE,
   cache: new InMemoryCache(),
 });
 
