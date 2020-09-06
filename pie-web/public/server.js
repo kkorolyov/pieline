@@ -1,6 +1,6 @@
-import express, { static } from "express";
-import { closeSync, openSync, writeSync } from "fs";
-import { join } from "path";
+const express = require("express");
+const { openSync, writeSync, closeSync } = require("fs");
+const { join } = require("path");
 
 const envVars = ["ADDR_GATE"];
 
@@ -14,7 +14,7 @@ closeSync(fd);
 // Serve
 const app = express();
 
-app.use(static(__dirname));
+app.use(express.static(__dirname));
 app.get("/*", (req, res) => {
   res.sendFile(join(__dirname, "index.html"));
 });
