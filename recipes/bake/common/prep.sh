@@ -16,9 +16,8 @@ me=$(basename "$0")
 cwd=$(dirname "$0")
 
 usage() {
-	echo "usage: $me -s <service> -p <port> [-e env=val]"
+	echo "usage: $me -s <service>"
 	echo "	-s	service name"
-	echo "	-p	service port"
 }
 
 install() {
@@ -38,13 +37,10 @@ publish() {
 	buildah rm $container
 }
 
-while getopts ":s:p:h" opt; do
+while getopts ":s:h" opt; do
 	case "$opt" in
 	s)
 		service=$OPTARG
-		;;
-	p)
-		port=$OPTARG
 		;;
 	h)
 		echo -e "Builds OCI images for PieLine services.\n"
@@ -60,12 +56,12 @@ while getopts ":s:p:h" opt; do
 done
 shift $((OPTIND - 1))
 
-if [[ -z $service || -z $port ]]; then
-	echo -e "must specify both service and port\n"
+if [[ -z $service ]]; then
+	echo -e "must specify service\n"
 	usage
 	exit 1
 fi
 
 # common prep
 container=$(buildah from scratch)
-config --author $author --port $port --env PORT=$port
+config --author $author

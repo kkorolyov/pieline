@@ -5,7 +5,7 @@ swd=${cwd}/../../..
 
 # prep
 . ${cwd}/prep.sh
-install nodejs
+install yarn
 
 # build
 pushd ${swd}/${service}

@@ -12,13 +12,14 @@ pushd ${swd}/${service}
 yarn
 yarn clean
 yarn build
-copy build $service
+# may be running on a shared folder - buildah copy chokes on copying hefty directories from a shared folder
+cp -r build /tmp
+copy /tmp/build $service
 popd
-run yarn global add serve
+run yarn --cwd $service add express
 
 # configure
-# TODO Define runtime vars at a higher level
-config --workingdir $service --entrypoint 'echo "window.ADDR_GATE=\"$ADDR_GATE\";" >> env.js && serve -l $PORT'
+config --workingdir $service --entrypoint "node server.js"
 
 # publish
 publish
