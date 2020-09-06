@@ -1,28 +1,49 @@
-import { createMuiTheme, CssBaseline } from "@material-ui/core";
 import {
+  createMuiTheme,
+  CssBaseline,
   StylesProvider,
-  Theme as MuiTheme,
+  ThemeOptions,
   ThemeProvider as MuiThemeProvider,
-} from "@material-ui/core/styles";
+} from "@material-ui/core";
+import { enUS, ruRU } from "@material-ui/core/locale";
+import { I18n_Locale } from "generated/graphql";
 import React from "react";
 import { ThemeProvider } from "styled-components";
 
-const light = createMuiTheme({
-  palette: {
-    type: "light",
+/**
+ * Defines a theme color palette.
+ */
+export enum Palette {
+  LIGHT,
+  DARK,
+}
+
+const palettes: { [key: number]: ThemeOptions } = {
+  [Palette.LIGHT]: {
+    palette: {
+      type: "light",
+    },
   },
-});
-const dark = createMuiTheme({
-  palette: {
-    type: "dark",
+  [Palette.DARK]: {
+    palette: {
+      type: "dark",
+    },
   },
-});
+};
+const locales = {
+  [I18n_Locale.EnUs]: enUS,
+  [I18n_Locale.Ru]: ruRU,
+};
 
 export type ThemeProps = {
   /**
-   * Material-UI theme to apply
+   * Selected color palette
    */
-  theme: MuiTheme;
+  palette?: Palette;
+  /**
+   * Selected locale
+   */
+  locale?: I18n_Locale;
   /**
    * Child nodes
    */
@@ -31,26 +52,22 @@ export type ThemeProps = {
 /**
  * Pluggable application theme wrapper component.
  */
-const Theme = ({ theme, children }: ThemeProps) => (
-  <StylesProvider injectFirst>
-    <MuiThemeProvider theme={theme}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </ThemeProvider>
-    </MuiThemeProvider>
-  </StylesProvider>
-);
+const Theme = ({
+  palette = Palette.LIGHT,
+  locale = I18n_Locale.EnUs,
+  children,
+}: ThemeProps) => {
+  const theme = createMuiTheme(palettes[palette], locales[locale]);
 
-/**
- * Light application theme.
- */
-export const Light = ({ children }: Omit<ThemeProps, "theme">) => (
-  <Theme theme={light}>{children}</Theme>
-);
-/**
- * Dark application theme.
- */
-export const Dark = ({ children }: Omit<ThemeProps, "theme">) => (
-  <Theme theme={dark}>{children}</Theme>
-);
+  return (
+    <StylesProvider injectFirst>
+      <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          {children}
+        </ThemeProvider>
+      </MuiThemeProvider>
+    </StylesProvider>
+  );
+};
+export default Theme;
