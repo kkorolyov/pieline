@@ -4,6 +4,8 @@ import { I18nContext, UserContext } from "context";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import AuthBar from "./AuthBar";
+import LocaleSelector from "./LocaleSelector";
+import PaletteSelector from "./PaletteSelector";
 import UserMenu from "./UserMenu";
 
 const StyledToolbar = styled(Toolbar)`
@@ -14,8 +16,17 @@ const Links = styled.span`
   ${({ theme }) => `
     display: inline-flex;
     align-items: center;
-    > ${Link}:not(:first-child) {
+    > *:not(:first-child) {
       margin-left: ${theme.spacing(4)}px
+    }
+  `}
+`;
+const Options = styled.span`
+  ${({ theme }) => `
+    display: inline-flex;
+    align-items: center;
+    > *:not(:first-child) {
+      margin-left: ${theme.spacing()}px
     }
   `}
 `;
@@ -41,7 +52,11 @@ const Nav = () => {
             <Typography variant="h4">{market}</Typography>
           </Link>
         </Links>
-        {token ? <UserMenu /> : <AuthBar />}
+        <Options>
+          <PaletteSelector />
+          <LocaleSelector />
+          {token ? <UserMenu /> : <AuthBar />}
+        </Options>
       </StyledToolbar>
     </AppBar>
   );

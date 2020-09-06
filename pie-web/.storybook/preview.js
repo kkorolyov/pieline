@@ -1,34 +1,32 @@
 import { themes } from "@storybook/theming";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Dark, Light } from "../src/component/common/Theme";
+import Theme, { Palette } from "../src/component/common/Theme";
 import { ApiContext } from "../src/context";
 import * as api from "./stub/api";
 
-const appThemes = {
-  light: Light,
-  dark: Dark,
+const palettes = {
+  light: Palette.LIGHT,
+  dark: Palette.DARK,
 };
 export const decorators = [
-  (Story, { globals: { theme } }) => {
-    const Theme = appThemes[theme];
-
+  (Story, { globals: { palette } }) => {
     return (
       <Router>
-        <Theme>
-          <ApiContext.Provider value={api}>
+        <ApiContext.Provider value={api}>
+          <Theme palette={palettes[palette]}>
             <Story />
-          </ApiContext.Provider>
-        </Theme>
+          </Theme>
+        </ApiContext.Provider>
       </Router>
     );
   },
 ];
 
 export const globalTypes = {
-  theme: {
-    name: "Theme",
-    description: "Component theme",
+  palette: {
+    name: "Palette",
+    description: "Component color palette",
     defaultValue: "dark",
     toolbar: {
       icon: "circlehollow",
