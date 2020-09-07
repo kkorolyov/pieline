@@ -5,8 +5,8 @@ setup(
     version="0.1",
     description="PieLine users service",
     author="kkorolyov",
-    package_dir={"": "."},
-    packages=find_namespace_packages("."),
+    package_dir={"": "src"},
+    packages=find_namespace_packages("src"),
     install_requires=(
         "grpcio",
         "SQLAlchemy",

@@ -31,7 +31,7 @@ shift $((OPTIND - 1))
 
 cwd=$(dirname $0)
 protoSource="$cwd/../protos"
-protoTarget="$cwd/lib/proto"
+protoTarget="$cwd/src/lib/proto"
 
 $pip grpcio-tools
 rm -rf $protoTarget
