@@ -16,6 +16,10 @@ LOG = logging.getLogger(__name__)
 
 
 class Base:
+    """DAO base.
+    Defines primary ID and table name conventions.
+    """
+
     @declared_attr
     def __tablename__(cls):
         return cls.__name__.lower()
@@ -27,21 +31,28 @@ Base = declarative_base(cls=Base)
 
 
 class User(Base):
+    """User DAO.
+    """
+
     details = relationship(
         "Details", uselist=False, cascade="all, delete", passive_deletes=True
     )
 
     @staticmethod
     def from_grpc(user):
-        """Constructs a User DAO from a User GRPC message.
+        """Constructs a User DAO from a User gRPC message.
         Args:
             user: user grpc message to convert
+        Returns:
+            [User]: User DAO format
         """
         id = user.id.value or str(uuid())
         return User(id=id, details=Details.from_grpc(user, id))
 
-    def to_grpc(self):
-        """Constructs a User GRPC message from this User instance.
+    def to_grpc(self) -> UserGrpc:
+        """Constructs a User gRPC message from this User instance.
+        Returns:
+            [UserGrpc]: User gRPC message
         """
         return UserGrpc(id=UuidGrpc(value=self.id), details=self.details.to_grpc())
 
@@ -57,10 +68,12 @@ class Details(Base):
 
     @staticmethod
     def from_grpc(user, user_id):
-        """Constructs a Details DAO from a Details GRPC message.
-
+        """Constructs a Details DAO from a Details gRPC message.
         Args:
             user: user grpc message containing details
+            user_id: attached user ID
+        Returns:
+            [Details]: Details DAO format
         """
         return Details(
             id=user_id,
@@ -68,8 +81,10 @@ class Details(Base):
             display_name=user.details.display_name,
         )
 
-    def to_grpc(self):
-        """Constructs a Details GRPC message from this Details instance
+    def to_grpc(self) -> DetailsGrpc:
+        """Constructs a Details gRPC message from this Details instance
+        Returns:
+            [DetailsGrpc]: Details gRPC message
         """
         return DetailsGrpc(email=self.email, display_name=self.display_name)
 

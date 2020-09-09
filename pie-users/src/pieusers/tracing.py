@@ -7,17 +7,19 @@ from opentracing import global_tracer
 
 
 def init_tracer():
-    """Initializes global tracer
+    """Initializes and registers global tracer.
     """
-    return Config(
+    tracer = Config(
         config={"sampler": {"type": "const", "param": 1}, "logging": True},
         service_name="pie-users",
         validate=True,
     ).initialize_tracer()
 
+    atexit.register(lambda: tracer.close())
+
 
 def tracer():
-    """Returns the current global tracer
+    """Returns the current global tracer.
     """
     return global_tracer()
 
@@ -31,7 +33,7 @@ class _InterceptorServer(grpc_opentracing.grpcext._interceptor._InterceptorServe
 
 
 def intercept_server(server):
-    """Attaches gRPC opentracing interceptor to a server
+    """Attaches gRPC opentracing interceptor to a server.
 
     Args:
         server: gRPC server to intercept
@@ -41,6 +43,3 @@ def intercept_server(server):
     return _InterceptorServer(
         server, open_tracing_server_interceptor(global_tracer(), log_payloads=True)
     )
-
-
-atexit.register(lambda: global_tracer().close())
