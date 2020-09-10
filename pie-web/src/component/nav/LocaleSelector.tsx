@@ -2,7 +2,7 @@ import { MenuItem } from "@material-ui/core";
 import { Language } from "@material-ui/icons";
 import Menu from "component/common/control/Menu";
 import { ThemeConfigContext } from "context";
-import { I18n_Locale } from "generated/graphql";
+import { I18n_Locale } from "gql";
 import React, { useContext } from "react";
 import ReactCountryFlag from "react-country-flag";
 import styled from "styled-components";

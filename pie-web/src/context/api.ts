@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { User_Details, I18n_Locale } from "generated/graphql";
+import { User_Details, I18n_Locale } from "gql";
 
 type UserApi = {
   /**

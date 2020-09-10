@@ -1,7 +1,7 @@
 overwrite: true
 schema: ${ADDR_GATE}
 generates:
-  src/generated/graphql.tsx:
+  src/gql.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"

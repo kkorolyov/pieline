@@ -1,7 +1,7 @@
 import { Button, Grid } from "@material-ui/core";
 import Waitable from "component/common/wrapper/Waitable";
 import { ApiContext } from "context";
-import { User_Details } from "generated/graphql";
+import { User_Details } from "gql";
 import { useArgs, useExecutor, useResult } from "hooks";
 import React, { useContext, useState } from "react";
 import Display from "./Display";

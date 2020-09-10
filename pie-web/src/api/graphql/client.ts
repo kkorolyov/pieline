@@ -1,5 +1,5 @@
 import { ApolloClient, InMemoryCache } from "@apollo/client";
-import { Common_Uuid, Common_UuidList } from "generated/graphql";
+import { Common_Uuid, Common_UuidList } from "gql";
 
 declare global {
   interface Window {

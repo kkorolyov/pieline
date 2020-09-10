@@ -3,7 +3,7 @@ import Theme, { Palette } from "component/common/Theme";
 import Nav from "component/nav/Nav";
 import { ApiContext, I18nContext, ThemeConfigContext, UserContext } from "context";
 import { i18nDefault } from "context/i18n";
-import { I18n_Locale } from "generated/graphql";
+import { I18n_Locale } from "gql";
 import { useArgs, useExecutor, useResult } from "hooks";
 import React, { useContext, useState } from "react";
 import { Route, Switch } from "react-router-dom";

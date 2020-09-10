@@ -1,5 +1,5 @@
 import { Grid, Typography } from "@material-ui/core";
-import { User_Details } from "generated/graphql";
+import { User_Details } from "gql";
 import React from "react";
 
 export type DisplayProps = User_Details;

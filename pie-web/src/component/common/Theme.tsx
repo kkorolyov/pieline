@@ -6,7 +6,7 @@ import {
   ThemeProvider as MuiThemeProvider,
 } from "@material-ui/core";
 import { enUS, ruRU } from "@material-ui/core/locale";
-import { I18n_Locale } from "generated/graphql";
+import { I18n_Locale } from "gql";
 import React from "react";
 import { ThemeProvider } from "styled-components";
 

@@ -1,4 +1,4 @@
-import { I18n_Locale } from "generated/graphql";
+import { I18n_Locale } from "gql";
 import { client } from "./graphql/client";
 import { localeI18n } from "./graphql/queries";
 
