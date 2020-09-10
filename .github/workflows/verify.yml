@@ -1,0 +1,126 @@
+name: Verify
+
+on: [push, pull_request]
+
+jobs:
+  pi18n:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pi18n
+
+    strategy:
+      matrix:
+        version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node ${{ matrix.version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.version }}
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
+
+  pie-auth:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pie-auth
+
+    strategy:
+      matrix:
+        version: [1.14]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Java ${{ matrix.version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.version }}
+
+      - name: Build
+        run: ./gradlew build
+
+  pie-gate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pie-gate
+
+    strategy:
+      matrix:
+        version: [1.14]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Java ${{ matrix.version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.version }}
+
+      - name: Build
+        run: ./gradlew build
+
+  pie-users:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pie-users
+
+    strategy:
+      matrix:
+        version: [3.8]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Python ${{ matrix.version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 tox -r requirements.txt
+
+      - name: Lint
+        run: flake8 src
+
+      - name: Protoc
+        run: ./protoc.sh
+
+      - name: Tox
+        run: tox
+
+  pie-web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pie-web
+
+    strategy:
+      matrix:
+        version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node ${{ matrix.version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.version }}
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Build
+        run: yarn build
