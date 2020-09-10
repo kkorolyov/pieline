@@ -8,6 +8,7 @@ setup(
     package_dir={"": "src"},
     packages=find_namespace_packages("src"),
     install_requires=(
+        "protobuf",
         "grpcio",
         "SQLAlchemy",
         "psycopg2-binary",
