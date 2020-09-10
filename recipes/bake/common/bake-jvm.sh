@@ -1,14 +1,15 @@
 #!/bin/bash -e
 
 cwd=$(dirname "$0")
-swd=${cwd}/../../..
 
 # prep
 . ${cwd}/prep.sh
 install which java-latest-openjdk
 
+swd=${cwd}/../../../${service}
+
 # build
-pushd ${swd}/${service}
+pushd ${swd}
 ./gradlew clean installDist
 copy build/install/${service} $service
 popd

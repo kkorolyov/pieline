@@ -1,14 +1,15 @@
 #!/bin/bash -e
 
 cwd=$(dirname "$0")
-swd=${cwd}/../../..
 
 # prep
 . ${cwd}/prep.sh
 install yarn
 
+swd=${cwd}/../../../${service}
+
 # build
-pushd ${swd}/${service}
+pushd ${swd}
 yarn
 yarn clean
 yarn build
