@@ -5,9 +5,6 @@ on: [push, pull_request]
 jobs:
   pi18n:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: pi18n
 
     strategy:
       matrix:
@@ -21,17 +18,13 @@ jobs:
         with:
           node-version: ${{ matrix.version }}
 
-      - name: Install dependencies
-        run: yarn
-
       - name: Build
-        run: yarn build
+        uses: ./.github/actions/build-js
+        with:
+          working-directory: pi18n
 
   pie-auth:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: pie-auth
 
     strategy:
       matrix:
@@ -53,13 +46,12 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Build
-        run: ./gradlew build
+        uses: ./.github/actions/build-java
+        with:
+          working-directory: pie-euth
 
   pie-gate:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: pie-gate
 
     strategy:
       matrix:
@@ -81,7 +73,9 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - name: Build
-        run: ./gradlew build
+        uses: ./.github/actions/build-java
+        with:
+          working-directory: pie-gate
 
   pie-users:
     runs-on: ubuntu-latest
@@ -105,9 +99,6 @@ jobs:
 
   pie-web:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: pie-web
 
     strategy:
       matrix:
@@ -121,8 +112,7 @@ jobs:
         with:
           node-version: ${{ matrix.version }}
 
-      - name: Install dependencies
-        run: yarn
-
       - name: Build
-        run: yarn build
+        uses: ./.github/actions/build-js
+        with:
+          working-directory: pie-web
