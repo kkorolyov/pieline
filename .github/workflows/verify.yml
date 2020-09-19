@@ -48,7 +48,7 @@ jobs:
       - name: Build
         uses: ./.github/actions/build-java
         with:
-          working-directory: pie-euth
+          working-directory: pie-auth
 
   pie-gate:
     runs-on: ubuntu-latest
