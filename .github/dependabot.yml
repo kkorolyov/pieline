@@ -1,22 +1,27 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: p18n
+    directory: /p18n
     schedule:
       interval: daily
   - package-ecosystem: gradle
-    directory: p1e-auth
+    directory: /p1e-auth
     schedule:
       interval: daily
   - package-ecosystem: gradle
-    directory: pie-gate
+    directory: /pie-gate
     schedule:
       interval: daily
   - package-ecosystem: pip
-    directory: pie-users
+    directory: /pie-users
     schedule:
       interval: daily
   - package-ecosystem: npm
-    directory: pie-web
+    directory: /pie-web
     schedule:
       interval: daily
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+        interval: daily
