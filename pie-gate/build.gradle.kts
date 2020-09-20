@@ -17,7 +17,7 @@ tasks.wrapper {
 plugins {
 	kotlin("jvm") version "1.3.72"
 	application
-	id("com.google.protobuf") version "0.8.12"
+	id("com.google.protobuf") version "0.8.13"
 	idea
 }
 group = "dev.kkorolyov"
@@ -89,6 +89,7 @@ dependencies {
 	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
 	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
 
+	// test
 	testImplementation("io.ktor:ktor-server-tests")
 
 	dependencyLocking {
@@ -115,7 +116,7 @@ protobuf {
 			artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
 		}
 		id("grpckt") {
-			artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKtVersion"
+			artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKtVersion:jdk7@jar"
 		}
 	}
 	generateProtoTasks {
