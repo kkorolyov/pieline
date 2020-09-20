@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: npm
-    directory: /p18n
+    directory: /pi18n
     schedule:
       interval: daily
   - package-ecosystem: gradle
