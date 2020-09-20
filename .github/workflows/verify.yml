@@ -18,6 +18,12 @@ jobs:
         with:
           node-version: ${{ matrix.version }}
 
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+
       - name: Build
         uses: ./.github/actions/build-js
         with:
@@ -111,6 +117,12 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.version }}
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
 
       - name: Build
         uses: ./.github/actions/build-js
