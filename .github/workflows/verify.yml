@@ -48,8 +48,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
-          restore-keys: ${{ runner.os }}-gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle.kts') }}
 
       - name: Build
         uses: ./.github/actions/build-java
@@ -75,8 +74,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle.kts') }}
-          restore-keys: ${{ runner.os }}-gradle
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle.kts') }}
 
       - name: Build
         uses: ./.github/actions/build-java
