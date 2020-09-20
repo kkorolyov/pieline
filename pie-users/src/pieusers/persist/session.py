@@ -14,7 +14,9 @@ __Session = sessionmaker(bind=ENGINE)
 
 @contextmanager
 def start_session():
-    """Starts a transaction-scoped session
+    """Starts a transaction-scoped session.
+    Returns:
+        session generator
     """
     session = __Session()
 

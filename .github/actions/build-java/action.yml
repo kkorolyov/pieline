@@ -1,0 +1,13 @@
+name: Build Java
+description: Build PieLine Java service
+inputs:
+  working-directory:
+    description: Build working directory
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Build
+      run: ./gradlew build
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash

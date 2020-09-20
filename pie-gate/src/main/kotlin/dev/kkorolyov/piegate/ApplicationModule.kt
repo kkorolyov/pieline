@@ -111,11 +111,11 @@ class Routes @Inject constructor(application: Application) {
 
 				authenticate {
 					get("/jwt") {
-						val claims = call.authentication.principal<JWTPrincipal>()?.payload?.claims?.mapValues { e ->
-							e.value.asString() ?: e.value.asArray(String::class.java)?.run { contentToString() } ?: e.value.asDate()
+						val claims = call.authentication.principal<JWTPrincipal>()?.payload?.claims?.mapValues { (_, value) ->
+							value.asString() ?: value.asArray(String::class.java)?.run { contentToString() } ?: value.asDate()
 						}
 						call.respond(
-							claims?.asSequence()
+							claims?.entries
 								?.joinToString(
 									System.lineSeparator(),
 									"Your JWT claims are:${System.lineSeparator()}"

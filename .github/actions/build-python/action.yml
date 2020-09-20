@@ -1,0 +1,30 @@
+name: Build Python
+description: Build PieLine Python service
+inputs:
+  working-directory:
+    description: Build working directory
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8 tox -r requirements.txt
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+
+    - name: Lint
+      run: flake8 src
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+
+    - name: Protoc
+      run: ./protoc.sh
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash
+
+    - name: Tox
+      run: tox
+      working-directory: ${{ inputs.working-directory }}
+      shell: bash

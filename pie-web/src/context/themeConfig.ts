@@ -1,5 +1,5 @@
 import { Palette } from "component/common/Theme";
-import { I18n_Locale } from "generated/graphql";
+import { I18n_Locale } from "gql";
 import { createContext } from "react";
 
 export type ThemeConfigContextProps = {

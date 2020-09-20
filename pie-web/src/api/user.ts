@@ -1,7 +1,7 @@
-import { User_Details } from "generated/graphql";
+import { User_Details } from "gql";
 import { client, wrapId } from "./graphql/client";
-import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
+import * as queries from "./graphql/queries";
 
 export const register = async (user: string, pass: string): Promise<string> => {
   const { data } = await client.mutate({

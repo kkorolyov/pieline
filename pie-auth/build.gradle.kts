@@ -16,8 +16,9 @@ tasks.wrapper {
 
 plugins {
 	kotlin("jvm") version "1.3.72"
+	groovy
 	application
-	id("com.google.protobuf") version "0.8.12"
+	id("com.google.protobuf") version "0.8.13"
 	idea
 }
 group = "dev.kkorolyov"
@@ -45,6 +46,7 @@ dependencies {
 	val opentracingVersion: String by project
 	val opentracingGrpcVersion: String by project
 	val jaegerVersion: String by project
+	val spockVersion: String by project
 
 	implementation("de.mkammerer:argon2-jvm:$argon2Version")
 	implementation("com.h2database:h2:$h2Version")
@@ -85,9 +87,16 @@ dependencies {
 	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
 	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
 
+	// test
+	testImplementation("org.spockframework:spock-core:$spockVersion")
+
 	dependencyLocking {
 		lockAllConfigurations()
 	}
+}
+
+tasks.test {
+	useJUnitPlatform()
 }
 
 sourceSets {
@@ -109,7 +118,7 @@ protobuf {
 			artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
 		}
 		id("grpckt") {
-			artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKtVersion"
+			artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKtVersion:jdk7@jar"
 		}
 	}
 	generateProtoTasks {

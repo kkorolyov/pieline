@@ -1,24 +1,20 @@
-import logging
-from concurrent import futures
-from os import environ
+from logging import getLogger
 
-import grpc
 from lib.proto.user_pb2_grpc import UsersServicer as ProtoUsersServicer
-from lib.proto.user_pb2_grpc import add_UsersServicer_to_server
-from opentracing import tags
 
 from pieusers.persist.dao import User
 from pieusers.persist.session import start_session
-from pieusers.tracing import init_tracer, intercept_server, tracer
+from pieusers.tracing import tracer
 
-LOG = logging.getLogger(__name__)
-
-PORT = environ["PORT"]
+LOG = getLogger(__name__)
 
 
 class UsersServicer(ProtoUsersServicer):
+    """Users servicer implementation.
+    """
+
     def Get(self, id_it, context):
-        with tracer().scope_manager.activate(context.get_active_span(), True) as scope:
+        with tracer().scope_manager.activate(context.get_active_span(), True):
             ids = [id.value for id in id_it]
 
             LOG.debug(f"get users for ids({ids}")
@@ -39,7 +35,7 @@ class UsersServicer(ProtoUsersServicer):
                 LOG.exception("get oopsie")
 
     def Upsert(self, user_it, context):
-        with tracer().scope_manager.activate(context.get_active_span(), True) as scope:
+        with tracer().scope_manager.activate(context.get_active_span(), True):
             users = list(user_it)
 
             LOG.debug(f"upsert users({users}")
@@ -57,7 +53,7 @@ class UsersServicer(ProtoUsersServicer):
                 LOG.exception("upsert oopsie")
 
     def Delete(self, id_it, context):
-        with tracer().scope_manager.activate(context.get_active_span(), True) as scope:
+        with tracer().scope_manager.activate(context.get_active_span(), True):
             ids = [id.value for id in id_it]
 
             LOG.debug(f"delete users for ids({ids})")
@@ -75,23 +71,3 @@ class UsersServicer(ProtoUsersServicer):
                 return iter(result)
             except Exception:
                 LOG.exception("delete oopsie")
-
-
-def run():
-    server = intercept_server(grpc.server(futures.ThreadPoolExecutor(max_workers=10)))
-
-    add_UsersServicer_to_server(UsersServicer(), server)
-
-    server.add_insecure_port(f"[::]:{PORT}")
-    server.start()
-    server.wait_for_termination()
-
-
-def main():
-    init_tracer()
-    logging.basicConfig(level=logging.INFO)
-    run()
-
-
-if __name__ == "__main__":
-    main()

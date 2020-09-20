@@ -2,7 +2,7 @@ import { Button, Grid } from "@material-ui/core";
 import Form from "component/common/control/Form";
 import TextField from "component/common/control/TextField";
 import Waitable from "component/common/wrapper/Waitable";
-import { User_Details } from "generated/graphql";
+import { User_Details } from "gql";
 import React, { useState } from "react";
 
 export type EditorProps = User_Details & {
