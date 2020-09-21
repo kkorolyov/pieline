@@ -1,0 +1,11 @@
+name: Bake OCI Image
+description: Build PieLine service OCI image
+inputs:
+  service:
+    description: Service name
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: recipes/bake.sh ${{ inputs.service }}
+      shell: bash

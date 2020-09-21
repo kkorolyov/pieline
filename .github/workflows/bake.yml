@@ -1,0 +1,131 @@
+name: Bake
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  pi18n:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node ${{ matrix.version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.version }}
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Bake image
+        uses: ./.github/actions/bake
+        with:
+          service: pi18n
+
+  pie-auth:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        version: [1.14]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Java ${{ matrix.version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.version }}
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle.kts') }}
+
+      - name: Bake image
+        uses: ./.github/actions/bake
+        with:
+          service: pie-auth
+
+  pie-gate:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        version: [1.14]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Java ${{ matrix.version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.version }}
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle.kts') }}
+
+      - name: Bake image
+        uses: ./.github/actions/bake
+        with:
+          service: pie-gate
+
+  pie-users:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        version: [3.8]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Python ${{ matrix.version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.version }}
+
+      - name: Bake image
+        uses: ./.github/actions/bake
+        with:
+          service: pie-users
+
+  pie-web:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        version: [14.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Node ${{ matrix.version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.version }}
+
+      - name: Cache
+        uses: actions/cache@v2
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Bake image
+        uses: ./.github/actions/bake
+        with:
+          service: pie-web
