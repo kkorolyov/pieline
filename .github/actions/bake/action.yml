@@ -28,6 +28,6 @@ runs:
 
     - id: publish
       run: |
-        echo ${{ secrets.GITHUB_TOKEN }} | buildah login -u ${{ github.actor }} --password-stdin https://docker.pkg.github.com
+        echo '${{ secrets.GITHUB_TOKEN }}' | buildah login -u ${{ github.actor }} --password-stdin https://docker.pkg.github.com
         buildah push ${{ steps.tag.outputs.name }}
       shell: bash
