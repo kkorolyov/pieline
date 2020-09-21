@@ -4,7 +4,7 @@ cwd=$(dirname "$0")
 
 # prep
 . ${cwd}/prep.sh
-install python pip gcc
+install python-pip gcc
 
 swd=${cwd}/../../../${service}
 
@@ -16,11 +16,11 @@ rm -rf dist
 python setup.py bdist_wheel
 copy dist dist
 popd
-run bash -c "python -m pip install --user dist/*"
+run bash -c "python3 -m pip install --user dist/*"
 run rm -rf dist
 
 # configure
-config --entrypoint "python -m ${service//-/}.server"
+config --entrypoint "python3 -m ${service//-/}.server"
 
 # publish
 publish
