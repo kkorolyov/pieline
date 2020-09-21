@@ -31,6 +31,7 @@ jobs:
         uses: ./.github/actions/bake
         with:
           service: pi18n
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   pie-auth:
     runs-on: ubuntu-latest
@@ -57,6 +58,7 @@ jobs:
         uses: ./.github/actions/bake
         with:
           service: pie-auth
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   pie-gate:
     runs-on: ubuntu-latest
@@ -83,6 +85,7 @@ jobs:
         uses: ./.github/actions/bake
         with:
           service: pie-gate
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   pie-users:
     runs-on: ubuntu-latest
@@ -103,6 +106,7 @@ jobs:
         uses: ./.github/actions/bake
         with:
           service: pie-users
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   pie-web:
     runs-on: ubuntu-latest
@@ -129,3 +133,4 @@ jobs:
         uses: ./.github/actions/bake
         with:
           service: pie-web
+          token: ${{ secrets.GITHUB_TOKEN }}

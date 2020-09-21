@@ -4,7 +4,6 @@ inputs:
   token:
     description: Registry token
     required: true
-    default: ${{ secrets.GITHUB_TOKEN }}
   service:
     description: Service name
     required: true
