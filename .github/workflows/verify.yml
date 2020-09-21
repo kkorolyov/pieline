@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Use Node ${{ matrix.version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.1
         with:
           node-version: ${{ matrix.version }}
 
@@ -112,7 +112,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Use Node ${{ matrix.version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v2.1.1
         with:
           node-version: ${{ matrix.version }}
 
