@@ -24,7 +24,8 @@ runs:
 
     - id: tag
       run: |
-        name=docker.pkg.github.com/${{ github.repository }}/${{ inputs.service }}:${{ inputs.tag }}
+        tag=${${{ inputs.tag }}#refs/tags/}
+        name=docker.pkg.github.com/${{ github.repository }}/${{ inputs.service }}:${tag}
         buildah tag ${{ inputs.service }} $name
         echo "::set-output name=name::$(echo $name)"
       shell: bash
