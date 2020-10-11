@@ -1,0 +1,36 @@
+name: Bake OCI Image
+description: Builds and publishes pieline service OCI image
+inputs:
+  token:
+    description: Registry token
+    required: true
+  service:
+    description: Service name
+    required: true
+  tag:
+    description: Built image tag - defaults to SHA
+    required: true
+    default: ${{ github.sha }}
+outputs:
+  image:
+    description: Published image name
+    value: ${{ steps.tag.outputs.name }}
+runs:
+  using: composite
+  steps:
+    - id: bake
+      run: recipes/bake.sh ${{ inputs.service }}
+      shell: bash
+
+    - id: tag
+      run: |
+        name=docker.pkg.github.com/${{ github.repository }}/${{ inputs.service }}:${{ inputs.tag }}
+        buildah tag ${{ inputs.service }} $name
+        echo "::set-output name=name::$(echo $name)"
+      shell: bash
+
+    - id: publish
+      run: |
+        echo ${{ inputs.token }} | buildah login -u ${{ github.actor }} --password-stdin https://docker.pkg.github.com
+        buildah push ${{ steps.tag.outputs.name }}
+      shell: bash

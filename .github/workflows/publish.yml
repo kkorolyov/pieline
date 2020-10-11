@@ -1,6 +1,8 @@
-name: Verify
+name: Publish
 
-on: [push, pull_request]
+on:
+  push:
+    tags: ["v*"]
 
 jobs:
   pi18n:
@@ -18,16 +20,12 @@ jobs:
         with:
           node-version: ${{ matrix.version }}
 
-      - name: Cache
-        uses: actions/cache@v2
+      - name: Publish image
+        uses: ./.github/actions/bake
         with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Build
-        uses: ./.github/actions/build-js
-        with:
-          working-directory: pi18n
+          service: pi18n
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
 
   pie-auth:
     runs-on: ubuntu-20.04
@@ -44,16 +42,12 @@ jobs:
         with:
           java-version: ${{ matrix.version }}
 
-      - name: Cache
-        uses: actions/cache@v2
+      - name: Publish image
+        uses: ./.github/actions/bake
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle.kts') }}
-
-      - name: Build
-        uses: ./.github/actions/build-java
-        with:
-          working-directory: pie-auth
+          service: pie-auth
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
 
   pie-gate:
     runs-on: ubuntu-20.04
@@ -70,16 +64,12 @@ jobs:
         with:
           java-version: ${{ matrix.version }}
 
-      - name: Cache
-        uses: actions/cache@v2
+      - name: Publish image
+        uses: ./.github/actions/bake
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/build.gradle.kts') }}
-
-      - name: Build
-        uses: ./.github/actions/build-java
-        with:
-          working-directory: pie-gate
+          service: pie-gate
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
 
   pie-users:
     runs-on: ubuntu-20.04
@@ -96,10 +86,12 @@ jobs:
         with:
           python-version: ${{ matrix.version }}
 
-      - name: Build
-        uses: ./.github/actions/build-python
+      - name: Publish image
+        uses: ./.github/actions/bake
         with:
-          working-directory: pie-users
+          service: pie-users
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
 
   pie-web:
     runs-on: ubuntu-20.04
@@ -116,13 +108,9 @@ jobs:
         with:
           node-version: ${{ matrix.version }}
 
-      - name: Cache
-        uses: actions/cache@v2
+      - name: Publish image
+        uses: ./.github/actions/bake
         with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
-
-      - name: Build
-        uses: ./.github/actions/build-js
-        with:
-          working-directory: pie-web
+          service: pie-web
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}

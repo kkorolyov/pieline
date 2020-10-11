@@ -10,8 +10,6 @@
 #  config - function invoked with additional config arguments for the current container
 #  publish - function to commit the current container and deletes it
 
-author="kkorolyov"
-
 me=$(basename "$0")
 cwd=$(dirname "$0")
 
@@ -64,4 +62,3 @@ fi
 
 # common prep
 container=$(buildah from scratch)
-config --author $author

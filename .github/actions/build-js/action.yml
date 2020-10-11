@@ -7,12 +7,12 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Install dependencies
+    - id: install
       run: yarn
       working-directory: ${{ inputs.working-directory }}
       shell: bash
 
-    - name: Build
+    - id: build
       run: yarn build
       working-directory: ${{ inputs.working-directory }}
       shell: bash

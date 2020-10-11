@@ -7,7 +7,7 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Build
+    - id: build
       run: ./gradlew build
       working-directory: ${{ inputs.working-directory }}
       shell: bash
