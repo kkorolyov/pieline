@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
-    "@graphql-codegen/cli": "1.18.0",
+    "@graphql-codegen/cli": "1.19.0",
     "@graphql-codegen/fragment-matcher": "^1.17.8",
     "@graphql-codegen/typescript-operations": "^1.17.8",
     "@storybook/addon-actions": "^6.0.26",
