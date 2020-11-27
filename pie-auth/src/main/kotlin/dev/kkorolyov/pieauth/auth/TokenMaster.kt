@@ -2,8 +2,8 @@ package dev.kkorolyov.pieauth.auth
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import dev.kkorolyov.pieauth.util.span
 import dev.kkorolyov.pieauth.util.tracer
+import dev.kkorolyov.pieline.trace.span
 import java.time.Duration
 import java.time.Instant
 import java.util.Date
