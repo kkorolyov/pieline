@@ -37,8 +37,8 @@ repositories {
 	maven {
 		url = uri("https://maven.pkg.github.com/kkorolyov/pieline-lib")
 		credentials {
-			val gprUser: String by project
-			val gprKey: String by project
+			val gprUser: String? by project
+			val gprKey: String? by project
 
 			username = System.getenv("GITHUB_ACTOR") ?: gprUser
 			password = System.getenv("GITHUB_TOKEN") ?: gprKey
