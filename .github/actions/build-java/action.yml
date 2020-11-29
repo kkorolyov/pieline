@@ -11,3 +11,5 @@ runs:
       run: ./gradlew build
       working-directory: ${{ inputs.working-directory }}
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
