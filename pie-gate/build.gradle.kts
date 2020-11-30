@@ -40,6 +40,9 @@ repositories {
 			val gprUser: String? by project
 			val gprKey: String? by project
 
+			println("${System.getenv("GITHUB_ACTOR")}-${System.getenv("GITHUB_TOKEN")}")
+			println("$gprUser-$gprKey")
+
 			username = System.getenv("GITHUB_ACTOR") ?: gprUser
 			password = System.getenv("GITHUB_TOKEN") ?: gprKey
 		}
