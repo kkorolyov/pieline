@@ -15,7 +15,7 @@ tasks.wrapper {
 }
 
 plugins {
-	kotlin("jvm") version "1.3.72"
+	kotlin("jvm") version "1.4.20"
 	groovy
 	application
 	id("com.google.protobuf") version "0.8.13"
@@ -35,18 +35,29 @@ application {
 
 repositories {
 	jcenter()
+	maven {
+		url = uri("https://maven.pkg.github.com/kkorolyov/pieline-lib")
+		credentials {
+			val gprUser: String? by project
+			val gprKey: String? by project
+
+			username = System.getenv("GITHUB_ACTOR") ?: gprUser
+			password = System.getenv("GITHUB_TOKEN") ?: gprKey
+		}
+	}
 }
 dependencies {
+	val coroutinesVersion: String by project
 	val argon2Version: String by project
 	val h2Version: String by project
 	val tomcatAnnotationsVersion: String by project
 	val exposedVersion: String by project
 	val log4jVersion: String by project
 	val jwtVersion: String by project
-	val opentracingVersion: String by project
-	val opentracingGrpcVersion: String by project
-	val jaegerVersion: String by project
+	val pielineLibVersion: String by project
 	val spockVersion: String by project
+
+	implementation(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:$coroutinesVersion"))
 
 	implementation("de.mkammerer:argon2-jvm:$argon2Version")
 	implementation("com.h2database:h2:$h2Version")
@@ -82,10 +93,8 @@ dependencies {
 		implementation("org.apache.logging.log4j:$it")
 	}
 
-	// tracing
-	implementation("io.opentracing:opentracing-api:$opentracingVersion")
-	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
-	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
+	// shared
+	implementation("dev.kkorolyov.pieline:libkt:$pielineLibVersion")
 
 	// test
 	testImplementation("org.spockframework:spock-core:$spockVersion")

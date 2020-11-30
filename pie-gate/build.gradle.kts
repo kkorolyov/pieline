@@ -15,7 +15,7 @@ tasks.wrapper {
 }
 
 plugins {
-	kotlin("jvm") version "1.3.72"
+	kotlin("jvm") version "1.4.20"
 	application
 	id("com.google.protobuf") version "0.8.13"
 	idea
@@ -34,6 +34,13 @@ application {
 
 repositories {
 	jcenter()
+	maven {
+		url = uri("https://maven.pkg.github.com/kkorolyov/pieline-lib")
+		credentials {
+			username = findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+			password = findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+		}
+	}
 }
 dependencies {
 	val coroutinesVersion: String by project
@@ -42,9 +49,9 @@ dependencies {
 	val log4jVersion: String by project
 	val guavaVersion: String by project
 	val rejoinerVersion: String by project
-	val opentracingVersion: String by project
-	val opentracingGrpcVersion: String by project
-	val jaegerVersion: String by project
+	val pielineLibVersion: String by project
+
+	implementation(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:$coroutinesVersion"))
 
 	// grpc
 	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
@@ -60,7 +67,7 @@ dependencies {
 	implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
 
 	implementation("com.google.guava:guava:$guavaVersion")
-	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava:$coroutinesVersion")
+	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava")
 	implementation("com.google.api.graphql:rejoiner:$rejoinerVersion")
 
 	// ktor
@@ -84,10 +91,8 @@ dependencies {
 		implementation("org.apache.logging.log4j:$it")
 	}
 
-	// tracing
-	implementation("io.opentracing:opentracing-api:$opentracingVersion")
-	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
-	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
+	// shared
+	implementation("dev.kkorolyov.pieline:libkt:$pielineLibVersion")
 
 	// test
 	testImplementation("io.ktor:ktor-server-tests")

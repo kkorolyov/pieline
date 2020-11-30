@@ -3,8 +3,8 @@ package dev.kkorolyov.pieauth.auth
 import de.mkammerer.argon2.Argon2
 import de.mkammerer.argon2.Argon2Factory
 import de.mkammerer.argon2.Argon2Factory.Argon2Types.ARGON2id
-import dev.kkorolyov.pieauth.util.span
 import dev.kkorolyov.pieauth.util.tracer
+import dev.kkorolyov.pieline.trace.span
 
 private const val ITERATIONS = 10
 private const val MEMORY = 65536

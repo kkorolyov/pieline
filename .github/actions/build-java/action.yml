@@ -4,6 +4,9 @@ inputs:
   working-directory:
     description: Build working directory
     required: true
+  token:
+    description: Registry token
+    required: true
 runs:
   using: composite
   steps:
@@ -11,3 +14,5 @@ runs:
       run: ./gradlew build
       working-directory: ${{ inputs.working-directory }}
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}

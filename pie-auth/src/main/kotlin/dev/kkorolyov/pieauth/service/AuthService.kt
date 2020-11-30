@@ -5,9 +5,7 @@ import dev.kkorolyov.pieauth.auth.RoleMaster
 import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
 import dev.kkorolyov.pieauth.db.DbConfig
-import dev.kkorolyov.pieauth.util.Address
 import dev.kkorolyov.pieauth.util.clientInterceptor
-import dev.kkorolyov.pieauth.util.span
 import dev.kkorolyov.pieauth.util.tracer
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthRequest
@@ -16,6 +14,8 @@ import dev.kkorolyov.pieline.proto.common.Common.Uuid
 import dev.kkorolyov.pieline.proto.user.UserOuterClass.Details
 import dev.kkorolyov.pieline.proto.user.UserOuterClass.User
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
+import dev.kkorolyov.pieline.trace.span
+import dev.kkorolyov.pieline.util.Address
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.StatusRuntimeException

@@ -54,6 +54,7 @@ jobs:
         uses: ./.github/actions/build-java
         with:
           working-directory: pie-auth
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   pie-gate:
     runs-on: ubuntu-20.04
@@ -80,6 +81,7 @@ jobs:
         uses: ./.github/actions/build-java
         with:
           working-directory: pie-gate
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   pie-users:
     runs-on: ubuntu-20.04

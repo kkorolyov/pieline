@@ -1,7 +1,7 @@
 package dev.kkorolyov.pieauth.auth
 
-import dev.kkorolyov.pieauth.util.span
 import dev.kkorolyov.pieauth.util.tracer
+import dev.kkorolyov.pieline.trace.span
 import java.util.UUID
 
 // TODO Defer to a role service

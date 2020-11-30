@@ -7,8 +7,8 @@ import com.google.inject.Injector
 import com.google.inject.Key
 import dev.kkorolyov.piegate.client.ClientModule
 import dev.kkorolyov.piegate.schema.SchemaModule
-import dev.kkorolyov.piegate.util.span
 import dev.kkorolyov.piegate.util.tracer
+import dev.kkorolyov.pieline.trace.span
 import io.grpc.Metadata
 import io.ktor.application.Application
 import io.ktor.application.ApplicationCall
