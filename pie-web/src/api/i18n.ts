@@ -10,13 +10,9 @@ import { localeI18n } from "./graphql/queries";
 export const getI18n = async (
   locale: I18n_Locale
 ): Promise<{ [key: string]: string }> => {
-  const { data } = await client.query({
-    query: localeI18n,
-    variables: {
-      locale,
-    },
+  const { i18n } = await client.request(localeI18n, {
+    locale,
   });
-  const { i18n } = data;
 
   return i18n.value.reduce(
     (
