@@ -4,16 +4,12 @@ import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
 
 export const register = async (user: string, pass: string): Promise<string> => {
-  const { data } = await client.mutate({
-    mutation: mutations.register,
-    variables: {
-      user,
-      pass,
-    },
-  });
   const {
     register: { token },
-  } = data;
+  } = await client.request(mutations.register, {
+    user,
+    pass,
+  });
 
   return token;
 };
@@ -21,28 +17,20 @@ export const authenticate = async (
   user: string,
   pass: string
 ): Promise<string> => {
-  const { data } = await client.query({
-    query: queries.auth,
-    variables: {
-      user,
-      pass,
-    },
-  });
   const {
     authenticate: { token },
-  } = data;
+  } = await client.request(queries.auth, {
+    user,
+    pass,
+  });
 
   return token;
 };
 
 export const getProfile = async (id: string): Promise<User_Details> => {
-  const { data } = await client.query({
-    query: queries.fullUser,
-    variables: { id: wrapId(id) },
-  });
   const {
     user: { details },
-  } = data;
+  } = await client.request(queries.fullUser, { id: wrapId(id) });
 
   return details;
 };
@@ -50,18 +38,14 @@ export const saveProfile = async (
   id: string,
   details: User_Details
 ): Promise<User_Details> => {
-  const { data } = await client.mutate({
-    mutation: mutations.setUser,
-    variables: {
-      user: {
-        id: wrapId(id),
-        details,
-      },
-    },
-  });
   const {
     setUser: { details: resultDetails },
-  } = data;
+  } = await client.request(mutations.setUser, {
+    user: {
+      id: wrapId(id),
+      details,
+    },
+  });
 
   return resultDetails;
 };
