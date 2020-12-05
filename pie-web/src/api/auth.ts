@@ -1,9 +1,11 @@
 import { client } from "./graphql/client";
-import * as queries from "./graphql/queries";
 import * as mutations from "./graphql/mutations";
+import * as queries from "./graphql/queries";
+import { getToken, registerToken } from "./info";
 
 const setToken = (token: string) => {
-  client.setHeader("Authorization", `Bearer ${token}`);
+  registerToken(token);
+  client.setHeader("Authorization", `Bearer ${getToken()}`);
 };
 
 /**

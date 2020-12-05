@@ -20,6 +20,9 @@ export const register = gql`
   mutation register($user: String, $pass: String) {
     register(user: $user, pass: $pass) {
       token
+      id {
+        value
+      }
     }
   }
 `;

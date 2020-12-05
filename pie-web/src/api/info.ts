@@ -4,7 +4,12 @@ declare global {
   }
 }
 
-/** @returns URL to the backing API gateway */
-export const getGate = () =>
-  // Get runtime var with fallback to static var
-  window.ADDR_GATE || process.env.REACT_APP_ADDR_GATE!;
+/** URL to the backing API gateway */
+// Get runtime var with fallback to static var
+export const GATE = window.ADDR_GATE || process.env.REACT_APP_ADDR_GATE!;
+
+let token: string | undefined;
+/** @returns current authentication token */
+export const getToken = () => token;
+/** @param newToken new authentication token */
+export const registerToken = (newToken?: string) => (token = newToken);

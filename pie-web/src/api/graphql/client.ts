@@ -1,11 +1,11 @@
-import { getGate } from "api/info";
+import { GATE } from "api/info";
 import { Common_Uuid, Common_UuidList } from "gql";
 import { GraphQLClient } from "graphql-request";
 
 /**
  * GQL client.
  */
-export const client = new GraphQLClient(getGate());
+export const client = new GraphQLClient(GATE);
 
 /**
  * Wraps an ID in the format expected by the GQL server.
