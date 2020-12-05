@@ -3,7 +3,7 @@ import Link from "component/common/control/Link";
 import Menu from "component/common/control/Menu";
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { UserContext, I18nContext } from "context";
+import { AuthContext, I18nContext } from "context";
 
 const ProfileIcon = styled(Avatar)`
   cursor: pointer;
@@ -13,7 +13,7 @@ const ProfileIcon = styled(Avatar)`
  * Toggled menu for actions pertaining to the current user.
  */
 const UserMenu = () => {
-  const { displayName, setToken } = useContext(UserContext);
+  const { displayName, setId } = useContext(AuthContext);
   const i18n = useContext(I18nContext);
 
   return (
@@ -21,7 +21,7 @@ const UserMenu = () => {
       <MenuItem component={Link} to="user">
         {i18n.profile}
       </MenuItem>
-      <MenuItem onClick={() => setToken(undefined)}>{i18n.logOut}</MenuItem>
+      <MenuItem onClick={() => setId(undefined)}>{i18n.logOut}</MenuItem>
     </Menu>
   );
 };

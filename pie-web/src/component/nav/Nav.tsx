@@ -1,6 +1,6 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import Link from "component/common/control/Link";
-import { I18nContext, UserContext } from "context";
+import { I18nContext, AuthContext } from "context";
 import React, { useContext } from "react";
 import styled from "styled-components";
 import AuthBar from "./AuthBar";
@@ -35,7 +35,7 @@ const Options = styled.span`
  * Main navigation bar.
  */
 const Nav = () => {
-  const { token } = useContext(UserContext);
+  const { id } = useContext(AuthContext);
   const { title, explore, market } = useContext(I18nContext);
 
   return (
@@ -55,7 +55,7 @@ const Nav = () => {
         <Options>
           <PaletteSelector />
           <LocaleSelector />
-          {token ? <UserMenu /> : <AuthBar />}
+          {id ? <UserMenu /> : <AuthBar />}
         </Options>
       </StyledToolbar>
     </AppBar>

@@ -3,30 +3,6 @@ import { client, wrapId } from "./graphql/client";
 import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
 
-export const register = async (user: string, pass: string): Promise<string> => {
-  const {
-    register: { token },
-  } = await client.request(mutations.register, {
-    user,
-    pass,
-  });
-
-  return token;
-};
-export const authenticate = async (
-  user: string,
-  pass: string
-): Promise<string> => {
-  const {
-    authenticate: { token },
-  } = await client.request(queries.auth, {
-    user,
-    pass,
-  });
-
-  return token;
-};
-
 export const getProfile = async (id: string): Promise<User_Details> => {
   const {
     user: { details },

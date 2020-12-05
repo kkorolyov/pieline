@@ -1,11 +1,11 @@
 import { Typography } from "@material-ui/core";
-import { I18nContext, UserContext } from "context";
+import { I18nContext, AuthContext } from "context";
 import React, { useContext } from "react";
 import Widget from "./Widget";
 
 const ProjectsWidget = () => {
   const { projects } = useContext(I18nContext);
-  const { token: id } = useContext(UserContext);
+  const { id } = useContext(AuthContext);
 
   return (
     <Widget title={projects} location={id ? `/${id}/projects` : undefined}>

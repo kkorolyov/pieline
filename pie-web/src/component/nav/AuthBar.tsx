@@ -4,7 +4,7 @@ import { Alert } from "@material-ui/lab";
 import Form from "component/common/control/Form";
 import TextField from "component/common/control/TextField";
 import Waitable from "component/common/wrapper/Waitable";
-import { ApiContext, I18nContext, UserContext } from "context";
+import { ApiContext, I18nContext, AuthContext } from "context";
 import { useExecutor, useResult } from "hooks";
 import React, { useContext, useState } from "react";
 
@@ -18,12 +18,12 @@ const BaseBar = ({ action, submitLabel, errorLabel, onBack }: BaseBarProps) => {
   const [user, setUser] = useState("");
   const [pass, setPass] = useState("");
 
-  const { setToken } = useContext(UserContext);
+  const { setId } = useContext(AuthContext);
   const i18n = useContext(I18nContext);
 
   const executor = useExecutor(action);
 
-  useResult(executor, setToken);
+  useResult(executor, setId);
 
   return (
     <Form

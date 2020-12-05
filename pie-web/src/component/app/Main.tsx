@@ -1,7 +1,7 @@
 import { CircularProgress } from "@material-ui/core";
 import Theme, { Palette } from "component/common/Theme";
 import Nav from "component/nav/Nav";
-import { ApiContext, I18nContext, ThemeConfigContext, UserContext } from "context";
+import { ApiContext, I18nContext, ThemeConfigContext, AuthContext } from "context";
 import { i18nDefault } from "context/i18n";
 import { I18n_Locale } from "gql";
 import { useArgs, useExecutor, useResult } from "hooks";
@@ -16,7 +16,7 @@ import User from "./User";
  * Main application component.
  */
 const Main = () => {
-  const [token, setToken] = useState<string>();
+  const [id, setId] = useState<string>();
   const [palette, setPalette] = useState<Palette>(Palette.DARK);
   const [locale, setLocale] = useState<I18n_Locale>(I18n_Locale.EnUs);
   const [i18nPack, setI18nPack] = useState({});
@@ -31,7 +31,7 @@ const Main = () => {
     <Theme palette={palette} locale={locale}>
       <ThemeConfigContext.Provider value={{ palette, setPalette, locale, setLocale }}>
         <I18nContext.Provider value={{ ...i18nDefault, ...i18nPack }}>
-          <UserContext.Provider value={{ token, setToken }}>
+          <AuthContext.Provider value={{ id, setId }}>
             {i18nGetter.waiting ? (
               <CircularProgress />
             ) : (
@@ -54,7 +54,7 @@ const Main = () => {
                 </Switch>
               </>
             )}
-          </UserContext.Provider>
+          </AuthContext.Provider>
         </I18nContext.Provider>
       </ThemeConfigContext.Provider>
     </Theme>

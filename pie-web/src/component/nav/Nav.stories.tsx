@@ -1,4 +1,4 @@
-import { UserContext } from "context";
+import { AuthContext } from "context";
 import React from "react";
 import Nav from "./Nav";
 
@@ -6,7 +6,7 @@ export default { title: "Navigation/Nav", component: Nav };
 
 export const Unauthenticated = () => <Nav />;
 export const Authenticated = () => (
-  <UserContext.Provider value={{ token: "bogoToken", setToken: () => {} }}>
+  <AuthContext.Provider value={{ id: "bogoId", setId: () => {} }}>
     <Nav />
-  </UserContext.Provider>
+  </AuthContext.Provider>
 );
