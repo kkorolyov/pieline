@@ -71,6 +71,7 @@ object AuthService : AuthCoroutineImplBase() {
 			}?.let {
 				AuthResponse.newBuilder().apply {
 					token = TokenMaster.generate(it, *RoleMaster.get(it))
+					id = it.toString()
 				}.build().also {
 					log.info("authenticated user {{}}", request.user)
 				}
