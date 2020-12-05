@@ -1,19 +1,11 @@
+import { getGate } from "api/info";
 import { Common_Uuid, Common_UuidList } from "gql";
 import { GraphQLClient } from "graphql-request";
-
-declare global {
-  interface Window {
-    ADDR_GATE: string;
-  }
-}
 
 /**
  * GQL client.
  */
-// Get runtime var with fallback to static var
-export const client = new GraphQLClient(
-  window.ADDR_GATE || process.env.REACT_APP_ADDR_GATE!
-);
+export const client = new GraphQLClient(getGate());
 
 /**
  * Wraps an ID in the format expected by the GQL server.

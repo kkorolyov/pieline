@@ -1,12 +1,18 @@
 import { CircularProgress } from "@material-ui/core";
 import Theme, { Palette } from "component/common/Theme";
 import Nav from "component/nav/Nav";
-import { ApiContext, I18nContext, ThemeConfigContext, AuthContext } from "context";
+import {
+  ApiContext,
+  AuthContext,
+  I18nContext,
+  ThemeConfigContext,
+} from "context";
 import { i18nDefault } from "context/i18n";
 import { I18n_Locale } from "gql";
 import { useArgs, useExecutor, useResult } from "hooks";
 import React, { useContext, useState } from "react";
 import { Route, Switch } from "react-router-dom";
+import Debug from "./Debug";
 import Explore from "./Explore";
 import Home from "./Home";
 import Market from "./Market";
@@ -29,7 +35,9 @@ const Main = () => {
 
   return (
     <Theme palette={palette} locale={locale}>
-      <ThemeConfigContext.Provider value={{ palette, setPalette, locale, setLocale }}>
+      <ThemeConfigContext.Provider
+        value={{ palette, setPalette, locale, setLocale }}
+      >
         <I18nContext.Provider value={{ ...i18nDefault, ...i18nPack }}>
           <AuthContext.Provider value={{ id, setId }}>
             {i18nGetter.waiting ? (
@@ -48,6 +56,11 @@ const Main = () => {
                   <Route path="/user">
                     <User />
                   </Route>
+                  {process.env.NODE_ENV === "development" && (
+                    <Route path="/debug">
+                      <Debug />
+                    </Route>
+                  )}
                   <Route path="/">
                     <Home />
                   </Route>
