@@ -3,6 +3,8 @@ syntax = "proto3";
 package auth;
 option java_package = "dev.kkorolyov.pieline.proto.auth";
 
+import "common.proto";
+
 // Authentication request
 message AuthRequest {
   // User to verify
@@ -15,7 +17,7 @@ message AuthResponse {
   // Access token generated from successful authentication
   string token = 1;
   // Authenticated user's ID
-  string id = 2;
+  common.Uuid id = 2;
 }
 
 // Base Auth service API

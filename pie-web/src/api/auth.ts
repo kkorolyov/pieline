@@ -11,7 +11,10 @@ const setToken = (token: string) => {
  */
 export const register = async (user: string, pass: string): Promise<string> => {
   const {
-    register: { token, id },
+    register: {
+      token,
+      id: { value },
+    },
   } = await client.request(mutations.register, {
     user,
     pass,
@@ -19,7 +22,7 @@ export const register = async (user: string, pass: string): Promise<string> => {
 
   setToken(token);
 
-  return id;
+  return value;
 };
 /**
  * Authenticates a new user for a given `(user, pass)` combination and returns the user's ID.
@@ -29,7 +32,10 @@ export const authenticate = async (
   pass: string
 ): Promise<string> => {
   const {
-    authenticate: { token, id },
+    authenticate: {
+      token,
+      id: { value },
+    },
   } = await client.request(queries.auth, {
     user,
     pass,
@@ -37,5 +43,5 @@ export const authenticate = async (
 
   setToken(token);
 
-  return id;
+  return value;
 };

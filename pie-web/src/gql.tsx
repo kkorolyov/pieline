@@ -17,7 +17,7 @@ export type Input_Auth_AuthRequest = {
 };
 
 export type Input_Auth_AuthResponse = {
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Input_Common_Uuid>;
   token?: Maybe<Scalars['String']>;
 };
 
@@ -106,7 +106,7 @@ export type Auth_AuthRequest = {
 
 export type Auth_AuthResponse = {
   __typename?: 'auth_AuthResponse';
-  id?: Maybe<Scalars['String']>;
+  id?: Maybe<Common_Uuid>;
   token?: Maybe<Scalars['String']>;
 };
 
