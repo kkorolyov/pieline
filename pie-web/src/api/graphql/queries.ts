@@ -8,6 +8,9 @@ export const auth = gql`
   query auth($user: String, $pass: String) {
     authenticate(user: $user, pass: $pass) {
       token
+      id {
+        value
+      }
     }
   }
 `;

@@ -1,6 +1,9 @@
 import gql from "graphql-tag";
 import { userFields } from "./fragments";
 
+/**
+ * Sets user state.
+ */
 export const setUser = gql`
   mutation setUser($user: Input_user_User) {
     setUser(user: $user) {
@@ -17,6 +20,9 @@ export const register = gql`
   mutation register($user: String, $pass: String) {
     register(user: $user, pass: $pass) {
       token
+      id {
+        value
+      }
     }
   }
 `;

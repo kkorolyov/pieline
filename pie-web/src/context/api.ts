@@ -1,22 +1,23 @@
+import { I18n_Locale, User_Details } from "gql";
 import { createContext } from "react";
-import { User_Details, I18n_Locale } from "gql";
 
-type UserApi = {
+type AuthApi = {
   /**
    * Registers a given `(user, pass)` combination.
    * @param user user name
    * @param pass user password
-   * @returns registered user token
+   * @returns registered user id
    */
   register: (user: string, pass: string) => Promise<string>;
   /**
    * Authenticates a given `(user, pass)` combination.
    * @param user user name
    * @param pass user password
-   * @returns authenticated user token
+   * @returns authenticated user id
    */
   authenticate: (user: string, pass: string) => Promise<string>;
-
+};
+type UserApi = {
   /**
    * Retrieves a profile for a given user ID.
    * @param id user ID
@@ -40,6 +41,6 @@ type I18nApi = {
   getI18n: (locale: I18n_Locale) => Promise<{ [key: string]: string }>;
 };
 
-export type ApiContextProps = UserApi & I18nApi;
+export type ApiContextProps = AuthApi & UserApi & I18nApi;
 
 export default createContext({} as ApiContextProps);

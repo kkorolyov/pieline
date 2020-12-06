@@ -1,15 +1,15 @@
 import { Container } from "@material-ui/core";
 import Profile from "component/user/Profile";
-import { UserContext } from "context";
+import { AuthContext } from "context";
 import React, { useContext } from "react";
 import { Redirect } from "react-router-dom";
 
 const User = () => {
-  const { token } = useContext(UserContext);
+  const { id } = useContext(AuthContext);
 
   return (
     <Container maxWidth="xl">
-      {token ? <Profile id={token} /> : <Redirect to="/" />}
+      {id ? <Profile id={id} /> : <Redirect to="/" />}
     </Container>
   );
 };

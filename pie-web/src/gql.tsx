@@ -1,5 +1,7 @@
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -15,6 +17,7 @@ export type Input_Auth_AuthRequest = {
 };
 
 export type Input_Auth_AuthResponse = {
+  id?: Maybe<Input_Common_Uuid>;
   token?: Maybe<Scalars['String']>;
 };
 
@@ -103,6 +106,7 @@ export type Auth_AuthRequest = {
 
 export type Auth_AuthResponse = {
   __typename?: 'auth_AuthResponse';
+  id?: Maybe<Common_Uuid>;
   token?: Maybe<Scalars['String']>;
 };
 
@@ -150,21 +154,13 @@ export type User_User = {
 };
 
 
-      export interface IntrospectionResultData {
-        __schema: {
-          types: {
-            kind: string;
-            name: string;
-            possibleTypes: {
-              name: string;
-            }[];
-          }[];
-        };
+      export interface PossibleTypesResultData {
+        possibleTypes: {
+          [key: string]: string[]
+        }
       }
-      const result: IntrospectionResultData = {
-  "__schema": {
-    "types": []
-  }
+      const result: PossibleTypesResultData = {
+  "possibleTypes": {}
 };
       export default result;
     

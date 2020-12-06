@@ -49,6 +49,7 @@ class Install @Inject constructor(application: Application) {
 			}
 			install(CORS) {
 				allowNonSimpleContentTypes = true
+				header("Authorization")
 				anyHost()
 			}
 			install(Authentication) {
