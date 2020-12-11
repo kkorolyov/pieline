@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package project;
+option java_package = "dev.kkorolyov.pieline.proto.project";
+
+import "common.proto";
+
+// Project construct
+message Project {
+  // Project id
+  common.Uuid id = 1;
+  // Project details
+  Details details = 2;
+}
+// Project details
+message Details {
+  // Project title
+  string title = 1;
+  // Project description
+  string description = 2;
+}
+
+// Projects service API
+service Projects {
+  /*
+   * Returns all projects matching given IDs.
+   */
+  rpc Get(stream common.Uuid) returns (stream Project) {}
+
+  /*
+   * Updates incoming projects with ID set, creates those without under a new ID.
+   * Returns the upserted projects, in input order.
+   * Errors if any incoming data cannot be resolved.
+   */
+  rpc Upsert(stream Project) returns (stream Project) {}
+
+  /*
+   * Deletes all projects matching given IDs and returns their representations, in input order.
+   */
+  rpc Delete(stream common.Uuid) returns (stream Project) {}
+}
