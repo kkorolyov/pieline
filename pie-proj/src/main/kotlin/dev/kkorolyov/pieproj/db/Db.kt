@@ -8,9 +8,7 @@ import javax.sql.DataSource
 private val URL = System.getenv("DB_URL")
 private val LOG = LoggerFactory.getLogger("db")
 
-/**
- * Global database handle.
- */
+/** Global database handle */
 val DB: Database by lazy {
 	LOG.info("connecting to DB at {{}}", URL)
 	Database.connect(ds).also {

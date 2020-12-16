@@ -4,7 +4,7 @@ import dev.kkorolyov.pieauth.auth.PassMaster
 import dev.kkorolyov.pieauth.auth.RoleMaster
 import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
-import dev.kkorolyov.pieauth.db.DbConfig
+import dev.kkorolyov.pieauth.db.DB
 import dev.kkorolyov.pieauth.trace.CLIENT_TRACER
 import dev.kkorolyov.pieauth.trace.TRACER
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
@@ -49,9 +49,8 @@ object AuthService : AuthCoroutineImplBase() {
 	private val log = LoggerFactory.getLogger(AuthService::class.java)
 
 	init {
-		// Register DB
-		DbConfig.db
-		// Bootstrap tables
+		// Initialize database
+		DB
 		transaction {
 			SchemaUtils.createMissingTablesAndColumns(Credentials)
 		}
@@ -60,6 +59,7 @@ object AuthService : AuthCoroutineImplBase() {
 	override suspend fun authenticate(request: AuthRequest): AuthResponse =
 		TRACER.span("transaction", parent = OpenTracingContextKey.activeSpan()).use {
 			it.setTag(Tags.DB_TYPE, "sql")
+			it.setTag("user", request.user)
 
 			transaction {
 				addLogger(Slf4jSqlDebugLogger)
@@ -85,6 +85,7 @@ object AuthService : AuthCoroutineImplBase() {
 	override suspend fun register(request: AuthRequest): AuthResponse =
 		TRACER.span("transaction", parent = OpenTracingContextKey.activeSpan()).use {
 			it.setTag(Tags.DB_TYPE, "sql")
+			it.setTag("user", request.user)
 
 			// Both credentials and user profile must be created together
 			val id = transaction {
@@ -113,12 +114,11 @@ object AuthService : AuthCoroutineImplBase() {
 							)
 						).first()
 					}.also {
-						log.info("created profile for user {{}}", request.user, it.id)
+						log.info("created profile for user {{}}", request.user)
 					}
 					id
 				} catch (e: Exception) {
-					rollback()
-					log.error("failed to register user {{${request.user}}}", e)
+					log.error("failed to register user {${request.user}}", e)
 					throw StatusRuntimeException(Status.ALREADY_EXISTS)
 				}
 			}
