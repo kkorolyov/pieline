@@ -5,6 +5,7 @@ import com.google.inject.Provides
 import dev.kkorolyov.piegate.util.clientInterceptor
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineStub
 import dev.kkorolyov.pieline.proto.i18n.i18nGrpcKt.i18nCoroutineStub
+import dev.kkorolyov.pieline.proto.project.ProjectsGrpcKt.ProjectsCoroutineStub
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
 import dev.kkorolyov.pieline.util.Address
 import io.grpc.CallOptions
@@ -27,6 +28,10 @@ object ClientModule : AbstractModule() {
 	@Provides
 	private fun getUsers(headers: Metadata): UsersCoroutineStub =
 		get(Address.forEnv("ADDR_USERS"), headers, ::UsersCoroutineStub)
+
+	@Provides
+	private fun getProjects(headers: Metadata): ProjectsCoroutineStub =
+		get(Address.forEnv("ADDR_PROJECTS"), headers, ::ProjectsCoroutineStub)
 
 	@Provides
 	private fun getI18n(headers: Metadata): i18nCoroutineStub =

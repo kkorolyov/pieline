@@ -9,6 +9,7 @@ object SchemaModule : AbstractModule() {
 	override fun configure() {
 		install(AuthSchema)
 		install(UsersSchema)
+		install(ProjectsSchema)
 		install(i18nSchema)
 	}
 }
