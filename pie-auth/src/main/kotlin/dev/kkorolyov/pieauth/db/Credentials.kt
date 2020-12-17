@@ -16,6 +16,5 @@ object Credentials : Table() {
 
 	/** Primary key for external references */
 	val id: Column<UUID> = uuid("id")
-
 	override val primaryKey: PrimaryKey = PrimaryKey(id)
 }

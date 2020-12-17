@@ -9,7 +9,7 @@ import java.util.UUID
  */
 object Projects : Table() {
 	/** Project ID */
-	val id: Column<UUID> = uuid("id").uniqueIndex()
+	val id: Column<UUID> = uuid("id")
 	override val primaryKey: PrimaryKey = PrimaryKey(id)
 
 	/** Project title */
