@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SchemaUtils
+import org.jetbrains.exposed.sql.Slf4jSqlDebugLogger
+import org.jetbrains.exposed.sql.addLogger
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
@@ -43,6 +45,8 @@ object ProjectService : ProjectsCoroutineImplBase() {
 			span.setTag(Tags.DB_TYPE, "sql")
 
 			val result = transaction {
+				addLogger(Slf4jSqlDebugLogger)
+
 				Projects.select {
 					Projects.id inList runBlocking {
 						requests.map {
@@ -72,6 +76,8 @@ object ProjectService : ProjectsCoroutineImplBase() {
 			span.setTag(Tags.DB_TYPE, "sql")
 
 			val result = transaction {
+				addLogger(Slf4jSqlDebugLogger)
+
 				val collectRequests = runBlocking { requests.toList() }
 
 				val toCreate = mutableListOf<Project>()
@@ -149,6 +155,8 @@ object ProjectService : ProjectsCoroutineImplBase() {
 			span.setTag(Tags.DB_TYPE, "sql")
 
 			val result = transaction {
+				addLogger(Slf4jSqlDebugLogger)
+
 				val result = Projects.slice(Projects.id).select {
 					Projects.id inList runBlocking { requests.map { UUID.fromString(it.value) }.toList() }
 				}.map {
