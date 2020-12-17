@@ -7,7 +7,7 @@ import com.google.inject.Injector
 import com.google.inject.Key
 import dev.kkorolyov.piegate.client.ClientModule
 import dev.kkorolyov.piegate.schema.SchemaModule
-import dev.kkorolyov.piegate.util.tracer
+import dev.kkorolyov.piegate.util.TRACER
 import dev.kkorolyov.pieline.trace.span
 import io.grpc.Metadata
 import io.ktor.application.Application
@@ -42,7 +42,7 @@ fun Application.main() {
 	}
 	intercept(ApplicationCallPipeline.Monitoring) {
 		launch {
-			tracer.span("ktor-${call.request.uri}").use {
+			TRACER.span("ktor-${call.request.uri}").use {
 				it.setTag(Tags.HTTP_URL, call.request.uri)
 				it.setTag(Tags.HTTP_METHOD, call.request.httpMethod.value)
 

@@ -2,7 +2,7 @@ package dev.kkorolyov.piegate.client
 
 import com.google.inject.AbstractModule
 import com.google.inject.Provides
-import dev.kkorolyov.piegate.util.clientInterceptor
+import dev.kkorolyov.piegate.util.CLIENT_TRACER
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineStub
 import dev.kkorolyov.pieline.proto.i18n.i18nGrpcKt.i18nCoroutineStub
 import dev.kkorolyov.pieline.proto.project.ProjectsGrpcKt.ProjectsCoroutineStub
@@ -46,7 +46,7 @@ object ClientModule : AbstractModule() {
 		initializer(
 			ManagedChannelBuilder.forAddress(host, port)
 				.intercept(MetadataUtils.newAttachHeadersInterceptor(headers))
-				.intercept(clientInterceptor)
+				.intercept(CLIENT_TRACER)
 				.usePlaintext().build(), CallOptions.DEFAULT
 		)
 	}
