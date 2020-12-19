@@ -24,15 +24,6 @@ plugins {
 group = "dev.kkorolyov"
 version = "0.1"
 
-java {
-	sourceCompatibility = VERSION_14
-	targetCompatibility = VERSION_14
-}
-
-application {
-	mainClassName = "dev.kkorolyov.pieauth.ServerKt"
-}
-
 repositories {
 	jcenter()
 	maven {
@@ -119,6 +110,23 @@ sourceSets {
 			srcDir("../protos")
 		}
 	}
+}
+
+java {
+	sourceCompatibility = VERSION_14
+	targetCompatibility = VERSION_14
+}
+
+application {
+	mainClassName = "dev.kkorolyov.pieauth.ServerKt"
+}
+
+// Local dev run
+tasks.named<JavaExec>("run") {
+	environment = mapOf(
+		"PORT" to 5001,
+		"DB_URL" to "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
+	)
 }
 
 protobuf {

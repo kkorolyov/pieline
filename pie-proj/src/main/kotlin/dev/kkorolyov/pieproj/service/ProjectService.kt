@@ -8,6 +8,8 @@ import dev.kkorolyov.pieline.trace.span
 import dev.kkorolyov.pieproj.db.DB
 import dev.kkorolyov.pieproj.db.Projects
 import dev.kkorolyov.pieproj.trace.TRACER
+import io.grpc.Status
+import io.grpc.StatusRuntimeException
 import io.opentracing.contrib.grpc.OpenTracingContextKey
 import io.opentracing.tag.Tags
 import kotlinx.coroutines.flow.Flow
@@ -24,6 +26,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 import org.slf4j.LoggerFactory
+import java.lang.IllegalArgumentException
 import java.util.UUID
 
 /**
@@ -49,9 +52,13 @@ object ProjectService : ProjectsCoroutineImplBase() {
 
 				Projects.select {
 					Projects.id inList runBlocking {
-						requests.map {
-							UUID.fromString(it.value)
-						}.toList()
+						try {
+							requests.map {
+								UUID.fromString(it.value)
+							}.toList()
+						} catch (e: IllegalArgumentException) {
+							throw StatusRuntimeException(Status.INVALID_ARGUMENT)
+						}
 					}
 				}.map {
 					Project.newBuilder().apply {
@@ -84,7 +91,7 @@ object ProjectService : ProjectsCoroutineImplBase() {
 				val toUpdate = mutableListOf<Project>()
 
 				collectRequests.forEach {
-					(if (it.id == null) toCreate else toUpdate) += it
+					(if (it.id.value.isEmpty()) toCreate else toUpdate) += it
 				}
 
 				val created = create(toCreate)
@@ -121,16 +128,20 @@ object ProjectService : ProjectsCoroutineImplBase() {
 	}.toMap()
 
 	private fun update(requests: Collection<Project>): Map<Project, Project> {
-		requests.forEach { request ->
-			Projects.update({
-				Projects.id eq UUID.fromString(request.id.value)
-			}) { row ->
-				row[id] = UUID.randomUUID()
-				request.details?.let {
-					row[title] = it.title
-					row[description] = it.description
+		try {
+			requests.forEach { request ->
+				Projects.update({
+					Projects.id eq UUID.fromString(request.id.value)
+				}) { row ->
+					row[id] = UUID.randomUUID()
+					request.details?.let {
+						row[title] = it.title
+						row[description] = it.description
+					}
 				}
 			}
+		} catch (e: IllegalArgumentException) {
+			throw StatusRuntimeException(Status.INVALID_ARGUMENT)
 		}
 
 		val result = Projects.select {
@@ -158,7 +169,13 @@ object ProjectService : ProjectsCoroutineImplBase() {
 				addLogger(Slf4jSqlDebugLogger)
 
 				val result = Projects.slice(Projects.id).select {
-					Projects.id inList runBlocking { requests.map { UUID.fromString(it.value) }.toList() }
+					Projects.id inList runBlocking {
+						try {
+							requests.map { UUID.fromString(it.value) }.toList()
+						} catch (e: IllegalArgumentException) {
+							throw StatusRuntimeException(Status.INVALID_ARGUMENT)
+						}
+					}
 				}.map {
 					Project.newBuilder().apply {
 						id = Uuid.newBuilder().apply {

@@ -23,15 +23,6 @@ plugins {
 group = "dev.kkorolyov"
 version = "0.1"
 
-java {
-	sourceCompatibility = VERSION_14
-	targetCompatibility = VERSION_14
-}
-
-application {
-	mainClassName = "io.ktor.server.netty.EngineMain"
-}
-
 repositories {
 	jcenter()
 	maven {
@@ -118,6 +109,26 @@ sourceSets {
 			srcDir("../protos")
 		}
 	}
+}
+
+java {
+	sourceCompatibility = VERSION_14
+	targetCompatibility = VERSION_14
+}
+
+application {
+	mainClassName = "io.ktor.server.netty.EngineMain"
+}
+
+// Local dev run
+tasks.named<JavaExec>("run") {
+	environment = mapOf(
+		"PORT" to 5000,
+		"ADDR_AUTH" to "localhost:5001",
+		"ADDR_USERS" to "localhost:5002",
+		"ADDR_PROJECTS" to "localhost:5003",
+		"ADDR_I18N" to "localhost:6000"
+	)
 }
 
 protobuf {
