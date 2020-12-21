@@ -9,6 +9,8 @@ export const i18nDefault = [
   "projects",
   "profile",
 
+  "edit",
+
   "username",
   "password",
   "register",
@@ -30,6 +32,8 @@ export type I18nContextProps = {
   more?: string;
   projects?: string;
   profile?: string;
+
+  edit?: string;
 
   username?: string;
   password?: string;

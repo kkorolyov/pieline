@@ -1,11 +1,11 @@
-import { CircularProgress } from "@material-ui/core";
 import Theme, { Palette } from "component/common/Theme";
+import Waitable from "component/common/wrapper/Waitable";
 import Nav from "component/nav/Nav";
 import {
   ApiContext,
   AuthContext,
   I18nContext,
-  ThemeConfigContext,
+  ThemeConfigContext
 } from "context";
 import { i18nDefault } from "context/i18n";
 import { I18n_Locale } from "gql";
@@ -40,33 +40,29 @@ const Main = () => {
       >
         <I18nContext.Provider value={{ ...i18nDefault, ...i18nPack }}>
           <AuthContext.Provider value={{ id, setId }}>
-            {i18nGetter.waiting ? (
-              <CircularProgress />
-            ) : (
-              <>
-                <Nav />
+            <Waitable waiting={i18nGetter.waiting}>
+              <Nav />
 
-                <Switch>
-                  <Route path="/explore">
-                    <Explore />
+              <Switch>
+                <Route path="/explore">
+                  <Explore />
+                </Route>
+                <Route path="/market">
+                  <Market />
+                </Route>
+                <Route path="/user">
+                  <User />
+                </Route>
+                {process.env.NODE_ENV === "development" && (
+                  <Route path="/debug">
+                    <Debug />
                   </Route>
-                  <Route path="/market">
-                    <Market />
-                  </Route>
-                  <Route path="/user">
-                    <User />
-                  </Route>
-                  {process.env.NODE_ENV === "development" && (
-                    <Route path="/debug">
-                      <Debug />
-                    </Route>
-                  )}
-                  <Route path="/">
-                    <Home />
-                  </Route>
-                </Switch>
-              </>
-            )}
+                )}
+                <Route path="/">
+                  <Home />
+                </Route>
+              </Switch>
+            </Waitable>
           </AuthContext.Provider>
         </I18nContext.Provider>
       </ThemeConfigContext.Provider>

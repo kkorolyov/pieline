@@ -7,7 +7,12 @@ export default {
   component: Waitable,
 };
 
-const Template: Story<WaitableProps> = (args) => <Waitable {...args} >Real stuff</Waitable>;
+const Template: Story<WaitableProps> = (args) => (
+  <Waitable {...args}>
+    <h3>Real stuff</h3>
+    <p>Goes here</p>
+  </Waitable>
+);
 
 export const Ready = Template.bind({});
 Ready.args = { waiting: false };

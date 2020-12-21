@@ -14,7 +14,6 @@ export type WaitableProps = {
 /**
  * Renders a waiting indicator while waiting, otherwise renders `childern`.
  */
-const Waitable = ({ waiting = false, children }: WaitableProps) => (
-  <>{waiting ? <CircularProgress /> : children}</>
-);
+const Waitable = ({ waiting = false, children }: WaitableProps) =>
+  waiting ? <CircularProgress /> : <>{children}</>;
 export default Waitable;
