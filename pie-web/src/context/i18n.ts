@@ -47,9 +47,9 @@ export type I18nContextProps = {
   logIn?: string;
   logOut?: string;
 
-  projectAbout: string;
-  projectAssets: string;
-  projectMembers: string;
+  projectAbout?: string;
+  projectAssets?: string;
+  projectMembers?: string;
 
   errorRegister?: string;
   errorLogIn?: string;
