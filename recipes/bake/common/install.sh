@@ -9,7 +9,7 @@ if [ $# -gt 0 ]; then
 
 	# Try to use the host to install
 	if [ -x "$(command -v dnf)" ]; then
-		dnf install $dnfOpts --setopt cachedir=/var/cache/dnf --installroot $mnt $@
+		dnf install $dnfOpts --setopt cachedir=/var/cache/dnf --setopt reposdir=/etc/yum.repos.d --installroot $mnt $@
 	else
 		# If host is not fedora, make your own fedora
 		echo "host does not have dnf, making my own dnf..."
