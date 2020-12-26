@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { userFields } from "./fragments";
+import { projectFields, userFields } from "./fragments";
 
 /**
  * Sets user state.
@@ -11,6 +11,18 @@ export const setUser = gql`
     }
   }
   ${userFields}
+`;
+
+/**
+ * Sets project state.
+ */
+export const setProject = gql`
+  mutation setProject($project: Input_project_Project) {
+    setProject(project: $project) {
+      ...projectFields
+    }
+  }
+  ${projectFields}
 `;
 
 /**

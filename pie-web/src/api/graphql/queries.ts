@@ -1,5 +1,5 @@
 import gql from "graphql-tag";
-import { i18nPackFields, userFields } from "./fragments";
+import { i18nPackFields, projectFields, userFields } from "./fragments";
 
 /**
  * Authenticates using given `user: String, pass: String`.
@@ -30,6 +30,15 @@ export const fullUsers = gql`
     }
   }
   ${userFields}
+`;
+
+export const fullProject = gql`
+  query fullProject($id: String) {
+    project(id: $id) {
+      ...projectFields
+    }
+  }
+  ${projectFields}
 `;
 
 /**

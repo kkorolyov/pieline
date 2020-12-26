@@ -1,4 +1,4 @@
-import { I18n_Locale, User_Details } from "gql";
+import { I18n_Locale, Project_Details, User_Details } from "gql";
 import { createContext } from "react";
 
 type AuthApi = {
@@ -17,6 +17,7 @@ type AuthApi = {
    */
   authenticate: (user: string, pass: string) => Promise<string>;
 };
+
 type UserApi = {
   /**
    * Retrieves a profile for a given user ID.
@@ -32,6 +33,26 @@ type UserApi = {
    */
   saveProfile: (id: string, details: User_Details) => Promise<User_Details>;
 };
+
+type ProjectApi = {
+  /**
+   * Gets project details by ID.
+   * @param id project ID
+   * @returns associated project details
+   */
+  getProject: (id: string) => Promise<Project_Details>;
+  /**
+   * Persists project state.
+   * @param details project details to persist
+   * @param id? ID of project to update; if not set, creates a new project with given `details`
+   * @returns updated project state
+   */
+  saveProject: (
+    details: Project_Details,
+    id?: string
+  ) => Promise<{ id: string; details: Project_Details }>;
+};
+
 type I18nApi = {
   /**
    * Retrieves i18n for given locale.
@@ -41,6 +62,6 @@ type I18nApi = {
   getI18n: (locale: I18n_Locale) => Promise<{ [key: string]: string }>;
 };
 
-export type ApiContextProps = AuthApi & UserApi & I18nApi;
+export type ApiContextProps = AuthApi & UserApi & ProjectApi & I18nApi;
 
 export default createContext({} as ApiContextProps);

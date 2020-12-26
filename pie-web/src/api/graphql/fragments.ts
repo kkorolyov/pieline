@@ -12,6 +12,18 @@ export const userFields = gql`
   }
 `;
 
+export const projectFields = gql`
+  fragment projectFields on project_Project {
+    id {
+      value
+    }
+    details {
+      title
+      description
+    }
+  }
+`;
+
 export const i18nPackFields = gql`
   fragment i18nPackFields on i18n_i18nPack {
     value {
