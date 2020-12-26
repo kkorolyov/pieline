@@ -10,7 +10,7 @@ val grpcVersion: String by project
 val grpcKtVersion: String by project
 
 tasks.wrapper {
-	gradleVersion = "6.5.1"
+	gradleVersion = File("gradle-version").useLines { it.firstOrNull() }
 	distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -24,44 +24,35 @@ plugins {
 group = "dev.kkorolyov"
 version = "0.1"
 
-java {
-	sourceCompatibility = VERSION_14
-	targetCompatibility = VERSION_14
-}
-
-application {
-	mainClassName = "dev.kkorolyov.pieauth.ServerKt"
-}
-
 repositories {
 	jcenter()
 	maven {
 		url = uri("https://maven.pkg.github.com/kkorolyov/pieline-lib")
 		credentials {
-			val gprUser: String? by project
-			val gprKey: String? by project
-
-			username = System.getenv("GITHUB_ACTOR") ?: gprUser
-			password = System.getenv("GITHUB_TOKEN") ?: gprKey
+			username = System.getenv("GITHUB_ACTOR") ?: property("gpr.user") as String
+			password = System.getenv("GITHUB_TOKEN") ?: property("gpr.key") as String
 		}
 	}
 }
 dependencies {
+	// stdlib
 	val coroutinesVersion: String by project
-	val argon2Version: String by project
-	val h2Version: String by project
-	val tomcatAnnotationsVersion: String by project
-	val exposedVersion: String by project
-	val log4jVersion: String by project
-	val jwtVersion: String by project
 	val pielineLibVersion: String by project
-	val spockVersion: String by project
 
 	implementation(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:$coroutinesVersion"))
+	implementation("dev.kkorolyov.pieline:libkt:$pielineLibVersion")
 
-	implementation("de.mkammerer:argon2-jvm:$argon2Version")
+	// persistence
+	val h2Version: String by project
+	val exposedVersion: String by project
+
 	implementation("com.h2database:h2:$h2Version")
-	implementation("com.auth0:java-jwt:$jwtVersion")
+	listOf(
+		"core",
+		"jdbc"
+	).forEach {
+		implementation(("org.jetbrains.exposed:exposed-$it:$exposedVersion"))
+	}
 
 	// grpc
 	implementation(platform("io.grpc:grpc-bom:$grpcVersion"))
@@ -73,17 +64,20 @@ dependencies {
 		implementation("io.grpc:$it")
 	}
 	implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
-	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
 
-	// exposed
-	listOf(
-		"core",
-		"jdbc"
-	).forEach {
-		implementation(("org.jetbrains.exposed:exposed-$it:$exposedVersion"))
-	}
+	// auth
+	val jwtVersion: String by project
+	val argon2Version: String by project
 
-	// logging
+	implementation("com.auth0:java-jwt:$jwtVersion")
+	implementation("de.mkammerer:argon2-jvm:$argon2Version")
+
+	// observability
+	val log4jVersion: String by project
+	val opentracingVersion: String by project
+	val opentracingGrpcVersion: String by project
+	val jaegerVersion: String by project
+
 	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
 	listOf(
 		"log4j-api",
@@ -93,10 +87,12 @@ dependencies {
 		implementation("org.apache.logging.log4j:$it")
 	}
 
-	// shared
-	implementation("dev.kkorolyov.pieline:libkt:$pielineLibVersion")
+	implementation("io.opentracing:opentracing-api:$opentracingVersion")
+	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
+	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
 
 	// test
+	val spockVersion: String by project
 	testImplementation("org.spockframework:spock-core:$spockVersion")
 
 	dependencyLocking {
@@ -114,6 +110,23 @@ sourceSets {
 			srcDir("../protos")
 		}
 	}
+}
+
+java {
+	sourceCompatibility = VERSION_14
+	targetCompatibility = VERSION_14
+}
+
+application {
+	mainClassName = "dev.kkorolyov.pieauth.ServerKt"
+}
+
+// Local dev run
+tasks.named<JavaExec>("run") {
+	environment = mapOf(
+		"PORT" to 5001,
+		"DB_URL" to "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
+	)
 }
 
 protobuf {

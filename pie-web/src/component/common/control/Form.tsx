@@ -1,6 +1,6 @@
-import React from "react";
+import React, { DOMAttributes } from "react";
 
-export type FormProps = {
+export type FormProps = DOMAttributes<HTMLFormElement> & {
   /**
    * Form submission handler.
    */

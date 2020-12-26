@@ -23,15 +23,6 @@ plugins {
 group = "dev.kkorolyov"
 version = "0.1"
 
-java {
-	sourceCompatibility = VERSION_14
-	targetCompatibility = VERSION_14
-}
-
-application {
-	mainClassName = "io.ktor.server.netty.EngineMain"
-}
-
 repositories {
 	jcenter()
 	maven {
@@ -43,19 +34,16 @@ repositories {
 	}
 }
 dependencies {
+	// stdlib
 	val coroutinesVersion: String by project
-	val tomcatAnnotationsVersion: String by project
-	val ktorVersion: String by project
-	val log4jVersion: String by project
-	val guavaVersion: String by project
-	val rejoinerVersion: String by project
 	val pielineLibVersion: String by project
+	val tomcatAnnotationsVersion: String by project
 
 	implementation(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:$coroutinesVersion"))
-
-	// grpc
+	implementation("dev.kkorolyov.pieline:libkt:$pielineLibVersion")
 	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
 
+	// grpc
 	implementation(platform("io.grpc:grpc-bom:$grpcVersion"))
 	listOf(
 		"grpc-netty-shaded",
@@ -66,11 +54,32 @@ dependencies {
 	}
 	implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
 
+	// gql
+	val guavaVersion: String by project
+	val rejoinerVersion: String by project
+
 	implementation("com.google.guava:guava:$guavaVersion")
 	implementation("org.jetbrains.kotlinx:kotlinx-coroutines-guava")
 	implementation("com.google.api.graphql:rejoiner:$rejoinerVersion")
 
+	// observability
+	val log4jVersion: String by project
+	val opentracingVersion: String by project
+	val opentracingGrpcVersion: String by project
+	val jaegerVersion: String by project
+
+	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
+	listOf(
+		"log4j-api",
+		"log4j-core",
+		"log4j-slf4j-impl"
+	).forEach {
+		implementation("org.apache.logging.log4j:$it")
+	}
+
 	// ktor
+	val ktorVersion: String by project
+
 	implementation(platform("io.ktor:ktor-bom:$ktorVersion"))
 	listOf(
 		"ktor-server-netty",
@@ -82,17 +91,9 @@ dependencies {
 		implementation(("io.ktor:$it"))
 	}
 
-	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
-	listOf(
-		"log4j-api",
-		"log4j-core",
-		"log4j-slf4j-impl"
-	).forEach {
-		implementation("org.apache.logging.log4j:$it")
-	}
-
-	// shared
-	implementation("dev.kkorolyov.pieline:libkt:$pielineLibVersion")
+	implementation("io.opentracing:opentracing-api:$opentracingVersion")
+	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
+	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
 
 	// test
 	testImplementation("io.ktor:ktor-server-tests")
@@ -108,6 +109,26 @@ sourceSets {
 			srcDir("../protos")
 		}
 	}
+}
+
+java {
+	sourceCompatibility = VERSION_14
+	targetCompatibility = VERSION_14
+}
+
+application {
+	mainClassName = "io.ktor.server.netty.EngineMain"
+}
+
+// Local dev run
+tasks.named<JavaExec>("run") {
+	environment = mapOf(
+		"PORT" to 5000,
+		"ADDR_AUTH" to "localhost:5001",
+		"ADDR_USERS" to "localhost:5002",
+		"ADDR_PROJECTS" to "localhost:5003",
+		"ADDR_I18N" to "localhost:6000"
+	)
 }
 
 protobuf {

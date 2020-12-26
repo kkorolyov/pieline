@@ -3,7 +3,7 @@ package dev.kkorolyov.pieauth.auth
 import de.mkammerer.argon2.Argon2
 import de.mkammerer.argon2.Argon2Factory
 import de.mkammerer.argon2.Argon2Factory.Argon2Types.ARGON2id
-import dev.kkorolyov.pieauth.util.tracer
+import dev.kkorolyov.pieauth.trace.TRACER
 import dev.kkorolyov.pieline.trace.span
 
 private const val ITERATIONS = 10
@@ -20,7 +20,7 @@ object PassMaster {
 	 * Hashes [pass], wipes it, and returns the hashed value.
 	 */
 	fun hash(pass: CharArray): String {
-		return tracer.span("pass-hash").use {
+		return TRACER.span("pass-hash").use {
 			try {
 				argon2.hash(
 					ITERATIONS,
@@ -38,7 +38,7 @@ object PassMaster {
 	 * Verifies [pass] against [hash], wipes [pass], and returns whether [pass] matches [hash].
 	 */
 	fun verify(hash: String, pass: CharArray): Boolean {
-		return tracer.span("pass-verify").use {
+		return TRACER.span("pass-verify").use {
 			try {
 				argon2.verify(hash, pass)
 			} finally {

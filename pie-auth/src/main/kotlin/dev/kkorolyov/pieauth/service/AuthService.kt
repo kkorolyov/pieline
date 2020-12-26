@@ -4,9 +4,9 @@ import dev.kkorolyov.pieauth.auth.PassMaster
 import dev.kkorolyov.pieauth.auth.RoleMaster
 import dev.kkorolyov.pieauth.auth.TokenMaster
 import dev.kkorolyov.pieauth.db.Credentials
-import dev.kkorolyov.pieauth.db.DbConfig
-import dev.kkorolyov.pieauth.util.clientInterceptor
-import dev.kkorolyov.pieauth.util.tracer
+import dev.kkorolyov.pieauth.db.DB
+import dev.kkorolyov.pieauth.trace.CLIENT_TRACER
+import dev.kkorolyov.pieauth.trace.TRACER
 import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineImplBase
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthRequest
 import dev.kkorolyov.pieline.proto.auth.AuthOuterClass.AuthResponse
@@ -36,7 +36,7 @@ import java.util.UUID
 private val usersStub: UsersCoroutineStub = Address.forEnv("ADDR_USERS").let { (host, port) ->
 	UsersCoroutineStub(
 		ManagedChannelBuilder.forAddress(host, port)
-			.intercept(clientInterceptor)
+			.intercept(CLIENT_TRACER)
 			.usePlaintext()
 			.build()
 	)
@@ -49,17 +49,17 @@ object AuthService : AuthCoroutineImplBase() {
 	private val log = LoggerFactory.getLogger(AuthService::class.java)
 
 	init {
-		// Register DB
-		DbConfig.db
-		// Bootstrap tables
+		// Initialize database
+		DB
 		transaction {
 			SchemaUtils.createMissingTablesAndColumns(Credentials)
 		}
 	}
 
 	override suspend fun authenticate(request: AuthRequest): AuthResponse =
-		tracer.span("transaction", parent = OpenTracingContextKey.activeSpan()).use {
+		TRACER.span("transaction", parent = OpenTracingContextKey.activeSpan()).use {
 			it.setTag(Tags.DB_TYPE, "sql")
+			it.setTag("user", request.user)
 
 			transaction {
 				addLogger(Slf4jSqlDebugLogger)
@@ -83,8 +83,9 @@ object AuthService : AuthCoroutineImplBase() {
 		}
 
 	override suspend fun register(request: AuthRequest): AuthResponse =
-		tracer.span("transaction", parent = OpenTracingContextKey.activeSpan()).use {
+		TRACER.span("transaction", parent = OpenTracingContextKey.activeSpan()).use {
 			it.setTag(Tags.DB_TYPE, "sql")
+			it.setTag("user", request.user)
 
 			// Both credentials and user profile must be created together
 			val id = transaction {
@@ -113,12 +114,11 @@ object AuthService : AuthCoroutineImplBase() {
 							)
 						).first()
 					}.also {
-						log.info("created profile for user {{}}", request.user, it.id)
+						log.info("created profile for user {{}}", request.user)
 					}
 					id
 				} catch (e: Exception) {
-					rollback()
-					log.error("failed to register user {{${request.user}}}", e)
+					log.error("failed to register user {${request.user}}", e)
 					throw StatusRuntimeException(Status.ALREADY_EXISTS)
 				}
 			}

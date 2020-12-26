@@ -42,6 +42,16 @@ export type Input_I18n_I18nPack_ValueEntry = {
   value?: Maybe<Scalars['String']>;
 };
 
+export type Input_Project_Details = {
+  description?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type Input_Project_Project = {
+  details?: Maybe<Input_Project_Details>;
+  id?: Maybe<Input_Common_Uuid>;
+};
+
 export type Input_User_Details = {
   displayName?: Maybe<Scalars['String']>;
   email?: Maybe<Scalars['String']>;
@@ -54,14 +64,32 @@ export type Input_User_User = {
 
 export type MutationType = {
   __typename?: 'MutationType';
+  deleteProjects?: Maybe<Array<Project_Project>>;
+  deleteUsers?: Maybe<Array<User_User>>;
   register?: Maybe<Auth_AuthResponse>;
+  setProject?: Maybe<Project_Project>;
   setUser?: Maybe<User_User>;
+};
+
+
+export type MutationTypeDeleteProjectsArgs = {
+  ids?: Maybe<Input_Common_UuidList>;
+};
+
+
+export type MutationTypeDeleteUsersArgs = {
+  ids?: Maybe<Input_Common_UuidList>;
 };
 
 
 export type MutationTypeRegisterArgs = {
   pass?: Maybe<Scalars['String']>;
   user?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationTypeSetProjectArgs = {
+  project?: Maybe<Input_Project_Project>;
 };
 
 
@@ -73,6 +101,8 @@ export type QueryType = {
   __typename?: 'QueryType';
   authenticate?: Maybe<Auth_AuthResponse>;
   i18n?: Maybe<I18n_I18nPack>;
+  project?: Maybe<Project_Project>;
+  projects?: Maybe<Array<Project_Project>>;
   user?: Maybe<User_User>;
   users?: Maybe<Array<User_User>>;
 };
@@ -86,6 +116,16 @@ export type QueryTypeAuthenticateArgs = {
 
 export type QueryTypeI18nArgs = {
   locale?: Maybe<I18n_Locale>;
+};
+
+
+export type QueryTypeProjectArgs = {
+  id?: Maybe<Scalars['String']>;
+};
+
+
+export type QueryTypeProjectsArgs = {
+  ids?: Maybe<Input_Common_UuidList>;
 };
 
 
@@ -139,6 +179,18 @@ export type I18n_I18nPack_ValueEntry = {
   __typename?: 'i18n_i18nPack_ValueEntry';
   key?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['String']>;
+};
+
+export type Project_Details = {
+  __typename?: 'project_Details';
+  description?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+};
+
+export type Project_Project = {
+  __typename?: 'project_Project';
+  details?: Maybe<Project_Details>;
+  id?: Maybe<Common_Uuid>;
 };
 
 export type User_Details = {

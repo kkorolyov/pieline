@@ -1,29 +1,34 @@
 package dev.kkorolyov.piegate.util
 
-import dev.kkorolyov.pieline.trace.makeClientInterceptor
-import dev.kkorolyov.pieline.trace.makeServerInterceptor
-import dev.kkorolyov.pieline.trace.makeTracer
 import io.grpc.ClientInterceptor
 import io.grpc.ServerInterceptor
+import io.jaegertracing.Configuration
 import io.opentracing.Tracer
+import io.opentracing.contrib.grpc.TracingClientInterceptor
+import io.opentracing.contrib.grpc.TracingServerInterceptor
+import io.opentracing.util.GlobalTracer
 
 /**
  * Application tracer.
  */
-val tracer: Tracer by lazy {
-	makeTracer("pie-gate")
+val TRACER: Tracer = Configuration.fromEnv("pie-gate").tracer.also {
+	GlobalTracer.registerIfAbsent(it)
 }
 
 /**
  * Application gRPC client interceptor.
  */
-val clientInterceptor: ClientInterceptor by lazy {
-	makeClientInterceptor(tracer)
-}
+val CLIENT_TRACER: ClientInterceptor = TracingClientInterceptor.newBuilder()
+	.withTracer(TRACER)
+	.withStreaming()
+	.withVerbosity()
+	.build()
 
 /**
  * Application gRPC server interceptor.
  */
-val serverInterceptor: ServerInterceptor by lazy {
-	makeServerInterceptor(tracer)
-}
+val SERVER_TRACER: ServerInterceptor = TracingServerInterceptor.newBuilder()
+	.withTracer(TRACER)
+	.withStreaming()
+	.withVerbosity()
+	.build()

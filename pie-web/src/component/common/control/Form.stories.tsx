@@ -4,7 +4,13 @@ import React, { ReactNode } from "react";
 import Form, { FormProps } from "./Form";
 import TextField from "./TextField";
 
-export default { title: "Common/Control/Form", component: Form };
+export default {
+  title: "Common/Control/Form",
+  component: Form,
+  args: {
+    onSubmit: () => {},
+  },
+};
 
 const Wrapper = ({ children }: { children: ReactNode }) => (
   <>

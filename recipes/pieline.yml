@@ -39,8 +39,10 @@ spec:
               value: localhost:5001
             - name: ADDR_USERS
               value: localhost:5002
-            - name: ADDR_I18N
+            - name: ADDR_PROJECTS
               value: localhost:5003
+            - name: ADDR_I18N
+              value: localhost:6000
 
         - name: pie-auth
           image: localhost/pie-auth
@@ -94,6 +96,30 @@ spec:
             - name: POSTGRES_PASSWORD
               value: users
 
+        - name: pie-proj
+          image: localhost/pie-proj
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          env:
+            - name: PORT
+              value: "5003"
+            - name: DB_URL
+              value: jdbc:h2:tcp://localhost:1521//opt/h2-data/projects
+        - name: db-proj
+          image: oscarfonts/h2
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500M
+          volumeMounts:
+            - name: mnt-projects
+              mountPath: /opt/h2-data
+          env:
+            - name: H2_OPTIONS
+              value: -ifNotExists
+
         - name: pi18n
           image: localhost/pi18n
           resources:
@@ -102,7 +128,7 @@ spec:
               memory: 1G
           env:
             - name: PORT
-              value: "5003"
+              value: "6000"
 
         - name: pie-web
           image: localhost/pie-web
@@ -139,5 +165,9 @@ spec:
         - name: mnt-users
           hostPath:
             path: /var/vol/users
+            type: DirectoryOrCreate
+        - name: mnt-projects
+          hostPath:
+            path: /var/vol/projects
             type: DirectoryOrCreate
 status: {}
