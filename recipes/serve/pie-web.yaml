@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pie-web
+  labels:
+    app: pie-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pie-web
+  template:
+    metadata:
+      labels:
+        app: pie-web
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+
+      hostname: pie-web
+
+      containers:
+        - name: pie-web
+          image: localhost/pie-web
+          ports:
+            - containerPort: 4000
+              hostPort: 4000
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          env:
+            - name: PORT
+              value: "4000"
+            - name: ADDR_GATE
+              value: "http://pie-gate:5000"
+status: {}
