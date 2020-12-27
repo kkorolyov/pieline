@@ -21,8 +21,6 @@ spec:
         readOnlyRootFilesystem: false
         seLinuxOptions: {}
 
-      hostname: pie-proj
-
       containers:
         - name: pie-proj
           image: localhost/pie-proj

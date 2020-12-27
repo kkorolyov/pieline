@@ -21,8 +21,6 @@ spec:
         readOnlyRootFilesystem: false
         seLinuxOptions: {}
 
-      hostname: pie-gate
-
       containers:
         - name: pie-gate
           image: localhost/pie-gate

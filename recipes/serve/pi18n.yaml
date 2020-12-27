@@ -21,8 +21,6 @@ spec:
         readOnlyRootFilesystem: false
         seLinuxOptions: {}
 
-      hostname: pi18n
-
       containers:
         - name: pi18n
           image: localhost/pi18n

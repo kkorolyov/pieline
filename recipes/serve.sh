@@ -41,7 +41,7 @@ podman network create pieline || true
 for service in "${services[@]}"; do
 	if $clean; then
 		echo "removing existing $service deployment..."
-		podman pod rm -f "${service}-pod-0"
+		podman pod rm -if "${service}-pod-0"
 	fi
 
 	echo "deploying $service"

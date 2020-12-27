@@ -21,8 +21,6 @@ spec:
         readOnlyRootFilesystem: false
         seLinuxOptions: {}
 
-      hostname: pie-web
-
       containers:
         - name: pie-web
           image: localhost/pie-web
@@ -38,5 +36,5 @@ spec:
             - name: PORT
               value: "4000"
             - name: ADDR_GATE
-              value: "http://pie-gate:5000"
+              value: "http://localhost:5000"
 status: {}

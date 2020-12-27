@@ -21,8 +21,6 @@ spec:
         readOnlyRootFilesystem: false
         seLinuxOptions: {}
 
-      hostname: pie-auth
-
       containers:
         - name: pie-auth
           image: localhost/pie-auth
