@@ -4,7 +4,7 @@ cwd=$(dirname "$0")
 
 # prep
 . ${cwd}/prep.sh
-install yarn
+install libstdc++
 
 swd=${cwd}/../../../${service}
 
@@ -12,15 +12,12 @@ swd=${cwd}/../../../${service}
 pushd ${swd}
 yarn
 yarn clean
-yarn build
-copy build $service
-# may be running on a shared folder - buildah copy chokes on copying hefty directories from a shared folder
-cp -r node_modules /tmp
-copy /tmp/node_modules node_modules
+yarn build:bin
+copy build/bin $service
 popd
 
 # configure
-config --workingdir $service --entrypoint "node server.js"
+config --workingdir $service --entrypoint "./$service"
 
 # publish
 publish

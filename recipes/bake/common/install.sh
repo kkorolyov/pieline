@@ -14,7 +14,8 @@ if [ $# -gt 0 ]; then
 		# If host is not fedora, make your own fedora
 		echo "host does not have dnf, making my own dnf..."
 		podman run --rm -v $mnt:/mnt registry.fedoraproject.org/fedora bash -c "
-	curl --silent --location https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo &&
+	curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo &&
+	curl -sL https://rpm.nodesource.com/setup_14.x | bash - &&
 	dnf install $dnfOpts --installroot /mnt $@ &&
 	dnf autoremove -y &&
 	dnf clean all &&
