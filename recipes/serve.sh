@@ -6,8 +6,8 @@ cwd=$(dirname $0)
 clean=false
 
 usage() {
-	echo "usage: $me [-c]"
-	echo "	-c	clear existing deployment first"
+	echo "usage: $me [-c] [service]..."
+	echo "	-c	clear existing deployments first"
 }
 
 while getopts ":ch" opt; do
@@ -29,10 +29,22 @@ while getopts ":ch" opt; do
 done
 shift $((OPTIND - 1))
 
-if $clean; then
-	echo "removing existing deployment..."
-	podman pod rm -f pieline-deploy-pod-0
+if [ $# -gt 0 ]; then
+	services=("$@")
+else
+	mapfile -t services <"${cwd}/env/services"
 fi
+services+=("jaeger")
 
-echo "deploying PieLine configuration..."
-podman play kube "${cwd}/pieline.yml"
+podman network create pieline || true
+
+for service in "${services[@]}"; do
+	if $clean; then
+		echo "removing existing $service deployment..."
+		podman pod rm -if "${service}-pod-0"
+	fi
+
+	echo "deploying $service"
+	podman play kube ${cwd}/serve/${service}.yaml --network pieline
+	echo "$service deployed"
+done

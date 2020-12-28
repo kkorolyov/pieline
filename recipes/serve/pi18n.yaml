@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pi18n
+  labels:
+    app: pi18n
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pi18n
+  template:
+    metadata:
+      labels:
+        app: pi18n
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+
+      containers:
+        - name: pi18n
+          image: localhost/pi18n
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          ports:
+            - containerPort: 6000
+              hostPort: 6000
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "6000"
+status: {}

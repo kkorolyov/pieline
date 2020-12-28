@@ -62,3 +62,5 @@ fi
 
 # common prep
 container=$(buildah from scratch)
+# avoid locale bloat
+install glibc-minimal-langpack

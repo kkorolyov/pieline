@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pie-auth
+  labels:
+    app: pie-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pie-auth
+  template:
+    metadata:
+      labels:
+        app: pie-auth
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+
+      containers:
+        - name: pie-auth
+          image: localhost/pie-auth
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          ports:
+            - containerPort: 5001
+              hostPort: 5001
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "5001"
+            - name: DB_URL
+              value: jdbc:h2:tcp://localhost:1521//opt/h2-data/auth
+            - name: ADDR_USERS
+              value: pie-users-pod-0:5002
+        - name: db-auth
+          image: oscarfonts/h2
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500M
+          volumeMounts:
+            - name: mnt-auth
+              mountPath: /opt/h2-data
+          env:
+            - name: H2_OPTIONS
+              value: -ifNotExists
+
+      volumes:
+        - name: mnt-auth
+          hostPath:
+            path: /var/vol/auth
+            type: DirectoryOrCreate
+status: {}

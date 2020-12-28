@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pie-proj
+  labels:
+    app: pie-proj
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pie-proj
+  template:
+    metadata:
+      labels:
+        app: pie-proj
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+
+      containers:
+        - name: pie-proj
+          image: localhost/pie-proj
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          ports:
+            - containerPort: 5003
+              hostPort: 5003
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "5003"
+            - name: DB_URL
+              value: jdbc:h2:tcp://localhost:1521//opt/h2-data/projects
+        - name: db-proj
+          image: oscarfonts/h2
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500M
+          volumeMounts:
+            - name: mnt-projects
+              mountPath: /opt/h2-data
+          env:
+            - name: H2_OPTIONS
+              value: -ifNotExists
+
+      volumes:
+        - name: mnt-projects
+          hostPath:
+            path: /var/vol/projects
+            type: DirectoryOrCreate
+status: {}

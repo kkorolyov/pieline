@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pie-users
+  labels:
+    app: pie-users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pie-users
+  template:
+    metadata:
+      labels:
+        app: pie-users
+    spec:
+      securityContext:
+        allowPrivilegeEscalation: true
+        capabilities: {}
+        privileged: false
+        readOnlyRootFilesystem: false
+        seLinuxOptions: {}
+
+      containers:
+        - name: pie-users
+          image: localhost/pie-users
+          resources:
+            limits:
+              cpu: 100m
+              memory: 1G
+          ports:
+            - containerPort: 5002
+              hostPort: 5002
+              protocol: TCP
+          env:
+            - name: PORT
+              value: "5002"
+            - name: DB_URL
+              value: postgresql://users:users@localhost:5432/users
+        - name: db-users
+          image: postgres
+          resources:
+            limits:
+              cpu: 100m
+              memory: 500M
+          volumeMounts:
+            - name: mnt-users
+              mountPath: /var/lib/postgresql/data
+          env:
+            - name: POSTGRES_USER
+              value: users
+            - name: POSTGRES_PASSWORD
+              value: users
+            - name: PGDATA
+              value: /var/lib/postgresql/data/pgdata
+
+      volumes:
+        - name: mnt-users
+          hostPath:
+            path: /var/vol/users
+            type: DirectoryOrCreate
+status: {}
