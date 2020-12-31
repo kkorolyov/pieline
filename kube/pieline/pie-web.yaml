@@ -14,14 +14,14 @@ spec:
     spec:
       containers:
         - name: pie-web
-          image: localhost:10000/pie-web
+          image: dreg.local/pie-web
           ports:
             - containerPort: 7000
           env:
             - name: PORT
               value: "7000"
             - name: ADDR_GATE
-              value: "http://pieline.gate.local"
+              value: "http://pieline.api.local"
 ---
 apiVersion: v1
 kind: Service

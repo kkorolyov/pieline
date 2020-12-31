@@ -6,7 +6,7 @@ cwd=$(dirname "$0")
 . ${cwd}/prep.sh
 install which java-latest-openjdk
 
-swd=${cwd}/../../../${service}
+swd=${cwd}/../../${service}
 
 # build
 pushd ${swd}

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: pi18n
-          image: localhost:10000/pi18n
+          image: dreg.local/pi18n
           ports:
             - containerPort: 6000
           env:

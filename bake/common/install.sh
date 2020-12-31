@@ -1,5 +1,10 @@
 #!/bin/sh -e
 
+# Buildah package manager install comman wrapper
+# Can be used in a buildah unshare environment
+# Packages are installed using 'dnf'
+# Usage: install.sh <container> [package...] 
+
 dnfOpts="-y --setopt install_weak_deps=false --setopt tsflags=nodocs --releasever 32"
 container="$1"
 shift

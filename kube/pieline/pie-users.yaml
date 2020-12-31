@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: pie-users
-          image: localhost:10000/pie-users
+          image: dreg.local/pie-users
           ports:
             - containerPort: 5002
           env:

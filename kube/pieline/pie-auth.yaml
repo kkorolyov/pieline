@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: pie-auth
-          image: localhost:10000/pie-auth
+          image: dreg.local/pie-auth
           ports:
             - containerPort: 5001
               hostPort: 5001

@@ -6,7 +6,7 @@ cwd=$(dirname "$0")
 . ${cwd}/prep.sh
 install libstdc++
 
-swd=${cwd}/../../../${service}
+swd=${cwd}/../../${service}
 
 # build
 pushd ${swd}

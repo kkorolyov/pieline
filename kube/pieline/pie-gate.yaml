@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: pie-gate
-          image: localhost:10000/pie-gate
+          image: dreg.local/pie-gate
           ports:
             - containerPort: 5000
           env:

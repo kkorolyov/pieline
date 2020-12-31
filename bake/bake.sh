@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 me=$(basename $0)
 cwd=$(dirname $0)
@@ -32,7 +32,7 @@ shift $((OPTIND - 1))
 if [ $# -gt 0 ]; then
 	services=("$@")
 else
-	mapfile -t services <"${cwd}/env/services"
+	mapfile -t services <"${cwd}/services"
 fi
 
 for service in "${services[@]}"; do
@@ -42,6 +42,6 @@ for service in "${services[@]}"; do
 	fi
 
 	echo "building $service image..."
-	${cwd}/bake/${service}.sh
+	${cwd}/service/${service}.sh
 	echo "$service image done"
 done

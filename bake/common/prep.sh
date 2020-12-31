@@ -11,7 +11,7 @@
 me=$(basename "$0")
 cwd=$(dirname "$0")
 
-registry="localhost:10000"
+registry="dreg.local"
 
 usage() {
 	echo "usage: $me -s <service>"
