@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pie-users
-  labels:
-    app: pie-users
 spec:
   replicas: 1
   selector:
@@ -14,24 +12,11 @@ spec:
       labels:
         app: pie-users
     spec:
-      securityContext:
-        allowPrivilegeEscalation: true
-        capabilities: {}
-        privileged: false
-        readOnlyRootFilesystem: false
-        seLinuxOptions: {}
-
       containers:
         - name: pie-users
-          image: localhost/pie-users
-          resources:
-            limits:
-              cpu: 100m
-              memory: 1G
+          image: localhost:10000/pie-users
           ports:
             - containerPort: 5002
-              hostPort: 5002
-              protocol: TCP
           env:
             - name: PORT
               value: "5002"
@@ -39,12 +24,8 @@ spec:
               value: postgresql://users:users@localhost:5432/users
         - name: db-users
           image: postgres
-          resources:
-            limits:
-              cpu: 100m
-              memory: 500M
           volumeMounts:
-            - name: mnt-users
+            - name: pie-users
               mountPath: /var/lib/postgresql/data
           env:
             - name: POSTGRES_USER
@@ -53,10 +34,29 @@ spec:
               value: users
             - name: PGDATA
               value: /var/lib/postgresql/data/pgdata
-
       volumes:
-        - name: mnt-users
-          hostPath:
-            path: /var/vol/users
-            type: DirectoryOrCreate
-status: {}
+        - name: pie-users
+          persistentVolumeClaim:
+            claimName: pie-users
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pie-users
+spec:
+  selector:
+    app: pie-users
+  ports:
+    - port: 5002
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pie-users
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path
+  resources:
+    requests:
+      storage: 1G

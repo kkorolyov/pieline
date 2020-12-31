@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingy
+spec:
+  rules:
+    - host: pieline.local
+      http:
+        paths:
+          - backend:
+              service:
+                name: pie-web
+                port:
+                  number: 7000
+            path: /
+            pathType: Prefix
+    - host: pieline.gate.local
+      http:
+        paths:
+          - backend:
+              service:
+                name: pie-gate
+                port:
+                  number: 5000
+            path: /
+            pathType: Prefix
+    # - host: jaeger.local
+    #   http:
+    #     paths:
+    #       - backend:
+    #           service:
+    #             name: jaeger
+    #             port:
+    #               number: 16886
+    #         path: /
+    #         pathType: Prefix

@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 cwd=$(dirname "$0")
 
@@ -11,11 +11,11 @@ swd=${cwd}/../../../${service}
 # build
 pushd ${swd}
 ./gradlew clean installDist
-copy build/install/${service} $service
+copy build/install/${service} /$service
 popd
 
 # configure
-config --workingdir "${service}/bin" --entrypoint "./${service}"
+config --workingdir "/${service}/bin" --entrypoint "./${service}"
 
 # publish
 publish

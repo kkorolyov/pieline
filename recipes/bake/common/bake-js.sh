@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 cwd=$(dirname "$0")
 
@@ -13,14 +13,12 @@ pushd ${swd}
 yarn
 yarn clean
 yarn build
-# may be running on a shared folder - buildah copy chokes on copying hefty directories from a shared folder
-cp -r build /tmp
-copy /tmp/build $service
+copy build /$service
 popd
-run yarn --cwd $service add express
+run yarn --cwd /$service add express
 
 # configure
-config --workingdir $service --entrypoint "node server.js"
+config --workingdir /$service --entrypoint "node server.js"
 
 # publish
 publish

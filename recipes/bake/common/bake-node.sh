@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 cwd=$(dirname "$0")
 
@@ -13,11 +13,11 @@ pushd ${swd}
 yarn
 yarn clean
 yarn build:bin
-copy build/bin $service
+copy build/bin /$service
 popd
 
 # configure
-config --workingdir $service --entrypoint "./$service"
+config --workingdir /$service --entrypoint "./$service"
 
 # publish
 publish

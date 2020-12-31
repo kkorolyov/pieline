@@ -1,5 +1,3 @@
-#!/bin/bash -e
-
 # Base buildscript
 # Higher level scripts may source this to apply common configuration
 # Exports members usable in sourcing scripts:
@@ -12,6 +10,8 @@
 
 me=$(basename "$0")
 cwd=$(dirname "$0")
+
+registry="localhost:10000"
 
 usage() {
 	echo "usage: $me -s <service>"
@@ -31,7 +31,8 @@ config() {
 	buildah config "$@" $container
 }
 publish() {
-	buildah commit $container ${service}
+	buildah commit $container "${registry}/${service}"
+	buildah push --tls-verify=false "${registry}/${service}"
 	buildah rm $container
 }
 

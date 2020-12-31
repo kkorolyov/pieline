@@ -1,10 +1,10 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
 dnfOpts="-y --setopt install_weak_deps=false --setopt tsflags=nodocs --releasever 32"
 container="$1"
 shift
 
-if [ $# -gt 0 ]; then
+if [ "$#" -gt 0 ]; then
 	mnt=$(buildah mount $container)
 
 	# Try to use the host to install

@@ -14,22 +14,8 @@ spec:
       labels:
         app: jaeger
     spec:
-      securityContext:
-        allowPrivilegeEscalation: true
-        capabilities: {}
-        privileged: false
-        readOnlyRootFilesystem: false
-        seLinuxOptions: {}
-
       containers:
         - name: jaeger
           image: jaegertracing/all-in-one
           ports:
-            - containerPort: 16686
-              hostPort: 16686
-              protocol: TCP
-          resources:
-            limits:
-              cpu: 100m
-              memory: 1G
-status: {}
+            - containerPort: 16886
