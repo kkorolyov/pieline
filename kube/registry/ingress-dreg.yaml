@@ -11,6 +11,6 @@ spec:
               service:
                 name: dreg
                 port:
-                  number: 10000
+                  number: 5000
             path: /
             pathType: Prefix

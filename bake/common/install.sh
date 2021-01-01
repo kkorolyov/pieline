@@ -21,12 +21,7 @@ if [ "$#" -gt 0 ]; then
 		podman run --rm -v $mnt:/mnt registry.fedoraproject.org/fedora bash -c "
 	curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo &&
 	curl -sL https://rpm.nodesource.com/setup_14.x | bash - &&
-	dnf install $dnfOpts --installroot /mnt $@ &&
-	dnf autoremove -y &&
-	dnf clean all &&
-	rm -rf /mnt/var/cache &&
-	rm -rf /var/log/dnf* &&
-	rm -rf /var/log/yum*
+	dnf install $dnfOpts --setopt cachedir=/var/cache/dnf --setopt reposdir=/etc/yum.repos.d --installroot /mnt $@
 	"
 	fi
 
