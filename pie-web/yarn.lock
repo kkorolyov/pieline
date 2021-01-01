@@ -2170,14 +2170,14 @@
     tslib "~2.0.1"
     upper-case "2.0.1"
 
-"@graphql-codegen/typescript-operations@^1.17.12":
-  version "1.17.12"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-1.17.12.tgz#25e0f0ede1bcd165196f0c161286d745395c7768"
-  integrity sha512-UXe/O3kNAlLptURuripAhK8n/Gf6FthL7xr6sG4vpuLVwrWjXu/KlS7+TP+UvlI9OH2LICm0KHqA0xoFCjNbMg==
+"@graphql-codegen/typescript-operations@^1.17.13":
+  version "1.17.13"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/typescript-operations/-/typescript-operations-1.17.13.tgz#a5b08c1573b9507ca5a9e66e795aecc40ddc5305"
+  integrity sha512-Wm/S4pmPy+KPvFVpygNwC4pd9zKtGIwnS+2rlMUBZVSpv4fxjX2YDvYHP/gucck+SiS0RRxB7hW65bTwCns46g==
   dependencies:
     "@graphql-codegen/plugin-helpers" "^1.18.2"
     "@graphql-codegen/typescript" "^1.18.1"
-    "@graphql-codegen/visitor-plugin-common" "^1.17.20"
+    "@graphql-codegen/visitor-plugin-common" "^1.17.22"
     auto-bind "~4.0.0"
     tslib "~2.0.1"
 
@@ -2191,10 +2191,10 @@
     auto-bind "~4.0.0"
     tslib "~2.0.1"
 
-"@graphql-codegen/visitor-plugin-common@^1.17.20":
-  version "1.17.20"
-  resolved "https://registry.yarnpkg.com/@graphql-codegen/visitor-plugin-common/-/visitor-plugin-common-1.17.20.tgz#cff95cdd49cef270b3811fdb141a412ffe2bdfd7"
-  integrity sha512-buIpcNNyTqVubknancX8m9jARCZsUA5eKuskg+CylWKL/8CSaD2Tiq7CfbbNO10o7XIgRrPtJMl1c9hQ6N4ytw==
+"@graphql-codegen/visitor-plugin-common@^1.17.20", "@graphql-codegen/visitor-plugin-common@^1.17.22":
+  version "1.18.0"
+  resolved "https://registry.yarnpkg.com/@graphql-codegen/visitor-plugin-common/-/visitor-plugin-common-1.18.0.tgz#f4366ec1093c01e752e85f8bd30d09c58b1d6951"
+  integrity sha512-OR/Cm9nVaqMLe94Ski60UDhaAf/4+QeV/CQRYrCmxFzEsm03U41VplcNgJBXIAB3EgP/LEIZtgkRc1H4N9u9+Q==
   dependencies:
     "@graphql-codegen/plugin-helpers" "^1.18.2"
     "@graphql-tools/optimize" "^1.0.1"
@@ -2748,16 +2748,16 @@
   dependencies:
     "@babel/runtime" "^7.4.4"
 
-"@material-ui/lab@^4.0.0-alpha.56":
-  version "4.0.0-alpha.56"
-  resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.56.tgz#ff63080949b55b40625e056bbda05e130d216d34"
-  integrity sha512-xPlkK+z/6y/24ka4gVJgwPfoCF4RCh8dXb1BNE7MtF9bXEBLN/lBxNTK8VAa0qm3V2oinA6xtUIdcRh0aeRtVw==
+"@material-ui/lab@^4.0.0-alpha.57":
+  version "4.0.0-alpha.57"
+  resolved "https://registry.yarnpkg.com/@material-ui/lab/-/lab-4.0.0-alpha.57.tgz#e8961bcf6449e8a8dabe84f2700daacfcafbf83a"
+  integrity sha512-qo/IuIQOmEKtzmRD2E4Aa6DB4A87kmY6h0uYhjUmrrgmEAgbbw9etXpWPVXuRK6AGIQCjFzV6WO2i21m1R4FCw==
   dependencies:
     "@babel/runtime" "^7.4.4"
-    "@material-ui/utils" "^4.10.2"
+    "@material-ui/utils" "^4.11.2"
     clsx "^1.0.4"
     prop-types "^15.7.2"
-    react-is "^16.8.0"
+    react-is "^16.8.0 || ^17.0.0"
 
 "@material-ui/styles@^4.10.0":
   version "4.10.0"
@@ -2796,14 +2796,14 @@
   resolved "https://registry.yarnpkg.com/@material-ui/types/-/types-5.1.0.tgz#efa1c7a0b0eaa4c7c87ac0390445f0f88b0d88f2"
   integrity sha512-7cqRjrY50b8QzRSYyhSpx4WRw2YuO0KKIGQEVk5J8uoz2BanawykgZGoWEqKm7pVIbzFDN0SpPcVV4IhOFkl8A==
 
-"@material-ui/utils@^4.10.2", "@material-ui/utils@^4.9.6":
-  version "4.10.2"
-  resolved "https://registry.yarnpkg.com/@material-ui/utils/-/utils-4.10.2.tgz#3fd5470ca61b7341f1e0468ac8f29a70bf6df321"
-  integrity sha512-eg29v74P7W5r6a4tWWDAAfZldXIzfyO1am2fIsC39hdUUHm/33k6pGOKPbgDjg/U/4ifmgAePy/1OjkKN6rFRw==
+"@material-ui/utils@^4.10.2", "@material-ui/utils@^4.11.2", "@material-ui/utils@^4.9.6":
+  version "4.11.2"
+  resolved "https://registry.yarnpkg.com/@material-ui/utils/-/utils-4.11.2.tgz#f1aefa7e7dff2ebcb97d31de51aecab1bb57540a"
+  integrity sha512-Uul8w38u+PICe2Fg2pDKCaIG7kOyhowZ9vjiC1FsVwPABTW8vPPKfF6OvxRq3IiBaI1faOJmgdvMG7rMJARBhA==
   dependencies:
     "@babel/runtime" "^7.4.4"
     prop-types "^15.7.2"
-    react-is "^16.8.0"
+    react-is "^16.8.0 || ^17.0.0"
 
 "@mdx-js/loader@^1.6.19":
   version "1.6.21"
@@ -3955,10 +3955,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-router-dom@^5.1.6":
-  version "5.1.6"
-  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.6.tgz#07b14e7ab1893a837c8565634960dc398564b1fb"
-  integrity sha512-gjrxYqxz37zWEdMVvQtWPFMFj1dRDb4TGOcgyOfSXTrEXdF92L00WE3C471O3TV/RF1oskcStkXsOU0Ete4s/g==
+"@types/react-router-dom@^5.1.7":
+  version "5.1.7"
+  resolved "https://registry.yarnpkg.com/@types/react-router-dom/-/react-router-dom-5.1.7.tgz#a126d9ea76079ffbbdb0d9225073eb5797ab7271"
+  integrity sha512-D5mHD6TbdV/DNHYsnwBTv+y73ei+mMjrkGrla86HthE4/PVvL1J94Bu3qABU+COXzpL23T1EZapVVpwHuBXiUg==
   dependencies:
     "@types/history" "*"
     "@types/react" "*"
@@ -3986,15 +3986,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
-  version "16.9.48"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.48.tgz#d3387329f070d1b1bc0ff4a54a54ceefd5a8485c"
-  integrity sha512-4ykBVswgYitPGMXFRxJCHkxJDU2rjfU3/zw67f8+dB7sNdVJXsrwqoYxz/stkAucymnEEbRPFmX7Ce5Mc/kJCw==
-  dependencies:
-    "@types/prop-types" "*"
-    csstype "^3.0.2"
-
-"@types/react@^17.0.0":
+"@types/react@*", "@types/react@^17.0.0":
   version "17.0.0"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.0.tgz#5af3eb7fad2807092f0046a1302b7823e27919b8"
   integrity sha512-aj/L7RIMsRlWML3YB6KZiXB3fV2t41+5RBGYF8z+tAKU43Px8C3cYUZsDvf1/+Bm4FK21QWBrDutu8ZJ/70qOw==
@@ -13698,10 +13690,10 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.0.tgz#8a03c7777883b29b37fb2c4348c66a78e980418b"
-  integrity sha512-yYerpkvseM4iKD/BXLYUkQV5aKt4tQPqaGW6EsZjzyu0r7sVZZNPJW4Y8MyKmicp6t42XUPcBVA+H6sB3gqndw==
+prettier@^2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.2.1.tgz#795a1a78dd52f073da0cd42b21f9c91381923ff5"
+  integrity sha512-PqyhM2yCjg/oKkFPtTGUojv7gnZAoG80ttl45O6x2Ug/rMJw4wcc9k6aaf2hibP7BGVCCM33gZoGjyvt9mm16Q==
 
 prettier@~2.0.5:
   version "2.0.5"
@@ -14204,7 +14196,7 @@ react-is@^16.13.1, react-is@^16.6.0, react-is@^16.7.0, react-is@^16.8.0, react-i
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.1.tgz#789729a4dc36de2999dc156dd6c1d9c18cea56a4"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
 
-react-is@^17.0.1:
+"react-is@^16.8.0 || ^17.0.0", react-is@^17.0.1:
   version "17.0.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-17.0.1.tgz#5b3531bd76a645a4c9fb6e693ed36419e3301339"
   integrity sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA==
