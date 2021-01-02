@@ -9,12 +9,11 @@ install yarn
 swd=${cwd}/../../${service}
 
 # build
-pushd ${swd}
-yarn
-yarn clean
-yarn build
-copy build /$service
-popd
+yarn=yarn --cwd $swd
+$yarn
+$yarn clean
+$yarn build
+copy ${swd}/build /$service
 run yarn --cwd /$service add express
 
 config --workingdir /$service --entrypoint "node server.js"

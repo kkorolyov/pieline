@@ -9,11 +9,9 @@ install which java-latest-openjdk
 swd=${cwd}/../../${service}
 
 # build
-pushd ${swd}
-./gradlew clean installDist
-copy build/install/${service} /$service
-popd
+${swd}/gradlew -p $swd clean installDist
+copy ${swd}/build/install/${service} /$service
 
-config --workingdir "/${service}/bin" --entrypoint "./${service}"
+config --workingdir /${service}/bin --entrypoint "./${service}"
 
 commit

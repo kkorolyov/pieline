@@ -9,12 +9,11 @@ install libstdc++
 swd=${cwd}/../../${service}
 
 # build
-pushd ${swd}
-yarn
-yarn clean
-yarn build:bin
-copy build/bin /$service
-popd
+yarn=yarn --cwd $swd
+$yarn
+$yarn clean
+$yarn build:bin
+copy ${swd}/build/bin /$service
 
 config --workingdir /$service --entrypoint "./$service"
 

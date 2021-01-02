@@ -9,13 +9,11 @@ install python-pip gcc
 swd=${cwd}/../../${service}
 
 # build
-pushd $swd
 python -m pip install --user wheel -r requirements.txt
-rm -rf dist
-./protoc.sh
-python setup.py bdist_wheel
-copy dist dist
-popd
+rm -rf ${swd}/dist
+${swd}/protoc.sh
+python ${swd}/setup.py bdist_wheel
+copy ${swd}/dist dist
 run bash -c "python3 -m pip install --user dist/*"
 run rm -rf dist
 
