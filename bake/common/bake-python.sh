@@ -4,7 +4,6 @@ cwd=$(dirname "$0")
 
 # prep
 . ${cwd}/prep.sh
-compact=$(sed )
 install python-pip gcc
 
 swd=${cwd}/../../${service}
