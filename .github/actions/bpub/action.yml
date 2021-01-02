@@ -34,5 +34,5 @@ runs:
     - id: publish
       run: |
         echo ${{ inputs.token }} | buildah login -u ${{ github.actor }} --password-stdin https://docker.pkg.github.com
-        buildah push ${{ steps.tag.outputs.name }}
+        buildah push ${{ steps.bake.outputs.name }}
       shell: bash
