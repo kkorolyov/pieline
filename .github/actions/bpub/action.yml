@@ -30,6 +30,8 @@ runs:
         bake/service/${{ inputs.service }}.sh -t $name
         echo "::set-output name=name::$(echo $name)"
       shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
 
     - id: publish
       run: |
