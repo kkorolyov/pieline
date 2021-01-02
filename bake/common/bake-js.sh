@@ -9,7 +9,7 @@ install yarn
 swd=${cwd}/../../${service}
 
 # build
-yarn=yarn --cwd $swd
+yarn="yarn --cwd $swd"
 $yarn
 $yarn clean
 $yarn build
