@@ -2,4 +2,4 @@
 
 cwd=$(dirname $0)
 
-${cwd}/../common/bake-js.sh -s "pie-web"
+${cwd}/../common/bake-js.sh -s "pie-web" "$@"

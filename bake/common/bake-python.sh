@@ -19,8 +19,6 @@ popd
 run bash -c "python3 -m pip install --user dist/*"
 run rm -rf dist
 
-# configure
 config --entrypoint "python3 -m ${service//-/}.server"
 
-# publish
-publish
+commit

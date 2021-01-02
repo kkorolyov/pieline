@@ -2,7 +2,10 @@ name: Publish
 
 on:
   push:
-    tags: ["v*"]
+    branches:
+      - master
+    tags: 
+      - v*
 
 jobs:
   pi18n:
@@ -21,7 +24,7 @@ jobs:
           node-version: ${{ matrix.version }}
 
       - name: Publish image
-        uses: ./.github/actions/bake
+        uses: ./.github/actions/bpub
         with:
           service: pi18n
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -43,9 +46,31 @@ jobs:
           java-version: ${{ matrix.version }}
 
       - name: Publish image
-        uses: ./.github/actions/bake
+        uses: ./.github/actions/bpub
         with:
           service: pie-auth
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref }}
+  
+  pie-proj:
+    runs-on: ubuntu-20.04
+
+    strategy:
+      matrix:
+        version: [1.14]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Use Java ${{ matrix.version }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.version }}
+
+      - name: Publish image
+        uses: ./.github/actions/bpub
+        with:
+          service: pie-proj
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref }}
 
@@ -65,7 +90,7 @@ jobs:
           java-version: ${{ matrix.version }}
 
       - name: Publish image
-        uses: ./.github/actions/bake
+        uses: ./.github/actions/bpub
         with:
           service: pie-gate
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -87,7 +112,7 @@ jobs:
           python-version: ${{ matrix.version }}
 
       - name: Publish image
-        uses: ./.github/actions/bake
+        uses: ./.github/actions/bpub
         with:
           service: pie-users
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -109,7 +134,7 @@ jobs:
           node-version: ${{ matrix.version }}
 
       - name: Publish image
-        uses: ./.github/actions/bake
+        uses: ./.github/actions/bpub
         with:
           service: pie-web
           token: ${{ secrets.GITHUB_TOKEN }}

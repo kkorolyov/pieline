@@ -17,8 +17,6 @@ copy build /$service
 popd
 run yarn --cwd /$service add express
 
-# configure
 config --workingdir /$service --entrypoint "node server.js"
 
-# publish
-publish
+commit

@@ -19,10 +19,6 @@ runs:
   using: composite
   steps:
     - id: bake
-      run: recipes/bake.sh ${{ inputs.service }}
-      shell: bash
-
-    - id: tag
       run: |
         base=docker.pkg.github.com/${{ github.repository }}/${{ inputs.service }}
 
@@ -30,7 +26,8 @@ runs:
         tag=${rawtag#refs/tags/}
 
         name=${base}:${tag}
-        buildah tag ${{ inputs.service }} $name
+
+        bake/service/${{ inputs.service }}.sh -t $name
         echo "::set-output name=name::$(echo $name)"
       shell: bash
 

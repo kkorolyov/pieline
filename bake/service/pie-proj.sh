@@ -2,4 +2,4 @@
 
 cwd=$(dirname $0)
 
-${cwd}/../common/bake-jvm.sh -s "pie-proj"
+${cwd}/../common/bake-jvm.sh -s "pie-proj" "$@"

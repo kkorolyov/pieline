@@ -14,8 +14,6 @@ pushd ${swd}
 copy build/install/${service} /$service
 popd
 
-# configure
 config --workingdir "/${service}/bin" --entrypoint "./${service}"
 
-# publish
-publish
+commit

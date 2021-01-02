@@ -16,8 +16,6 @@ yarn build:bin
 copy build/bin /$service
 popd
 
-# configure
 config --workingdir /$service --entrypoint "./$service"
 
-# publish
-publish
+commit

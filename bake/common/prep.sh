@@ -11,11 +11,10 @@
 me=$(basename "$0")
 cwd=$(dirname "$0")
 
-registry="dreg.local"
-
 usage() {
-	echo "usage: $me -s <service>"
+	echo "usage: $me -s <service> -t <tag>"
 	echo "	-s	service name"
+	echo "	-t	built image's tag"
 }
 
 install() {
@@ -30,16 +29,18 @@ run() {
 config() {
 	buildah config "$@" $container
 }
-publish() {
-	buildah commit $container "${registry}/${service}"
-	buildah push --tls-verify=false "${registry}/${service}"
+commit() {
+	buildah commit $container "$tag"
 	buildah rm $container
 }
 
-while getopts ":s:h" opt; do
+while getopts ":s:t:h" opt; do
 	case "$opt" in
 	s)
 		service=$OPTARG
+		;;
+	t)
+		tag=$OPTARG
 		;;
 	h)
 		echo -e "Builds OCI images for PieLine services.\n"
@@ -51,12 +52,21 @@ while getopts ":s:h" opt; do
 		usage
 		exit 1
 		;;
+	:)
+		echo -e "-$OPTARG requires an argument\n"
+		usage
+		exit 1
 	esac
 done
 shift $((OPTIND - 1))
 
-if [[ -z $service ]]; then
+if [ -z $service ]; then
 	echo -e "must specify service\n"
+	usage
+	exit 1
+fi
+if [ -z $tag ]; then
+	echo -e "must specify tag\n"
 	usage
 	exit 1
 fi
