@@ -4,6 +4,7 @@ cwd=$(dirname "$0")
 
 # prep
 . ${cwd}/prep.sh
+compact=$(sed )
 install python-pip gcc
 
 swd=${cwd}/../../${service}
@@ -19,6 +20,6 @@ cd -
 run bash -c "python3 -m pip install --user dist/*"
 run rm -rf dist
 
-config --entrypoint "python3 -m ${service//-/}.server"
+config --entrypoint "python3 -m $(echo $service | sed s/-//).server"
 
 commit
