@@ -7,7 +7,6 @@ import dev.kkorolyov.pieline.proto.auth.AuthGrpcKt.AuthCoroutineStub
 import dev.kkorolyov.pieline.proto.i18n.i18nGrpcKt.i18nCoroutineStub
 import dev.kkorolyov.pieline.proto.project.ProjectsGrpcKt.ProjectsCoroutineStub
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
-import dev.kkorolyov.pieline.util.Address
 import io.grpc.CallOptions
 import io.grpc.ManagedChannel
 import io.grpc.ManagedChannelBuilder
@@ -23,31 +22,30 @@ object ClientModule : AbstractModule() {
 
 	@Provides
 	private fun getAuth(headers: Metadata): AuthCoroutineStub =
-		get(Address.forEnv("ADDR_AUTH"), headers, ::AuthCoroutineStub)
+		get("ADDR_AUTH", headers, ::AuthCoroutineStub)
 
 	@Provides
 	private fun getUsers(headers: Metadata): UsersCoroutineStub =
-		get(Address.forEnv("ADDR_USERS"), headers, ::UsersCoroutineStub)
+		get("ADDR_USERS", headers, ::UsersCoroutineStub)
 
 	@Provides
 	private fun getProjects(headers: Metadata): ProjectsCoroutineStub =
-		get(Address.forEnv("ADDR_PROJECTS"), headers, ::ProjectsCoroutineStub)
+		get("ADDR_PROJECTS", headers, ::ProjectsCoroutineStub)
 
 	@Provides
 	private fun getI18n(headers: Metadata): i18nCoroutineStub =
-		get(Address.forEnv("ADDR_I18N"), headers, ::i18nCoroutineStub)
+		get("ADDR_I18N", headers, ::i18nCoroutineStub)
 
 	private fun <T : AbstractCoroutineStub<T>> get(
-		address: Address,
+		targetEnv: String,
 		headers: Metadata,
 		initializer: (ManagedChannel, CallOptions) -> T
-	): T = address.let { (host, port) ->
+	): T =
 		// TODO Remove usePlaintext
 		initializer(
-			ManagedChannelBuilder.forAddress(host, port)
+			ManagedChannelBuilder.forTarget(System.getenv(targetEnv))
 				.intercept(MetadataUtils.newAttachHeadersInterceptor(headers))
 				.intercept(CLIENT_TRACER)
 				.usePlaintext().build(), CallOptions.DEFAULT
 		)
-	}
 }

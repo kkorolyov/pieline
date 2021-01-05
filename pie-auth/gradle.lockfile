@@ -2,10 +2,14 @@
 # Manual edits can break the build and are not advised.
 # This file is expected to be part of source control.
 cglib:cglib-nodep:3.3.0=testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
-com.auth0:java-jwt:3.11.0=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
-com.fasterxml.jackson.core:jackson-annotations:2.10.3=compileProtoPath,runtimeClasspath,testCompileProtoPath,testRuntimeClasspath
-com.fasterxml.jackson.core:jackson-core:2.10.3=compileProtoPath,runtimeClasspath,testCompileProtoPath,testRuntimeClasspath
-com.fasterxml.jackson.core:jackson-databind:2.10.3=compileProtoPath,runtimeClasspath,testCompileProtoPath,testRuntimeClasspath
+com.auth0:java-jwt:3.11.0=implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
+com.auth0:java-jwt:3.12.0=compileClasspath,compileProtoPath
+com.fasterxml.jackson.core:jackson-annotations:2.10.3=runtimeClasspath,testCompileProtoPath,testRuntimeClasspath
+com.fasterxml.jackson.core:jackson-annotations:2.10.5=compileProtoPath
+com.fasterxml.jackson.core:jackson-core:2.10.3=runtimeClasspath,testCompileProtoPath,testRuntimeClasspath
+com.fasterxml.jackson.core:jackson-core:2.10.5=compileProtoPath
+com.fasterxml.jackson.core:jackson-databind:2.10.3=runtimeClasspath,testCompileProtoPath,testRuntimeClasspath
+com.fasterxml.jackson.core:jackson-databind:2.10.5.1=compileProtoPath
 com.google.android:annotations:4.1.1.4=compileProtoPath,runtimeClasspath,testCompileProtoPath,testRuntimeClasspath
 com.google.api.grpc:proto-google-common-protos:1.17.0=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
 com.google.code.findbugs:jsr305:3.0.2=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
@@ -23,7 +27,8 @@ com.squareup.okio:okio-metadata:2.8.0=implementationDependenciesMetadata,testImp
 com.squareup.okio:okio:2.8.0=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
 commons-codec:commons-codec:1.14=compileProtoPath,runtimeClasspath,testCompileProtoPath,testRuntimeClasspath
 de.mkammerer:argon2-jvm:2.7=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
-dev.kkorolyov.pieline:libkt:0.6=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
+dev.kkorolyov.pieline:libkt:0.6=implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
+dev.kkorolyov.pieline:libkt:0.7.0=compileClasspath,compileProtoPath
 io.grpc:grpc-api:1.34.1=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
 io.grpc:grpc-bom:1.34.1=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath
 io.grpc:grpc-context:1.34.1=compileClasspath,compileProtoPath,implementationDependenciesMetadata,runtimeClasspath,testCompileClasspath,testCompileProtoPath,testImplementationDependenciesMetadata,testRuntimeClasspath

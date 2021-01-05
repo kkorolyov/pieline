@@ -15,7 +15,6 @@ import dev.kkorolyov.pieline.proto.user.UserOuterClass.Details
 import dev.kkorolyov.pieline.proto.user.UserOuterClass.User
 import dev.kkorolyov.pieline.proto.user.UsersGrpcKt.UsersCoroutineStub
 import dev.kkorolyov.pieline.trace.span
-import dev.kkorolyov.pieline.util.Address
 import io.grpc.ManagedChannelBuilder
 import io.grpc.Status
 import io.grpc.StatusRuntimeException
@@ -33,14 +32,12 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import org.slf4j.LoggerFactory
 import java.util.UUID
 
-private val usersStub: UsersCoroutineStub = Address.forEnv("ADDR_USERS").let { (host, port) ->
-	UsersCoroutineStub(
-		ManagedChannelBuilder.forAddress(host, port)
-			.intercept(CLIENT_TRACER)
-			.usePlaintext()
-			.build()
-	)
-}
+private val usersStub: UsersCoroutineStub = UsersCoroutineStub(
+	ManagedChannelBuilder.forTarget(System.getenv("ADDR_USERS"))
+		.intercept(CLIENT_TRACER)
+		.usePlaintext()
+		.build()
+)
 
 /**
  * Services auth-related requests.
