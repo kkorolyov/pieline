@@ -1,15 +1,15 @@
-#!/bin/bash
+#!/bin/sh -e
 
-set -e
+cwd=$(dirname "$0")
+ver="$1"
 
-projects=("pie-auth" "pie-gate")
+if [ -z "$ver" ]; then
+	echo "requires a gradle version argument"
+	exit 1
+fi
 
-for project in "${projects[@]}"; do
-	cp gradle-version ${project}/
-	
-	pushd ${project}
-	./gradlew wrapper
-	popd
-
-	echo "updated $project"
+for dir in */; do
+	if [ -x "${dir}/gradlew" ]; then
+		${dir}/gradlew -p $dir wrapper --gradle-version "$ver"
+	fi
 done

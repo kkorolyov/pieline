@@ -10,7 +10,6 @@ val grpcVersion: String by project
 val grpcKtVersion: String by project
 
 tasks.wrapper {
-	gradleVersion = File("gradle-version").useLines { it.firstOrNull() }
 	distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -21,7 +20,6 @@ plugins {
 	idea
 }
 group = "dev.kkorolyov"
-version = "0.1"
 
 repositories {
 	jcenter()
@@ -36,11 +34,11 @@ repositories {
 dependencies {
 	// stdlib
 	val coroutinesVersion: String by project
-	val pielineLibVersion: String by project
+	val pieVersion: String by project
 	val tomcatAnnotationsVersion: String by project
 
 	implementation(platform("org.jetbrains.kotlinx:kotlinx-coroutines-bom:$coroutinesVersion"))
-	implementation("dev.kkorolyov.pieline:libkt:$pielineLibVersion")
+	implementation("dev.kkorolyov.pieline:libkt:$pieVersion")
 	compileOnly("org.apache.tomcat:annotations-api:$tomcatAnnotationsVersion")
 
 	// grpc
@@ -117,7 +115,7 @@ java {
 }
 
 application {
-	mainClassName = "io.ktor.server.netty.EngineMain"
+	mainClass.set("io.ktor.server.netty.EngineMain")
 }
 
 // Local dev run

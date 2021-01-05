@@ -10,7 +10,6 @@ val grpcVersion: String by project
 val grpcKtVersion: String by project
 
 tasks.wrapper {
-	gradleVersion = File("gradle-version").useLines { it.firstOrNull() }
 	distributionType = Wrapper.DistributionType.ALL
 }
 
@@ -22,7 +21,6 @@ plugins {
 	idea
 }
 group = "dev.kkorolyov"
-version = "0.1"
 
 repositories {
 	jcenter()
@@ -118,7 +116,7 @@ java {
 }
 
 application {
-	mainClassName = "dev.kkorolyov.pieauth.ServerKt"
+	mainClass.set("dev.kkorolyov.pieauth.ServerKt")
 }
 
 // Local dev run
