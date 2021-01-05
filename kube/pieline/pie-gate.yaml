@@ -17,19 +17,17 @@ spec:
       containers:
         - name: pie-gate
           image: dreg.local/pie-gate
-          ports:
-            - containerPort: 5000
           env:
             - name: PORT
-              value: "5000"
+              value: "80"
             - name: ADDR_AUTH
-              value: pie-auth:5001
+              value: pie-auth
             - name: ADDR_USERS
-              value: pie-users:5002
+              value: pie-users
             - name: ADDR_PROJECTS
-              value: pie-proj:5003
+              value: pie-proj
             - name: ADDR_I18N
-              value: pi18n:6000
+              value: pi18n
 ---
 apiVersion: v1
 kind: Service
@@ -39,4 +37,4 @@ spec:
   selector:
     app: pie-gate
   ports:
-    - port: 5000
+    - port: 80

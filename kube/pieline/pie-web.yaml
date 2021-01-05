@@ -15,11 +15,9 @@ spec:
       containers:
         - name: pie-web
           image: dreg.local/pie-web
-          ports:
-            - containerPort: 7000
           env:
             - name: PORT
-              value: "7000"
+              value: "80"
             - name: ADDR_GATE
               value: "http://pieline.api.local"
 ---
@@ -31,4 +29,4 @@ spec:
   selector:
     app: pie-web
   ports:
-    - port: 7000
+    - port: 80

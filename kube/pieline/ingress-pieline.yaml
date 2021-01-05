@@ -11,7 +11,7 @@ spec:
               service:
                 name: pie-web
                 port:
-                  number: 7000
+                  number: 80
             path: /
             pathType: Prefix
     - host: pieline.api.local
@@ -21,6 +21,6 @@ spec:
               service:
                 name: pie-gate
                 port:
-                  number: 5000
+                  number: 80
             path: /
             pathType: Prefix

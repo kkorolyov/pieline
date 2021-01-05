@@ -17,17 +17,13 @@ spec:
       containers:
         - name: pie-auth
           image: dreg.local/pie-auth
-          ports:
-            - containerPort: 5001
-              hostPort: 5001
-              protocol: TCP
           env:
             - name: PORT
-              value: "5001"
+              value: "80"
             - name: DB_URL
               value: jdbc:h2:tcp://localhost:1521//opt/h2-data/auth
             - name: ADDR_USERS
-              value: pie-users:5002
+              value: pie-users
         - name: db-auth
           image: oscarfonts/h2
           volumeMounts:
@@ -49,7 +45,7 @@ spec:
   selector:
     app: pie-auth
   ports:
-    - port: 5001
+    - port: 80
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
