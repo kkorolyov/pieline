@@ -1,5 +1,5 @@
 import * as api from "api";
-import Main from "component/app/Main";
+import Root from "component/app/Root";
 import { ApiContext } from "context";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -11,7 +11,7 @@ const App = () => {
   return (
     <ApiContext.Provider value={api}>
       <Router>
-        <Main />
+        <Root />
       </Router>
     </ApiContext.Provider>
   );

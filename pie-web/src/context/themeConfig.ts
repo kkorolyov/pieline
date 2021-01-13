@@ -16,7 +16,4 @@ export type ThemeConfigContextProps = {
 /**
  * Theme configuration.
  */
-export default createContext({
-  setPalette: () => {},
-  setLocale: () => {},
-} as ThemeConfigContextProps);
+export default createContext({} as ThemeConfigContextProps);
