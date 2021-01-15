@@ -1,5 +1,5 @@
 import * as api from "api";
-import Root from "component/app/Root";
+import Root from "component/page/Root";
 import { ApiContext } from "context";
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
