@@ -9,7 +9,7 @@ export default {
 const Base = ({ page }: { page: string }) => (
   <StaticRouter location={`/base/${page}`}>
     <Route path="/base">
-      <Project />
+      <Project id="bogoProjo" />
     </Route>
   </StaticRouter>
 );

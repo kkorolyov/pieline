@@ -1,9 +1,9 @@
 import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import Link from "component/common/control/Link";
-import { I18nContext, AuthContext } from "context";
+import AuthBlock from "component/common/wrapper/AuthBlock";
+import { I18nContext } from "context";
 import React, { useContext } from "react";
 import styled from "styled-components";
-import AuthBar from "./AuthBar";
 import LocaleSelector from "./LocaleSelector";
 import PaletteSelector from "./PaletteSelector";
 import UserMenu from "./UserMenu";
@@ -35,8 +35,7 @@ const Options = styled.span`
  * Main navigation bar.
  */
 const Nav = () => {
-  const { id } = useContext(AuthContext);
-  const { title, explore, market } = useContext(I18nContext);
+  const { title, projects, explore, market } = useContext(I18nContext);
 
   return (
     <AppBar position="sticky">
@@ -44,6 +43,9 @@ const Nav = () => {
         <Links>
           <Link to="/">
             <Typography variant="h3">{title}</Typography>
+          </Link>
+          <Link to="/projects">
+            <Typography variant="h4">{projects}</Typography>
           </Link>
           <Link to="/explore">
             <Typography variant="h4">{explore}</Typography>
@@ -55,7 +57,9 @@ const Nav = () => {
         <Options>
           <PaletteSelector />
           <LocaleSelector />
-          {id ? <UserMenu /> : <AuthBar />}
+          <AuthBlock>
+            <UserMenu />
+          </AuthBlock>
         </Options>
       </StyledToolbar>
     </AppBar>
