@@ -1,11 +1,10 @@
 import { CircularProgress } from "@material-ui/core";
-import React from "react";
 
 export type WaitableProps = {
   /**
    * Whether component is inactive and waiting.
    */
-  waiting?: boolean;
+  waiting: boolean;
   /**
    * Control children.
    */
@@ -14,6 +13,6 @@ export type WaitableProps = {
 /**
  * Renders a waiting indicator while waiting, otherwise renders `childern`.
  */
-const Waitable = ({ waiting = false, children }: WaitableProps) =>
+const Waitable = ({ waiting, children }: WaitableProps) =>
   waiting ? <CircularProgress /> : <>{children}</>;
 export default Waitable;

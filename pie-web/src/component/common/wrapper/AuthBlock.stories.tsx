@@ -1,3 +1,4 @@
+import { Typography } from "@material-ui/core";
 import { AuthContext } from "context";
 import { useContext } from "react";
 import AuthBlock from "./AuthBlock";
@@ -8,7 +9,7 @@ const Content = () => {
   const { id } = useContext(AuthContext);
   return (
     <AuthBlock>
-      <p>Authenticated as [{id}]</p>
+      <Typography>Authenticated as [{id}]</Typography>
     </AuthBlock>
   );
 };

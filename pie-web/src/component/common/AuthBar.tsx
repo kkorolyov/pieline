@@ -1,12 +1,12 @@
 import { Button, ButtonGroup, Grid, IconButton } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
-import { Alert } from "@material-ui/lab";
 import Form from "component/common/control/Form";
 import TextField from "component/common/control/TextField";
+import Errable from "component/common/wrapper/Errable";
 import Waitable from "component/common/wrapper/Waitable";
-import { ApiContext, I18nContext, AuthContext } from "context";
+import { ApiContext, AuthContext, I18nContext } from "context";
 import { useExecutor, useResult } from "hooks";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 
 type BaseBarProps = {
   action: (user: string, pass: string) => Promise<string>;
@@ -35,7 +35,7 @@ const BaseBar = ({ action, submitLabel, errorLabel, onBack }: BaseBarProps) => {
         <IconButton onClick={() => onBack()}>
           <ArrowBack />
         </IconButton>
-        {executor.error && <Alert severity="error">{errorLabel}</Alert>}
+        <Errable error={executor.error} text={errorLabel} />
         <Grid item>
           <TextField
             variant="filled"

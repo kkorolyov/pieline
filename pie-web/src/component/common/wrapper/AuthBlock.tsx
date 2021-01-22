@@ -1,4 +1,4 @@
-import AuthBar from "component/nav/AuthBar";
+import AuthBar from "component/common/AuthBar";
 import { AuthContext } from "context";
 import { useContext } from "react";
 
