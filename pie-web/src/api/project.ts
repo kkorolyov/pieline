@@ -3,6 +3,8 @@ import { client, wrapId } from "./graphql/client";
 import * as mutations from "./graphql/mutations";
 import * as queries from "./graphql/queries";
 
+export const getProjects
+
 /**
  * Gets project details by ID.
  * @param id project ID

@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Button,
   Paper,
   Tab,
   Theme,
@@ -36,6 +37,15 @@ const Layout = withTheme(styled(Paper)`
   background-color: ${({ theme }: { theme: Theme }) =>
     theme.palette.primary.dark};
 `);
+const LayoutTitle = styled(Typography)`
+  grid-area: title;
+`;
+const LayoutSettings = styled(Link)`
+  grid-area: settings;
+`;
+const LayoutContent = styled(Paper)`
+  grid-area: content;
+`;
 
 type ProjectProps = {
   /**
@@ -63,16 +73,16 @@ const Project = ({ id }: ProjectProps) => {
     <Waitable waiting={getExecutor.waiting}>
       <Errable error={getExecutor.error}>
         <Layout>
-          <Typography variant="h4" style={{ gridArea: "title" }}>
-            {getExecutor.result?.title}
-          </Typography>
+          <LayoutTitle variant="h4">{getExecutor.result?.title}</LayoutTitle>
           {configurable && (
-            <Link to="settings" style={{ gridArea: "settings" }}>
-              <IconSettings titleAccess={i18n.settings} fontSize="large" />
-            </Link>
+            <LayoutSettings to="settings">
+              <Button title={i18n.helpSettings}>
+                <IconSettings fontSize="large" />
+              </Button>
+            </LayoutSettings>
           )}
 
-          <Paper style={{ gridArea: "content" }}>
+          <LayoutContent>
             <AppBar position="static">
               <RoutingTabs>
                 <Tab label={i18n.projectAbout} value={`${url}/about`} />
@@ -95,7 +105,7 @@ const Project = ({ id }: ProjectProps) => {
                 <Settings />
               </Route>
             </Switch>
-          </Paper>
+          </LayoutContent>
         </Layout>
       </Errable>
     </Waitable>

@@ -4,7 +4,7 @@ import Home from "./Home";
 import Market from "./Market";
 import User from "./User";
 
-export default { title: "App/Main" };
+export default { title: "Page" };
 
 export const home = () => <Home />;
 export const explore = () => <Explore />;

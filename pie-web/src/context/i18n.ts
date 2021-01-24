@@ -1,34 +1,5 @@
 import { createContext } from "react";
 
-export const i18nDefault = [
-  "title",
-  "tagline",
-  "explore",
-  "market",
-  "more",
-  "projects",
-  "profile",
-
-  "edit",
-  "settings",
-
-  "username",
-  "password",
-  "register",
-  "logIn",
-  "logOut",
-
-  "projectAbout",
-  "projectAssets",
-  "projectMembers",
-
-  "errorRegister",
-  "errorLogIn",
-].reduce((result: { [key: string]: string }, val) => {
-  result[val] = val;
-  return result;
-}, {});
-
 export type I18nContextProps = {
   title?: string;
   tagline?: string;
@@ -37,9 +8,6 @@ export type I18nContextProps = {
   more?: string;
   projects?: string;
   profile?: string;
-
-  edit?: string;
-  settings?: string;
 
   username?: string;
   password?: string;
@@ -53,5 +21,44 @@ export type I18nContextProps = {
 
   errorRegister?: string;
   errorLogIn?: string;
+
+  helpSettings?: string;
+  helpEdit?: string;
+  helpFilterProjects?: string;
+  helpCreateProject?: string;
 };
+
+export const i18nDefault: I18nContextProps = [
+  "title",
+  "tagline",
+  "explore",
+  "market",
+  "more",
+  "projects",
+  "profile",
+
+  "edit",
+
+  "username",
+  "password",
+  "register",
+  "logIn",
+  "logOut",
+
+  "projectAbout",
+  "projectAssets",
+  "projectMembers",
+
+  "errorRegister",
+  "errorLogIn",
+
+  "helpSettings",
+  "helpEdit",
+  "helpFilterProjects",
+  "helpCreateProject",
+].reduce((result, val) => {
+  result[val] = `_${val}`;
+  return result;
+}, {} as { [key: string]: string });
+
 export default createContext(i18nDefault as I18nContextProps);

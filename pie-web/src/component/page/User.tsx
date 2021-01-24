@@ -10,7 +10,7 @@ const User = () => {
   return (
     <Container maxWidth="xl">
       <AuthBlock>
-        <Profile id={id} />
+        <Profile id={id!!} />
       </AuthBlock>
     </Container>
   );

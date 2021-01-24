@@ -36,7 +36,7 @@ const Display = ({ value, onClick, variant }: DisplayProps) => {
       <Typography variant={variant}>{value}</Typography>
       {isHover && (
         <ClickableEdit
-          titleAccess={i18n.edit}
+          titleAccess={i18n.helpEdit}
           fontSize="small"
           onClick={onClick}
         />

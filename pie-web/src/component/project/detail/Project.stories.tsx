@@ -2,7 +2,7 @@ import { Route, StaticRouter } from "react-router-dom";
 import Project from "./Project";
 
 export default {
-  title: "Project/Project",
+  title: "Project/Detail",
   component: Project,
 };
 
