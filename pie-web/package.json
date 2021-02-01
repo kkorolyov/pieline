@@ -52,7 +52,7 @@
     "react-is": "^17.0.1",
     "rimraf": "^3.0.2",
     "source-map-explorer": "^2.5.1",
-    "webpack": "4.44.2"
+    "webpack": "5.19.0"
   },
   "scripts": {
     "clean": "rimraf build",
