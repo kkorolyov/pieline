@@ -1,0 +1,16 @@
+bases:
+  - ../base
+
+images:
+  - name: pi18n
+    newName: docker.pkg.github.com/kkorolyov/pieline/pi18n
+  - name: pie-auth
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-auth
+  - name: pie-gate
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-gate
+  - name: pie-proj
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-proj
+  - name: pie-users
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-users
+  - name: pie-web
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-web

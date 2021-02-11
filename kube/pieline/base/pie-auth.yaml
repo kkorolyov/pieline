@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: pie-auth
-          image: dreg.local/pie-auth
+          image: pie-auth
           env:
             - name: PORT
               value: "80"

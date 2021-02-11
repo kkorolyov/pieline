@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: pie-gate
-          image: dreg.local/pie-gate
+          image: pie-gate
           env:
             - name: PORT
               value: "80"
