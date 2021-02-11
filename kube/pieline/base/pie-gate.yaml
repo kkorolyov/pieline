@@ -28,6 +28,8 @@ spec:
               value: pie-proj
             - name: ADDR_I18N
               value: pi18n
+      imagePullSecrets:
+        - name: gpr-kkorolyov
 ---
 apiVersion: v1
 kind: Service

@@ -20,6 +20,8 @@ spec:
           env:
             - name: PORT
               value: "80"
+      imagePullSecrets:
+        - name: gpr-kkorolyov
 ---
 apiVersion: v1
 kind: Service

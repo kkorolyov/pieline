@@ -20,6 +20,8 @@ spec:
               value: "80"
             - name: ADDR_GATE
               value: "http://pieline.api.local"
+      imagePullSecrets:
+        - name: gpr-kkorolyov
 ---
 apiVersion: v1
 kind: Service

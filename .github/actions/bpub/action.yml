@@ -20,12 +20,10 @@ runs:
   steps:
     - id: bake
       run: |
-        base=docker.pkg.github.com/${{ github.repository }}/${{ inputs.service }}
-
         rawtag=${{ inputs.tag }}
         tag=${rawtag#refs/tags/}
-
-        name=${base}:${tag}
+        
+        name=ghcr.io/kkorolyov/${{ inputs.service }}:${tag}
 
         bake/service/${{ inputs.service }}.sh -t $name
         echo "::set-output name=name::$(echo $name)"
@@ -35,6 +33,6 @@ runs:
 
     - id: publish
       run: |
-        echo ${{ inputs.token }} | buildah login -u ${{ github.actor }} --password-stdin https://docker.pkg.github.com
+        echo ${{ inputs.token }} | buildah login -u ${{ github.actor }} --password-stdin ghcr.io
         buildah push ${{ steps.bake.outputs.name }}
       shell: bash

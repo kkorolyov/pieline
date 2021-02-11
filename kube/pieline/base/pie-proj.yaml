@@ -30,6 +30,8 @@ spec:
           env:
             - name: H2_OPTIONS
               value: -ifNotExists
+      imagePullSecrets:
+        - name: gpr-kkorolyov
       volumes:
         - name: pie-proj
           persistentVolumeClaim:
