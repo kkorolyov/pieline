@@ -21,7 +21,7 @@ spec:
             - name: ADDR_GATE
               value: "http://pieline.api.local"
       imagePullSecrets:
-        - name: gpr-kkorolyov
+        - name: ghcr-kkorolyov
 ---
 apiVersion: v1
 kind: Service

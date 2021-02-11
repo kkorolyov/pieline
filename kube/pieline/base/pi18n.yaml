@@ -21,7 +21,7 @@ spec:
             - name: PORT
               value: "80"
       imagePullSecrets:
-        - name: gpr-kkorolyov
+        - name: ghcr-kkorolyov
 ---
 apiVersion: v1
 kind: Service

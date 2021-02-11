@@ -33,7 +33,7 @@ spec:
             - name: H2_OPTIONS
               value: -ifNotExists
       imagePullSecrets:
-        - name: gpr-kkorolyov
+        - name: ghcr-kkorolyov
       volumes:
         - name: pie-auth
           persistentVolumeClaim:
