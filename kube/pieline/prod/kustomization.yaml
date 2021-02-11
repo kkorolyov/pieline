@@ -3,14 +3,14 @@ bases:
 
 images:
   - name: pi18n
-    newName: ghcr.io/kkorolyov/pi18n:0.1.0
+    newName: ghcr.io/kkorolyov/pi18n:0.0.1
   - name: pie-auth
-    newName: ghcr.io/kkorolyov/pie-auth:0.1.0
+    newName: ghcr.io/kkorolyov/pie-auth:0.0.1
   - name: pie-gate
-    newName: ghcr.io/kkorolyov/pie-gate:0.1.0
+    newName: ghcr.io/kkorolyov/pie-gate:0.0.1
   - name: pie-proj
-    newName: ghcr.io/kkorolyov/pie-proj:0.1.0
+    newName: ghcr.io/kkorolyov/pie-proj:0.0.1
   - name: pie-users
-    newName: ghcr.io/kkorolyov/pie-users:0.1.0
+    newName: ghcr.io/kkorolyov/pie-users:0.0.1
   - name: pie-web
-    newName: ghcr.io/kkorolyov/pie-web:0.1.0
+    newName: ghcr.io/kkorolyov/pie-web:0.0.1
