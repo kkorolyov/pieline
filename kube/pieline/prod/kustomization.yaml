@@ -3,14 +3,14 @@ bases:
 
 images:
   - name: pi18n
-    newName: docker.pkg.github.com/kkorolyov/pieline/pi18n
+    newName: docker.pkg.github.com/kkorolyov/pieline/pi18n:0.3.0
   - name: pie-auth
-    newName: docker.pkg.github.com/kkorolyov/pieline/pie-auth
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-auth:0.3.0
   - name: pie-gate
-    newName: docker.pkg.github.com/kkorolyov/pieline/pie-gate
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-gate:0.3.0
   - name: pie-proj
-    newName: docker.pkg.github.com/kkorolyov/pieline/pie-proj
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-proj:0.3.0
   - name: pie-users
-    newName: docker.pkg.github.com/kkorolyov/pieline/pie-users
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-users:0.3.0
   - name: pie-web
-    newName: docker.pkg.github.com/kkorolyov/pieline/pie-web
+    newName: docker.pkg.github.com/kkorolyov/pieline/pie-web:0.3.0
