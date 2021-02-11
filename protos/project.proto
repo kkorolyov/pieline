@@ -11,13 +11,31 @@ message Project {
   common.Uuid id = 1;
   // Project details
   Details details = 2;
+
+  // Project details
+  message Details {
+    // Project title
+    string title = 1;
+    // Project description
+    string description = 2;
+  }
 }
-// Project details
-message Details {
-  // Project title
-  string title = 1;
-  // Project description
-  string description = 2;
+
+// Configurable project search request.
+// All set constraints are AND-ed to construct the final filter.
+message SearchRequest {
+  // Chunk to get; null implies an implementation-specific default
+  common.Chunk chunk = 1;
+
+  // Project title regex to match.
+  string title_pattern = 2;
+}
+// Project search result
+message SearchResponse {
+  // Token to get subsequent chunks; null implies no more chunks
+  string token = 1;
+  // Matched projects
+  repeated Project result = 2;
 }
 
 // Projects service API
@@ -25,17 +43,22 @@ service Projects {
   /*
    * Returns all projects matching given IDs.
    */
-  rpc Get(stream common.Uuid) returns (stream Project) {}
+  rpc Get(stream common.Uuid) returns (stream Project);
 
   /*
    * Updates incoming projects with ID set, creates those without under a new ID.
    * Returns the upserted projects, in input order.
    * Errors if any incoming data cannot be resolved.
    */
-  rpc Upsert(stream Project) returns (stream Project) {}
+  rpc Upsert(stream Project) returns (stream Project);
 
   /*
    * Deletes all projects matching given IDs and returns their representations, in input order.
    */
-  rpc Delete(stream common.Uuid) returns (stream Project) {}
+  rpc Delete(stream common.Uuid) returns (stream Project);
+
+  /*
+   * Returns projects matching given request parameters.
+   */
+  rpc Search(SearchRequest) returns (SearchResponse);
 }

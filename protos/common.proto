@@ -13,3 +13,13 @@ message UuidList {
   // Identifiers
   repeated Uuid ids = 1;
 }
+
+// Common paging/chunking construct
+message Chunk {
+  // Token denoting start of chunk to get.
+  // Unset implies first chunk.
+  // Use the returned token from the previous page response to get subsequent chunks.
+  string token = 1;
+  // Requested chunk size
+  uint32 size = 2;
+}
