@@ -6,7 +6,7 @@ cwd=$(dirname "$0")
 . ${cwd}/prep.sh
 install python-pip gcc
 
-swd=${cwd}/../../${service}
+swd=${cwd}/../${service}
 
 # build
 cd $swd

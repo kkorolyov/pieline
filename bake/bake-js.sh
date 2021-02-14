@@ -6,7 +6,7 @@ cwd=$(dirname "$0")
 . ${cwd}/prep.sh
 install yarn
 
-swd=${cwd}/../../${service}
+swd=${cwd}/../${service}
 
 # build
 yarn="yarn --cwd $swd"
