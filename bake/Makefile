@@ -9,15 +9,16 @@ CREDS=
 # internal vars
 services:=pie-gate pie-auth pie-users pie-proj pi18n pie-web
 clean_services:=$(addprefix clean-,$(services))
+# service types
+pi18n:=node
+pie-auth:=jvm
+pie-gate:=jvm
+pie-proj:=jvm
+pie-users:=python
+pie-web:=js
 
 # funcs
 bake=$(foreach arch,$(ARCH),./bake-$(1).sh -s $(2) -a $(arch) -t $(TAG);)
-bake_pi18n=$(call bake,node,pi18n)
-bake_pie-auth=./bake-jvm.sh -s pie-auth -t $(1)
-bake_pie-gate=./bake-jvm.sh -s pie-gate -t $(1)
-bake_pie-proj=./bake-jvm.sh -s pie-proj -t $(1)
-bake_pie-users=./bake-python.sh -s pie-users -t $(1)
-bake_pie-web=./bake-js.sh -s pie-web -t $(1)
 push=@buildah manifest push --all --tls-verify=$(VERIFY)$(if $(CREDS), --creds=$(CREDS))$(if $(SIGN), --sign-by=$(SIGN)) $(1) docker://$(REGISTRY)/$(1)
 rmi=buildah rmi -f $(foreach service,$(1),$(service))
 
@@ -56,7 +57,7 @@ prune:
 	buildah rmi -p
 
 $(services):
-	$(call bake_$@)
+	$(call bake,$($@),$@)
 	$(call push,$@)
 
 $(clean_services):
