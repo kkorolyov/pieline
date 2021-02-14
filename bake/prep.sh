@@ -12,10 +12,10 @@ me=$(basename "$0")
 cwd=$(dirname "$0")
 
 usage() {
-	echo "usage: $me -s <service> -a <architecture> -t <tag>"
+	echo "usage: $me -s <service> -a <architecture> -n <name>"
 	echo "	-s	service name"
 	echo "	-a	architecture to build for"
-	echo "	-t	service image tag"
+	echo "	-n	full image name"
 }
 
 install() {
@@ -31,11 +31,11 @@ config() {
 	buildah config "$@" $container
 }
 commit() {
-	buildah commit --manifest "${service}:${tag}" $container
+	buildah commit --manifest "$name" $container
 	buildah rm $container
 }
 
-while getopts ":s:a:t:h" opt; do
+while getopts ":s:a:n:h" opt; do
 	case "$opt" in
 	s)
 		service=$OPTARG
@@ -43,8 +43,8 @@ while getopts ":s:a:t:h" opt; do
 	a)
 		arch=$OPTARG
 		;;
-	t)
-		tag=$OPTARG
+	n)
+		name=$OPTARG
 		;;
 	h)
 		echo -e "Builds OCI images for PieLine services.\n"
@@ -75,8 +75,8 @@ if [ -z $arch ]; then
 	usage
 	exit 1
 fi
-if [ -z $tag ]; then
-	echo -e "must specify tag\n"
+if [ -z $name ]; then
+	echo -e "must specify name\n"
 	usage
 	exit 1
 fi

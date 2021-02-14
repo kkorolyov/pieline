@@ -8,7 +8,6 @@ CREDS=
 
 # internal vars
 services:=pie-gate pie-auth pie-users pie-proj pi18n pie-web
-clean_services:=$(addprefix clean-,$(services))
 # service types
 pi18n:=node
 pie-auth:=jvm
@@ -18,12 +17,12 @@ pie-users:=python
 pie-web:=js
 
 # funcs
-bake=$(foreach arch,$(ARCH),./bake-$(1).sh -s $(2) -a $(arch) -t $(TAG);)
-push=@buildah manifest push --all --tls-verify=$(VERIFY)$(if $(CREDS), --creds=$(CREDS))$(if $(SIGN), --sign-by=$(SIGN)) $(1) docker://$(REGISTRY)/$(1)
+bake=$(foreach arch,$(ARCH),./bake-$(1).sh -s $(2) -a $(arch) -n $(2):$(TAG);)
+push=@buildah manifest push --all --tls-verify=$(VERIFY)$(if $(CREDS), --creds=$(CREDS))$(if $(SIGN), --sign-by=$(SIGN)) $(1):$(TAG) docker://$(REGISTRY)/$(1)
 rmi=buildah rmi -f $(foreach service,$(1),$(service))
 
 # rules
-.PHONY: help all clean prune $(services) $(clean_services)
+.PHONY: help all $(services)
 
 define help
 Build and publish OCI image for PieLine services
@@ -31,10 +30,7 @@ Build and publish OCI image for PieLine services
 Targets:
 make help - view this help
 make all - build and publish all services
-make clean - remove all service images
-make prune - remove dangling images
 make <service> - build and publish <service>
-make clean-<service> - remove current <service> image
 
 Variables [currentValue]:
 TAG - tag to apply to built service image - [$(TAG)]
@@ -50,15 +46,6 @@ help:
 
 all: $(services)
 
-clean: prune
-	$(call rmi,$(services))
-
-prune:
-	buildah rmi -p
-
 $(services):
 	$(call bake,$($@),$@)
 	$(call push,$@)
-
-$(clean_services):
-	$(call rmi,$(subst clean-,,$@))
