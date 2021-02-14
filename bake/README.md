@@ -2,4 +2,5 @@
 
 Scripts for packaging PieLine services as OCI images.
 
-[`bake.sh`](bake.sh) builds images for selected services - or all known services if none selected.
+The root-level `Makefile` builds and cleans images for selected services.  
+Use `make` or `make help` to view help.
