@@ -12,13 +12,14 @@ me=$(basename "$0")
 cwd=$(dirname "$0")
 
 usage() {
-	echo "usage: $me -s <service> -t <tag>"
+	echo "usage: $me -s <service> -a <architecture> -t <tag>"
 	echo "	-s	service name"
-	echo "	-t	built image's tag"
+	echo "	-a	architecture to build for"
+	echo "	-t	service image tag"
 }
 
 install() {
-	buildah unshare ${cwd}/install.sh $container "$@"
+	buildah unshare ${cwd}/install.sh $container "$arch" "$@"
 }
 copy() {
 	buildah copy $container "$@"
@@ -30,14 +31,17 @@ config() {
 	buildah config "$@" $container
 }
 commit() {
-	buildah commit $container "$tag"
+	buildah commit --manifest "${service}:${tag}" $container
 	buildah rm $container
 }
 
-while getopts ":s:t:h" opt; do
+while getopts ":s:a:t:h" opt; do
 	case "$opt" in
 	s)
 		service=$OPTARG
+		;;
+	a)
+		arch=$OPTARG
 		;;
 	t)
 		tag=$OPTARG
@@ -56,12 +60,18 @@ while getopts ":s:t:h" opt; do
 		echo -e "-$OPTARG requires an argument\n"
 		usage
 		exit 1
+		;;
 	esac
 done
 shift $((OPTIND - 1))
 
 if [ -z $service ]; then
 	echo -e "must specify service\n"
+	usage
+	exit 1
+fi
+if [ -z $arch ]; then
+	echo -e "must specify architecture\n"
 	usage
 	exit 1
 fi
@@ -73,3 +83,4 @@ fi
 
 # common prep
 container=$(buildah from scratch)
+config --arch "$arch"
