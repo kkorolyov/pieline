@@ -19,7 +19,6 @@ pie-web:=js
 # funcs
 bake=$(foreach arch,$(ARCH),./bake-$(1).sh -s $(2) -a $(arch) -n $(2):$(TAG);)
 push=@buildah manifest push --all --tls-verify=$(VERIFY)$(if $(CREDS), --creds=$(CREDS))$(if $(SIGN), --sign-by=$(SIGN)) $(1):$(TAG) docker://$(REGISTRY)/$(1):$(TAG)
-rmi=buildah rmi -f $(foreach service,$(1),$(service))
 
 # rules
 .PHONY: help all $(services)
