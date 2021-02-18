@@ -12,13 +12,14 @@ me=$(basename "$0")
 cwd=$(dirname "$0")
 
 usage() {
-	echo "usage: $me -s <service> -t <tag>"
+	echo "usage: $me -s <service> -a <architecture> -n <name>"
 	echo "	-s	service name"
-	echo "	-t	built image's tag"
+	echo "	-a	architecture to build for"
+	echo "	-n	full image name"
 }
 
 install() {
-	buildah unshare ${cwd}/install.sh $container "$@"
+	buildah unshare ${cwd}/install.sh $container "$arch" "$@"
 }
 copy() {
 	buildah copy $container "$@"
@@ -30,17 +31,20 @@ config() {
 	buildah config "$@" $container
 }
 commit() {
-	buildah commit $container "$tag"
+	buildah commit --manifest "$name" $container
 	buildah rm $container
 }
 
-while getopts ":s:t:h" opt; do
+while getopts ":s:a:n:h" opt; do
 	case "$opt" in
 	s)
 		service=$OPTARG
 		;;
-	t)
-		tag=$OPTARG
+	a)
+		arch=$OPTARG
+		;;
+	n)
+		name=$OPTARG
 		;;
 	h)
 		echo -e "Builds OCI images for PieLine services.\n"
@@ -56,6 +60,7 @@ while getopts ":s:t:h" opt; do
 		echo -e "-$OPTARG requires an argument\n"
 		usage
 		exit 1
+		;;
 	esac
 done
 shift $((OPTIND - 1))
@@ -65,11 +70,17 @@ if [ -z $service ]; then
 	usage
 	exit 1
 fi
-if [ -z $tag ]; then
-	echo -e "must specify tag\n"
+if [ -z $arch ]; then
+	echo -e "must specify architecture\n"
+	usage
+	exit 1
+fi
+if [ -z $name ]; then
+	echo -e "must specify name\n"
 	usage
 	exit 1
 fi
 
 # common prep
 container=$(buildah from scratch)
+config --arch "$arch"

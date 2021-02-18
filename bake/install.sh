@@ -3,11 +3,12 @@
 # Buildah package manager install common wrapper
 # Can be used in a buildah unshare environment
 # Packages are installed using 'dnf'
-# Usage: install.sh <container> [package...] 
+# Usage: install.sh <container> <architecture> [package...] 
 
-dnfOpts="-y --setopt cachedir=/var/cache/dnf --setopt reposdir=/etc/yum.repos.d --setopt install_weak_deps=false --setopt tsflags=nodocs --releasever 32"
 container="$1"
-shift
+arch="$2"
+shift 2
+dnfOpts="-y --setopt cachedir=/var/cache/dnf --setopt reposdir=/etc/yum.repos.d --setopt install_weak_deps=false --setopt tsflags=nodocs --releasever 33 --forcearch $arch"
 
 if [ "$#" -gt 0 ]; then
 	mnt=$(buildah mount $container)
@@ -21,8 +22,8 @@ if [ "$#" -gt 0 ]; then
 		echo "host does not have dnf, making my own dnf..."
 		podman run --rm -v $mnt:/mnt registry.fedoraproject.org/fedora bash -c "
 	curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo &&
-	curl -sL https://rpm.nodesource.com/setup_14.x | bash - &&
-	dnf install $dnfOpts --installroot /mnt glibc-minimal-langpack $@
+	curl -sL https://rpm.nodesource.com/setup_15.x | bash - &&
+	dnf install $dnfOpts --installroot /mnt glibc-minimal-langpack $*
 	"
 	fi
 

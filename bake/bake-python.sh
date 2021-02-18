@@ -4,9 +4,9 @@ cwd=$(dirname "$0")
 
 # prep
 . ${cwd}/prep.sh
-install python-pip gcc
+install python-pip libstdc++
 
-swd=${cwd}/../../${service}
+swd=${cwd}/../${service}
 
 # build
 cd $swd
@@ -16,6 +16,7 @@ rm -rf dist
 python setup.py bdist_wheel
 copy dist dist
 cd -
+run python3 -m pip install -U setuptools
 run bash -c "python3 -m pip install --user dist/*"
 run rm -rf dist
 
