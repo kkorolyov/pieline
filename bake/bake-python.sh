@@ -4,7 +4,7 @@ cwd=$(dirname "$0")
 
 # prep
 . ${cwd}/prep.sh
-install python-pip gcc
+install python-pip libstdc++
 
 swd=${cwd}/../${service}
 

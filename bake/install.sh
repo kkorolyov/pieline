@@ -22,7 +22,7 @@ if [ "$#" -gt 0 ]; then
 		echo "host does not have dnf, making my own dnf..."
 		podman run --rm -v $mnt:/mnt registry.fedoraproject.org/fedora bash -c "
 	curl -sL https://dl.yarnpkg.com/rpm/yarn.repo | tee /etc/yum.repos.d/yarn.repo &&
-	curl -sL https://rpm.nodesource.com/setup_14.x | bash - &&
+	curl -sL https://rpm.nodesource.com/setup_15.x | bash - &&
 	dnf install $dnfOpts --installroot /mnt glibc-minimal-langpack $*
 	"
 	fi

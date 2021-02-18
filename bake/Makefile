@@ -46,5 +46,7 @@ help:
 all: $(services)
 
 $(services):
+	# Clean any previous manifests
+	-buildah rmi $@
 	$(call bake,$($@),$@)
 	$(call push,$@)

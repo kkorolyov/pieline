@@ -24,6 +24,6 @@
     "clean:full": "yarn clean && rimraf node_modules",
     "proto": "mkdir -p src/generated/proto && grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/generated/proto --ts_out=./src/generated/proto --grpc_out=./src/generated/proto --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts -I=../protos ../protos/internationalization.proto",
     "build": "yarn proto && yarn tsc",
-    "build:bin": "yarn build && pkg build/server.js --targets node14-linux-x64 --output build/bin/pi18n && copyfiles -f node_modules/**/*.node build/bin"
+    "build:bin": "yarn build && pkg build/server.js --targets latest-linux-x64 --output build/bin/pi18n && copyfiles -f node_modules/**/*.node build/bin"
   }
 }
