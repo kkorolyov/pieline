@@ -1,6 +1,6 @@
 # user vars
 TAG=latest
-ARCH:=aarch64 amd64
+ARCH:=aarch64 x86_64
 REGISTRY:=dreg.local
 VERIFY=true
 SIGN=
