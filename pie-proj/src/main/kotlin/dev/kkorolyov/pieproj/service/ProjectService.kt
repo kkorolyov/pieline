@@ -1,8 +1,8 @@
 package dev.kkorolyov.pieproj.service
 
 import dev.kkorolyov.pieline.proto.common.Common.Uuid
-import dev.kkorolyov.pieline.proto.project.ProjectOuterClass
 import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.Project
+import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.Project.Details
 import dev.kkorolyov.pieline.proto.project.ProjectsGrpcKt.ProjectsCoroutineImplBase
 import dev.kkorolyov.pieline.trace.span
 import dev.kkorolyov.pieproj.db.DB
@@ -26,7 +26,6 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
 import org.jetbrains.exposed.sql.update
 import org.slf4j.LoggerFactory
-import java.lang.IllegalArgumentException
 import java.util.UUID
 
 /**
@@ -65,7 +64,7 @@ object ProjectService : ProjectsCoroutineImplBase() {
 						id = Uuid.newBuilder().apply {
 							value = it[Projects.id].toString()
 						}.build()
-						details = ProjectOuterClass.Details.newBuilder().apply {
+						details = Details.newBuilder().apply {
 							title = it[Projects.title]
 							description = it[Projects.description]
 						}.build()
@@ -120,7 +119,7 @@ object ProjectService : ProjectsCoroutineImplBase() {
 			id = Uuid.newBuilder().apply {
 				value = result[Projects.id].toString()
 			}.build()
-			details = ProjectOuterClass.Details.newBuilder().apply {
+			details = Details.newBuilder().apply {
 				title = result[Projects.title]
 				description = result[Projects.description]
 			}.build()
@@ -151,7 +150,7 @@ object ProjectService : ProjectsCoroutineImplBase() {
 				id = Uuid.newBuilder().apply {
 					value = result[Projects.id].toString()
 				}.build()
-				details = ProjectOuterClass.Details.newBuilder().apply {
+				details = Details.newBuilder().apply {
 					title = result[Projects.title]
 					description = result[Projects.description]
 				}.build()
@@ -181,7 +180,7 @@ object ProjectService : ProjectsCoroutineImplBase() {
 						id = Uuid.newBuilder().apply {
 							value = it[Projects.id].toString()
 						}.build()
-						details = ProjectOuterClass.Details.newBuilder().apply {
+						details = Details.newBuilder().apply {
 							title = it[Projects.title]
 							description = it[Projects.description]
 						}.build()

@@ -7,7 +7,6 @@ import com.google.protobuf.gradle.protoc
 import org.gradle.api.JavaVersion.VERSION_14
 
 val grpcVersion: String by project
-val grpcKtVersion: String by project
 
 tasks.wrapper {
 	distributionType = Wrapper.DistributionType.ALL
@@ -17,7 +16,7 @@ plugins {
 	kotlin("jvm") version "1.4.20"
 	groovy
 	application
-	id("com.google.protobuf") version "0.8.13"
+	id("com.google.protobuf") version "0.8.15"
 	idea
 }
 group = "dev.kkorolyov"
@@ -56,12 +55,11 @@ dependencies {
 	implementation(platform("io.grpc:grpc-bom:$grpcVersion"))
 	listOf(
 		"grpc-netty-shaded",
-		"grpc-protobuf",
-		"grpc-stub"
+		"grpc-protobuf"
 	).forEach {
 		implementation("io.grpc:$it")
 	}
-	implementation("io.grpc:grpc-kotlin-stub:$grpcKtVersion")
+	implementation("io.grpc:grpc-kotlin-stub:$grpcVersion")
 
 	// auth
 	val jwtVersion: String by project
@@ -138,7 +136,7 @@ protobuf {
 			artifact = "io.grpc:protoc-gen-grpc-java:$grpcVersion"
 		}
 		id("grpckt") {
-			artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcKtVersion:jdk7@jar"
+			artifact = "io.grpc:protoc-gen-grpc-kotlin:$grpcVersion:jdk7@jar"
 		}
 	}
 	generateProtoTasks {
