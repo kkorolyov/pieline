@@ -1,0 +1,8 @@
+resources:
+  - pi18n.yaml
+  - pie-auth.yaml
+  - pie-gate.yaml
+  - pie-proj.yaml
+  - pie-users.yaml
+  - pie-web.yaml
+  - ingress-pieline.yaml

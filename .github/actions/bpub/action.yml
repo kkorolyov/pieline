@@ -14,27 +14,18 @@ inputs:
 outputs:
   image:
     description: Published image name
-    value: ${{ steps.tag.outputs.name }}
+    value: ${{ steps.make.outputs.name }}
 runs:
   using: composite
   steps:
-    - id: bake
+    - id: make
       run: |
-        base=docker.pkg.github.com/${{ github.repository }}/${{ inputs.service }}
-
         rawtag=${{ inputs.tag }}
         tag=${rawtag#refs/tags/}
 
-        name=${base}:${tag}
-
-        bake/service/${{ inputs.service }}.sh -t $name
-        echo "::set-output name=name::$(echo $name)"
+        cd bake
+        make ${{ inputs.service }} TAG=${tag} REGISTRY=ghcr.io/kkorolyov CREDS=${{ github.actor }}:${{ inputs.token }}
+        echo "::set-output name=image::$(echo $${{ inputs.service }}:${tag})"
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
-
-    - id: publish
-      run: |
-        echo ${{ inputs.token }} | buildah login -u ${{ github.actor }} --password-stdin https://docker.pkg.github.com
-        buildah push ${{ steps.bake.outputs.name }}
-      shell: bash

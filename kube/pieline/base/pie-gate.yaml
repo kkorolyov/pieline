@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: pie-gate
-          image: dreg.local/pie-gate
+          image: pie-gate
           env:
             - name: PORT
               value: "80"
@@ -28,6 +28,8 @@ spec:
               value: pie-proj
             - name: ADDR_I18N
               value: pi18n
+      imagePullSecrets:
+        - name: ghcr-kkorolyov
 ---
 apiVersion: v1
 kind: Service

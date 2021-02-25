@@ -1,54 +1,58 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pie-proj
+  name: pie-users
   annotations:
     "sidecar.jaegertracing.io/inject": "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pie-proj
+      app: pie-users
   template:
     metadata:
       labels:
-        app: pie-proj
+        app: pie-users
     spec:
       containers:
-        - name: pie-proj
-          image: dreg.local/pie-proj
+        - name: pie-users
+          image: pie-users
           env:
             - name: PORT
               value: "80"
             - name: DB_URL
-              value: jdbc:h2:tcp://localhost:1521//opt/h2-data/projects
-        - name: db-proj
-          image: oscarfonts/h2
+              value: postgresql://users:users@localhost:5432/users
+        - name: db-users
+          image: postgres
           volumeMounts:
-            - name: pie-proj
-              mountPath: /opt/h2-data
+            - name: pie-users
+              mountPath: /var/lib/postgresql/data
           env:
-            - name: H2_OPTIONS
-              value: -ifNotExists
+            - name: POSTGRES_USER
+              value: users
+            - name: POSTGRES_PASSWORD
+              value: users
+      imagePullSecrets:
+        - name: ghcr-kkorolyov
       volumes:
-        - name: pie-proj
+        - name: pie-users
           persistentVolumeClaim:
-            claimName: pie-proj
+            claimName: pie-users
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pie-proj
+  name: pie-users
 spec:
   selector:
-    app: pie-proj
+    app: pie-users
   ports:
     - port: 80
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pie-proj
+  name: pie-users
 spec:
   accessModes:
     - ReadWriteOnce

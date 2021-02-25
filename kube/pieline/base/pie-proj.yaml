@@ -1,56 +1,56 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pie-auth
+  name: pie-proj
   annotations:
     "sidecar.jaegertracing.io/inject": "true"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pie-auth
+      app: pie-proj
   template:
     metadata:
       labels:
-        app: pie-auth
+        app: pie-proj
     spec:
       containers:
-        - name: pie-auth
-          image: dreg.local/pie-auth
+        - name: pie-proj
+          image: pie-proj
           env:
             - name: PORT
               value: "80"
             - name: DB_URL
-              value: jdbc:h2:tcp://localhost:1521//opt/h2-data/auth
-            - name: ADDR_USERS
-              value: pie-users
-        - name: db-auth
+              value: jdbc:h2:tcp://localhost:1521//opt/h2-data/projects
+        - name: db-proj
           image: oscarfonts/h2
           volumeMounts:
-            - name: pie-auth
+            - name: pie-proj
               mountPath: /opt/h2-data
           env:
             - name: H2_OPTIONS
               value: -ifNotExists
+      imagePullSecrets:
+        - name: ghcr-kkorolyov
       volumes:
-        - name: pie-auth
+        - name: pie-proj
           persistentVolumeClaim:
-            claimName: pie-auth
+            claimName: pie-proj
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: pie-auth
+  name: pie-proj
 spec:
   selector:
-    app: pie-auth
+    app: pie-proj
   ports:
     - port: 80
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: pie-auth
+  name: pie-proj
 spec:
   accessModes:
     - ReadWriteOnce

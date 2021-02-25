@@ -1,0 +1,16 @@
+bases:
+  - ../base
+
+images:
+  - name: pi18n
+    newName: dreg.local/pi18n
+  - name: pie-auth
+    newName: dreg.local/pie-auth
+  - name: pie-gate
+    newName: dreg.local/pie-gate
+  - name: pie-proj
+    newName: dreg.local/pie-proj
+  - name: pie-users
+    newName: dreg.local/pie-users
+  - name: pie-web
+    newName: dreg.local/pie-web
