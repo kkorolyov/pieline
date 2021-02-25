@@ -21,6 +21,11 @@ export type Input_Auth_AuthResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type Input_Common_Chunk = {
+  size?: Maybe<Scalars['Int']>;
+  token?: Maybe<Scalars['String']>;
+};
+
 export type Input_Common_Uuid = {
   value?: Maybe<Scalars['String']>;
 };
@@ -42,14 +47,24 @@ export type Input_I18n_I18nPack_ValueEntry = {
   value?: Maybe<Scalars['String']>;
 };
 
-export type Input_Project_Details = {
+export type Input_Project_Project = {
+  details?: Maybe<Input_Project_Project_Details>;
+  id?: Maybe<Input_Common_Uuid>;
+};
+
+export type Input_Project_Project_Details = {
   description?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
-export type Input_Project_Project = {
-  details?: Maybe<Input_Project_Details>;
-  id?: Maybe<Input_Common_Uuid>;
+export type Input_Project_SearchRequest = {
+  chunk?: Maybe<Input_Common_Chunk>;
+  titlePattern?: Maybe<Scalars['String']>;
+};
+
+export type Input_Project_SearchResponse = {
+  result?: Maybe<Array<Maybe<Input_Project_Project>>>;
+  token?: Maybe<Scalars['String']>;
 };
 
 export type Input_User_Details = {
@@ -150,6 +165,12 @@ export type Auth_AuthResponse = {
   token?: Maybe<Scalars['String']>;
 };
 
+export type Common_Chunk = {
+  __typename?: 'common_Chunk';
+  size?: Maybe<Scalars['Int']>;
+  token?: Maybe<Scalars['String']>;
+};
+
 export type Common_Uuid = {
   __typename?: 'common_Uuid';
   value?: Maybe<Scalars['String']>;
@@ -181,16 +202,28 @@ export type I18n_I18nPack_ValueEntry = {
   value?: Maybe<Scalars['String']>;
 };
 
-export type Project_Details = {
-  __typename?: 'project_Details';
+export type Project_Project = {
+  __typename?: 'project_Project';
+  details?: Maybe<Project_Project_Details>;
+  id?: Maybe<Common_Uuid>;
+};
+
+export type Project_Project_Details = {
+  __typename?: 'project_Project_Details';
   description?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
 };
 
-export type Project_Project = {
-  __typename?: 'project_Project';
-  details?: Maybe<Project_Details>;
-  id?: Maybe<Common_Uuid>;
+export type Project_SearchRequest = {
+  __typename?: 'project_SearchRequest';
+  chunk?: Maybe<Common_Chunk>;
+  titlePattern?: Maybe<Scalars['String']>;
+};
+
+export type Project_SearchResponse = {
+  __typename?: 'project_SearchResponse';
+  result?: Maybe<Array<Maybe<Project_Project>>>;
+  token?: Maybe<Scalars['String']>;
 };
 
 export type User_Details = {

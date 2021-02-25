@@ -1,5 +1,5 @@
 overwrite: true
-schema: ${ADDR_GATE}
+schema: http://pieline.api.local
 generates:
   src/gql.tsx:
     plugins:
