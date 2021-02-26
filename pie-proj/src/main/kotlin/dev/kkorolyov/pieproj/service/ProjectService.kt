@@ -3,8 +3,11 @@ package dev.kkorolyov.pieproj.service
 import dev.kkorolyov.pieline.proto.common.Common.Uuid
 import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.Project
 import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.Project.Details
+import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.SearchRequest
+import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.SearchResponse
 import dev.kkorolyov.pieline.proto.project.ProjectsGrpcKt.ProjectsCoroutineImplBase
 import dev.kkorolyov.pieline.trace.span
+import dev.kkorolyov.pieproj.PROPS
 import dev.kkorolyov.pieproj.db.DB
 import dev.kkorolyov.pieproj.db.Projects
 import dev.kkorolyov.pieproj.trace.TRACER
@@ -32,7 +35,7 @@ import java.util.UUID
  * Services project requests.
  */
 object ProjectService : ProjectsCoroutineImplBase() {
-	private val log = LoggerFactory.getLogger(ProjectService::class.java)
+	private val log = LoggerFactory.getLogger(javaClass)
 
 	init {
 		// Initialize database
@@ -41,6 +44,42 @@ object ProjectService : ProjectsCoroutineImplBase() {
 			SchemaUtils.createMissingTablesAndColumns(Projects)
 		}
 	}
+
+	override suspend fun search(request: SearchRequest): SearchResponse =
+		TRACER.span("transaction", parent = OpenTracingContextKey.activeSpan()).use { span ->
+			span.setTag(Tags.DB_TYPE, "sql")
+
+			var chunkSize = if (request.chunk.size > 0) request.chunk.size else PROPS["CHUNK_SIZE"].toInt()
+			var offset = if (request.chunk.token.isNotEmpty()) request.chunk.token.toLong() else 0
+
+			val result = transaction {
+				addLogger(Slf4jSqlDebugLogger)
+
+				Projects.select {
+					Projects.title like request.titlePattern
+				}.limit(chunkSize, offset)
+					.map {
+						Project.newBuilder().apply {
+							id = Uuid.newBuilder().apply {
+								value = it[Projects.id].toString()
+							}.build()
+							details = Details.newBuilder().apply {
+								title = it[Projects.title]
+								description = it[Projects.description]
+							}.build()
+						}.build()
+					}
+			}
+			span.setTag("result.count", result.size)
+			log.info("SEARCH {} projects", result.size)
+
+			SearchResponse.newBuilder().apply {
+				addAllResult(result)
+				if (result.size >= chunkSize) {
+					token = (chunkSize + offset).toString()
+				}
+			}.build()
+		}
 
 	override fun get(requests: Flow<Uuid>): Flow<Project> =
 		TRACER.span("transaction", parent = OpenTracingContextKey.activeSpan()).use { span ->

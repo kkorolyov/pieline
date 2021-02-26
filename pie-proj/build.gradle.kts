@@ -63,6 +63,7 @@ dependencies {
 
 	// observability
 	val log4jVersion: String by project
+	val jacksonVersion: String by project
 	val opentracingVersion: String by project
 	val opentracingGrpcVersion: String by project
 	val jaegerVersion: String by project
@@ -75,6 +76,7 @@ dependencies {
 	).forEach {
 		implementation("org.apache.logging.log4j:$it")
 	}
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
 
 	implementation("io.opentracing:opentracing-api:$opentracingVersion")
 	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
@@ -108,14 +110,6 @@ java {
 
 application {
 	mainClass.set("dev.kkorolyov.pieproj.ServerKt")
-}
-
-// Local dev run
-tasks.named<JavaExec>("run") {
-	environment = mapOf(
-		"PORT" to 5003,
-		"DB_URL" to "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"
-	)
 }
 
 protobuf {
