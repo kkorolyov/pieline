@@ -5,8 +5,10 @@ import * as queries from "./graphql/queries";
 
 export const getProfile = async (id: string): Promise<User_Details> => {
   const {
-    user: { details },
-  } = await client.request(queries.fullUser, { id: wrapId(id) });
+    users: {
+      get: { details },
+    },
+  } = await client.request(queries.getUser, { id: wrapId(id) });
 
   return details;
 };
@@ -15,7 +17,9 @@ export const saveProfile = async (
   details: User_Details
 ): Promise<User_Details> => {
   const {
-    setUser: { details: resultDetails },
+    users: {
+      set: { details: resultDetails },
+    },
   } = await client.request(mutations.setUser, {
     user: {
       id: wrapId(id),

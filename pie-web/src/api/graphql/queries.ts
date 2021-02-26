@@ -4,38 +4,49 @@ import { i18nPackFields, projectFields, userFields } from "./fragments";
 /**
  * Authenticates using given `user: String, pass: String`.
  */
-export const auth = gql`
-  query auth($user: String, $pass: String) {
-    authenticate(user: $user, pass: $pass) {
-      token
-      id {
-        value
+export const login = gql`
+  query login($user: String, $pass: String) {
+    auth {
+      login(user: $user, pass: $pass) {
+        token
+        id {
+          value
+        }
       }
     }
   }
 `;
 
-export const fullUser = gql`
-  query fullUser($id: String) {
-    user(id: $id) {
-      ...userFields
-    }
-  }
-  ${userFields}
-`;
-export const fullUsers = gql`
-  query fullUsers($ids: Input_common_UuidList) {
-    users(ids: $ids) {
-      ...userFields
+export const getUser = gql`
+  query getUser($id: String) {
+    users {
+      get(id: $id) {
+        ...userFields
+      }
     }
   }
   ${userFields}
 `;
 
-export const fullProject = gql`
-  query fullProject($id: String) {
-    project(id: $id) {
-      ...projectFields
+export const searchProjects = gql`
+  query searchProjects($request: Input_project_SearchRequest) {
+    projects {
+      search(request: $request) {
+        result {
+          ...projectFields
+        }
+        token
+      }
+    }
+  }
+  ${projectFields}
+`;
+export const getProject = gql`
+  query getProject($id: String) {
+    projects {
+      get(id: $id) {
+        ...projectFields
+      }
     }
   }
   ${projectFields}
@@ -51,4 +62,17 @@ export const localeI18n = gql`
     }
   }
   ${i18nPackFields}
+`;
+
+export const jwt = gql`
+  query jwt {
+    debug {
+      jwt {
+        claims {
+          key
+          value
+        }
+      }
+    }
+  }
 `;

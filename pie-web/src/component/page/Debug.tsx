@@ -1,36 +1,44 @@
-import { Container, Grid, Typography } from "@material-ui/core";
-import { GATE, getToken } from "api/info";
+import {
+  Container,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Typography
+} from "@material-ui/core";
 import Waitable from "component/common/wrapper/Waitable";
-import { AuthContext } from "context";
+import { ApiContext, AuthContext } from "context";
 import { useArgs, useExecutor } from "hooks";
 import React, { useContext } from "react";
 
-const getJwt = async (id?: string): Promise<string | undefined> =>
-  id &&
-  (await (
-    await fetch(`${GATE}/jwt`, {
-      headers: {
-        Authorization: `Bearer ${getToken()}`,
-        "Content-Type": "text/plain",
-      },
-    })
-  ).text());
 const JwtTest = () => {
   const { id } = useContext(AuthContext);
+  const { jwt } = useContext(ApiContext);
 
-  const jwtExecutor = useExecutor(getJwt);
+  const jwtExecutor = useExecutor(jwt);
   const { result, waiting } = jwtExecutor;
+
   useArgs(jwtExecutor, id);
 
   return (
     <Waitable waiting={waiting}>
-      <Typography
-        style={{
-          whiteSpace: "pre-line",
-        }}
-      >
-        {result || "Authenticate to get JWT information"}
-      </Typography>
+      {(result && (
+        <List>
+          {result.claims?.map((claim) => (
+            <ListItem key={claim?.key}>
+              <ListItemText primary={claim?.key} secondary={claim?.value} />
+            </ListItem>
+          ))}
+        </List>
+      )) || (
+        <Typography
+          style={{
+            whiteSpace: "pre-line",
+          }}
+        >
+          Authenticate to get JWT information
+        </Typography>
+      )}
     </Waitable>
   );
 };

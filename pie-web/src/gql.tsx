@@ -34,6 +34,15 @@ export type Input_Common_UuidList = {
   ids?: Maybe<Array<Maybe<Input_Common_Uuid>>>;
 };
 
+export type Input_Debug_Jwt = {
+  claims?: Maybe<Array<Maybe<Input_Debug_Jwt_ClaimsEntry>>>;
+};
+
+export type Input_Debug_Jwt_ClaimsEntry = {
+  key?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
+};
+
 export type Input_I18n_PackRequest = {
   value?: Maybe<I18n_Locale>;
 };
@@ -79,53 +88,25 @@ export type Input_User_User = {
 
 export type MutationType = {
   __typename?: 'MutationType';
-  deleteProjects?: Maybe<Array<Project_Project>>;
-  deleteUsers?: Maybe<Array<User_User>>;
-  register?: Maybe<Auth_AuthResponse>;
-  setProject?: Maybe<Project_Project>;
-  setUser?: Maybe<User_User>;
-};
-
-
-export type MutationTypeDeleteProjectsArgs = {
-  ids?: Maybe<Input_Common_UuidList>;
-};
-
-
-export type MutationTypeDeleteUsersArgs = {
-  ids?: Maybe<Input_Common_UuidList>;
-};
-
-
-export type MutationTypeRegisterArgs = {
-  pass?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
-};
-
-
-export type MutationTypeSetProjectArgs = {
-  project?: Maybe<Input_Project_Project>;
-};
-
-
-export type MutationTypeSetUserArgs = {
-  user?: Maybe<Input_User_User>;
+  /** auth */
+  auth?: Maybe<_Mutation_Field_Group_Auth>;
+  /** projects */
+  projects?: Maybe<_Mutation_Field_Group_Projects>;
+  /** users */
+  users?: Maybe<_Mutation_Field_Group_Users>;
 };
 
 export type QueryType = {
   __typename?: 'QueryType';
-  authenticate?: Maybe<Auth_AuthResponse>;
+  /** auth */
+  auth?: Maybe<_Query_Field_Group_Auth>;
+  /** debug */
+  debug?: Maybe<_Query_Field_Group_Debug>;
   i18n?: Maybe<I18n_I18nPack>;
-  project?: Maybe<Project_Project>;
-  projects?: Maybe<Array<Project_Project>>;
-  user?: Maybe<User_User>;
-  users?: Maybe<Array<User_User>>;
-};
-
-
-export type QueryTypeAuthenticateArgs = {
-  pass?: Maybe<Scalars['String']>;
-  user?: Maybe<Scalars['String']>;
+  /** projects */
+  projects?: Maybe<_Query_Field_Group_Projects>;
+  /** users */
+  users?: Maybe<_Query_Field_Group_Users>;
 };
 
 
@@ -133,24 +114,89 @@ export type QueryTypeI18nArgs = {
   locale?: Maybe<I18n_Locale>;
 };
 
-
-export type QueryTypeProjectArgs = {
-  id?: Maybe<Scalars['String']>;
+export type _Mutation_Field_Group_Auth = {
+  __typename?: '_MUTATION_FIELD_GROUP_auth';
+  register?: Maybe<Auth_AuthResponse>;
 };
 
 
-export type QueryTypeProjectsArgs = {
+export type _Mutation_Field_Group_AuthRegisterArgs = {
+  pass?: Maybe<Scalars['String']>;
+  user?: Maybe<Scalars['String']>;
+};
+
+export type _Mutation_Field_Group_Projects = {
+  __typename?: '_MUTATION_FIELD_GROUP_projects';
+  delete?: Maybe<Array<Project_Project>>;
+  set?: Maybe<Project_Project>;
+};
+
+
+export type _Mutation_Field_Group_ProjectsDeleteArgs = {
   ids?: Maybe<Input_Common_UuidList>;
 };
 
 
-export type QueryTypeUserArgs = {
+export type _Mutation_Field_Group_ProjectsSetArgs = {
+  project?: Maybe<Input_Project_Project>;
+};
+
+export type _Mutation_Field_Group_Users = {
+  __typename?: '_MUTATION_FIELD_GROUP_users';
+  delete?: Maybe<Array<User_User>>;
+  set?: Maybe<User_User>;
+};
+
+
+export type _Mutation_Field_Group_UsersDeleteArgs = {
+  ids?: Maybe<Input_Common_UuidList>;
+};
+
+
+export type _Mutation_Field_Group_UsersSetArgs = {
+  user?: Maybe<Input_User_User>;
+};
+
+export type _Query_Field_Group_Auth = {
+  __typename?: '_QUERY_FIELD_GROUP_auth';
+  login?: Maybe<Auth_AuthResponse>;
+};
+
+
+export type _Query_Field_Group_AuthLoginArgs = {
+  pass?: Maybe<Scalars['String']>;
+  user?: Maybe<Scalars['String']>;
+};
+
+export type _Query_Field_Group_Debug = {
+  __typename?: '_QUERY_FIELD_GROUP_debug';
+  jwt?: Maybe<Debug_Jwt>;
+};
+
+export type _Query_Field_Group_Projects = {
+  __typename?: '_QUERY_FIELD_GROUP_projects';
+  get?: Maybe<Project_Project>;
+  search?: Maybe<Project_SearchResponse>;
+};
+
+
+export type _Query_Field_Group_ProjectsGetArgs = {
   id?: Maybe<Scalars['String']>;
 };
 
 
-export type QueryTypeUsersArgs = {
-  ids?: Maybe<Input_Common_UuidList>;
+export type _Query_Field_Group_ProjectsSearchArgs = {
+  request?: Maybe<Input_Project_SearchRequest>;
+};
+
+export type _Query_Field_Group_Users = {
+  __typename?: '_QUERY_FIELD_GROUP_users';
+  get?: Maybe<User_User>;
+};
+
+
+export type _Query_Field_Group_UsersGetArgs = {
+  id?: Maybe<Scalars['String']>;
 };
 
 export type Auth_AuthRequest = {
@@ -179,6 +225,17 @@ export type Common_Uuid = {
 export type Common_UuidList = {
   __typename?: 'common_UuidList';
   ids?: Maybe<Array<Maybe<Common_Uuid>>>;
+};
+
+export type Debug_Jwt = {
+  __typename?: 'debug_Jwt';
+  claims?: Maybe<Array<Maybe<Debug_Jwt_ClaimsEntry>>>;
+};
+
+export type Debug_Jwt_ClaimsEntry = {
+  __typename?: 'debug_Jwt_ClaimsEntry';
+  key?: Maybe<Scalars['String']>;
+  value?: Maybe<Scalars['String']>;
 };
 
 export enum I18n_Locale {

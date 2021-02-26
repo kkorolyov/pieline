@@ -1,10 +1,10 @@
 import { Avatar, MenuItem } from "@material-ui/core";
+import { setToken } from "api/graphql/client";
 import Link from "component/common/control/Link";
 import Menu from "component/common/control/Menu";
+import { AuthContext, I18nContext } from "context";
 import React, { useContext } from "react";
 import styled from "styled-components";
-import { AuthContext, I18nContext } from "context";
-import { registerToken } from "api/info";
 
 const ProfileIcon = styled(Avatar)`
   cursor: pointer;
@@ -25,7 +25,7 @@ const UserMenu = () => {
       <MenuItem
         onClick={() => {
           setId();
-          registerToken();
+          setToken();
         }}
       >
         {i18n.logOut}

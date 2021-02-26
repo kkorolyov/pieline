@@ -35,7 +35,6 @@ const BaseBar = ({ action, submitLabel, errorLabel, onBack }: BaseBarProps) => {
         <IconButton onClick={() => onBack()}>
           <ArrowBack />
         </IconButton>
-        <Errable error={executor.error} text={errorLabel} />
         <Grid item>
           <TextField
             variant="filled"
@@ -60,9 +59,11 @@ const BaseBar = ({ action, submitLabel, errorLabel, onBack }: BaseBarProps) => {
 
         <Grid item>
           <Waitable waiting={executor.waiting}>
-            <Button type="submit" variant="contained">
-              {submitLabel}
-            </Button>
+            <Errable error={executor.error} text={errorLabel}>
+              <Button type="submit" variant="contained">
+                {submitLabel}
+              </Button>
+            </Errable>
           </Waitable>
         </Grid>
       </Grid>
@@ -76,7 +77,7 @@ const BaseBar = ({ action, submitLabel, errorLabel, onBack }: BaseBarProps) => {
 const AuthBar = () => {
   const [option, setOption] = useState<JSX.Element>();
 
-  const { authenticate, register } = useContext(ApiContext);
+  const { login, register } = useContext(ApiContext);
   const i18n = useContext(I18nContext);
 
   return (
@@ -86,7 +87,7 @@ const AuthBar = () => {
           onClick={() => {
             setOption(
               <BaseBar
-                action={authenticate}
+                action={login}
                 submitLabel={i18n.logIn}
                 errorLabel={i18n.errorLogIn}
                 onBack={() => setOption(undefined)}
