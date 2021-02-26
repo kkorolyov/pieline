@@ -2,6 +2,7 @@ package dev.kkorolyov.piegate.schema
 
 import com.google.api.graphql.rejoiner.Arg
 import com.google.api.graphql.rejoiner.Mutation
+import com.google.api.graphql.rejoiner.Namespace
 import com.google.api.graphql.rejoiner.Query
 import com.google.api.graphql.rejoiner.SchemaModule
 import com.google.common.util.concurrent.ListenableFuture
@@ -15,13 +16,14 @@ import org.slf4j.LoggerFactory
 /**
  * `auth` module of the GraphQL schema.
  */
+@Namespace("auth")
 object AuthSchema : SchemaModule() {
 	private val log = LoggerFactory.getLogger(AuthSchema::class.java)
 
 	/**
 	 * Authenticates a {[user], [pass]} combination.
 	 */
-	@Query("authenticate")
+	@Query("login")
 	fun auth(
 		@Arg("user") user: String,
 		@Arg("pass") pass: String,

@@ -2,6 +2,7 @@ package dev.kkorolyov.piegate.schema
 
 import com.google.api.graphql.rejoiner.Arg
 import com.google.api.graphql.rejoiner.Mutation
+import com.google.api.graphql.rejoiner.Namespace
 import com.google.api.graphql.rejoiner.Query
 import com.google.api.graphql.rejoiner.SchemaModule
 import com.google.common.util.concurrent.ListenableFuture
@@ -23,13 +24,14 @@ import org.slf4j.LoggerFactory
 /**
  * `projects` module of the GraphQL schema.
  */
+@Namespace("projects")
 object ProjectsSchema : SchemaModule() {
 	private val log = LoggerFactory.getLogger(ProjectsSchema::class.java)
 
 	/**
 	 * Searches for projects matching [request].
 	 */
-	@Query("searchProjects")
+	@Query("search")
 	fun search(
 		@Arg("request") request: SearchRequest,
 		projectsStub: ProjectsCoroutineStub
@@ -44,8 +46,8 @@ object ProjectsSchema : SchemaModule() {
 	/**
 	 * Gets project for [id], if any.
 	 */
-	@Query("project")
-	fun project(@Arg("id") id: String, projectsStub: ProjectsCoroutineStub): ListenableFuture<Project?> = runBlocking {
+	@Query("get")
+	fun get(@Arg("id") id: String, projectsStub: ProjectsCoroutineStub): ListenableFuture<Project?> = runBlocking {
 		future {
 			projectsStub.get(flowOf(uuid(id))).firstOrNull().also {
 				log.info("get project for id{{}} = {}", id, it)
@@ -53,25 +55,11 @@ object ProjectsSchema : SchemaModule() {
 		}
 	}
 
-	// TODO Replace with `searchProjects`
-	/**
-	 * Gets all projects matching [ids].
-	 */
-	@Query("projects")
-	fun projects(@Arg("ids") ids: UuidList, projectsStub: ProjectsCoroutineStub): ListenableFuture<List<Project>> =
-		runBlocking {
-			future {
-				projectsStub.get(ids.idsList.asFlow()).toList().also {
-					log.info("get projects for ids{{}} = {}", ids, it)
-				}
-			}
-		}
-
 	/**
 	 * Upserts [project].
 	 */
-	@Mutation("setProject")
-	fun setProject(@Arg("project") project: Project, projectsStub: ProjectsCoroutineStub): ListenableFuture<Project> =
+	@Mutation("set")
+	fun set(@Arg("project") project: Project, projectsStub: ProjectsCoroutineStub): ListenableFuture<Project> =
 		runBlocking {
 			future {
 				projectsStub.upsert(flowOf(project)).first().also {
@@ -83,7 +71,7 @@ object ProjectsSchema : SchemaModule() {
 	/**
 	 * Deletes all projects matching [ids] and returns their former representations.
 	 */
-	@Mutation("deleteProjects")
+	@Mutation("delete")
 	fun delete(@Arg("ids") ids: UuidList, projectsStub: ProjectsCoroutineStub): ListenableFuture<List<Project>> =
 		runBlocking {
 			future {
