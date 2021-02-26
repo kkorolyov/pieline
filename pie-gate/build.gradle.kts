@@ -60,9 +60,7 @@ dependencies {
 
 	// observability
 	val log4jVersion: String by project
-	val opentracingVersion: String by project
-	val opentracingGrpcVersion: String by project
-	val jaegerVersion: String by project
+	val jacksonVersion: String by project
 
 	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
 	listOf(
@@ -72,6 +70,15 @@ dependencies {
 	).forEach {
 		implementation("org.apache.logging.log4j:$it")
 	}
+	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+
+	val opentracingVersion: String by project
+	val opentracingGrpcVersion: String by project
+	val jaegerVersion: String by project
+
+	implementation("io.opentracing:opentracing-api:$opentracingVersion")
+	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
+	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
 
 	// ktor
 	val ktorVersion: String by project
@@ -86,10 +93,6 @@ dependencies {
 	).forEach {
 		implementation(("io.ktor:$it"))
 	}
-
-	implementation("io.opentracing:opentracing-api:$opentracingVersion")
-	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")
-	implementation("io.jaegertracing:jaeger-client:$jaegerVersion")
 
 	// test
 	testImplementation("io.ktor:ktor-server-tests")
@@ -113,18 +116,7 @@ java {
 }
 
 application {
-	mainClass.set("io.ktor.server.netty.EngineMain")
-}
-
-// Local dev run
-tasks.named<JavaExec>("run") {
-	environment = mapOf(
-		"PORT" to 5000,
-		"ADDR_AUTH" to "localhost:5001",
-		"ADDR_USERS" to "localhost:5002",
-		"ADDR_PROJECTS" to "localhost:5003",
-		"ADDR_I18N" to "localhost:6000"
-	)
+	mainClass.set("dev.kkorolyov.piegate.PieGateKt")
 }
 
 protobuf {

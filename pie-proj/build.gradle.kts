@@ -64,9 +64,6 @@ dependencies {
 	// observability
 	val log4jVersion: String by project
 	val jacksonVersion: String by project
-	val opentracingVersion: String by project
-	val opentracingGrpcVersion: String by project
-	val jaegerVersion: String by project
 
 	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
 	listOf(
@@ -77,6 +74,10 @@ dependencies {
 		implementation("org.apache.logging.log4j:$it")
 	}
 	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+
+	val opentracingVersion: String by project
+	val opentracingGrpcVersion: String by project
+	val jaegerVersion: String by project
 
 	implementation("io.opentracing:opentracing-api:$opentracingVersion")
 	implementation("io.opentracing.contrib:opentracing-grpc:$opentracingGrpcVersion")

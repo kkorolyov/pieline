@@ -54,10 +54,10 @@ class Install @Inject constructor(application: Application) {
 			}
 			install(Authentication) {
 				jwt {
-					realm = environment.config.property("jwt.realm").getString()
+					realm = PROPS["JWT_REALM"]
 
-					val issuer = environment.config.property("jwt.issuer").getString()
-					val secret = environment.config.property("jwt.secret").getString()
+					val issuer = PROPS["JWT_ISSUER"]
+					val secret = PROPS["JWT_SECRET"]
 
 					verifier(
 						JWT.require(Algorithm.HMAC256(secret))

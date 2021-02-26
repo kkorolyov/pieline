@@ -8,6 +8,8 @@ import com.google.common.util.concurrent.ListenableFuture
 import dev.kkorolyov.piegate.util.uuid
 import dev.kkorolyov.pieline.proto.common.Common.UuidList
 import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.Project
+import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.SearchRequest
+import dev.kkorolyov.pieline.proto.project.ProjectOuterClass.SearchResponse
 import dev.kkorolyov.pieline.proto.project.ProjectsGrpcKt.ProjectsCoroutineStub
 import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.first
@@ -25,6 +27,21 @@ object ProjectsSchema : SchemaModule() {
 	private val log = LoggerFactory.getLogger(ProjectsSchema::class.java)
 
 	/**
+	 * Searches for projects matching [request].
+	 */
+	@Query("searchProjects")
+	fun search(
+		@Arg("request") request: SearchRequest,
+		projectsStub: ProjectsCoroutineStub
+	): ListenableFuture<SearchResponse> = runBlocking {
+		future {
+			projectsStub.search(request).also {
+				log.info("search projects for request{{}} = {}", request, it)
+			}
+		}
+	}
+
+	/**
 	 * Gets project for [id], if any.
 	 */
 	@Query("project")
@@ -36,6 +53,7 @@ object ProjectsSchema : SchemaModule() {
 		}
 	}
 
+	// TODO Replace with `searchProjects`
 	/**
 	 * Gets all projects matching [ids].
 	 */
