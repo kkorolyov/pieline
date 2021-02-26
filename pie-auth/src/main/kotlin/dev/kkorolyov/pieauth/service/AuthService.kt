@@ -1,5 +1,6 @@
 package dev.kkorolyov.pieauth.service
 
+import dev.kkorolyov.pieauth.PROPS
 import dev.kkorolyov.pieauth.auth.PassMaster
 import dev.kkorolyov.pieauth.auth.RoleMaster
 import dev.kkorolyov.pieauth.auth.TokenMaster
@@ -33,7 +34,7 @@ import org.slf4j.LoggerFactory
 import java.util.UUID
 
 private val usersStub: UsersCoroutineStub = UsersCoroutineStub(
-	ManagedChannelBuilder.forTarget(System.getenv("ADDR_USERS"))
+	ManagedChannelBuilder.forTarget(PROPS["ADDR_USERS"])
 		.intercept(CLIENT_TRACER)
 		.usePlaintext()
 		.build()

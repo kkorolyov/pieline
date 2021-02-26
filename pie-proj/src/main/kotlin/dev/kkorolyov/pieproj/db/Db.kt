@@ -11,11 +11,12 @@ private val LOG = LoggerFactory.getLogger("db")
 
 /** Global database handle */
 val DB: Database by lazy {
+	val ds: DataSource = JdbcDataSource().apply {
+		setUrl(URL)
+	}
+
 	LOG.info("connecting to DB at {{}}", URL)
 	Database.connect(ds).also {
 		LOG.info("connected to DB at {{}}", URL)
 	}
-}
-private val ds: DataSource = JdbcDataSource().apply {
-	setUrl(URL)
 }
