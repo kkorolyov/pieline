@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package debug;
+option java_package = "dev.kkorolyov.pieline.proto.debug";
+
+// JWT token representation
+message Jwt {
+  // Token claims
+  map<string, string> claims = 1;
+}

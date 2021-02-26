@@ -11,5 +11,6 @@ object SchemaModule : AbstractModule() {
 		install(UsersSchema)
 		install(ProjectsSchema)
 		install(i18nSchema)
+		install(DebugSchema)
 	}
 }

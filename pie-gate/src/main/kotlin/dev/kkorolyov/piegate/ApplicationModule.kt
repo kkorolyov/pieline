@@ -11,8 +11,6 @@ import io.ktor.application.Application
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.auth.Authentication
-import io.ktor.auth.authenticate
-import io.ktor.auth.authentication
 import io.ktor.auth.jwt.JWTPrincipal
 import io.ktor.auth.jwt.jwt
 import io.ktor.features.CORS
@@ -108,22 +106,6 @@ class Routes @Inject constructor(application: Application) {
 
 				get("/health") {
 					call.respond("I'm alive")
-				}
-
-				authenticate {
-					get("/jwt") {
-						val claims = call.authentication.principal<JWTPrincipal>()?.payload?.claims?.mapValues { (_, value) ->
-							value.asString() ?: value.asArray(String::class.java)?.run { contentToString() } ?: value.asDate()
-						}
-						call.respond(
-							claims?.entries
-								?.joinToString(
-									System.lineSeparator(),
-									"Your JWT claims are:${System.lineSeparator()}"
-								) { e -> "${e.key}=${e.value}" }
-								?: "no claims to show"
-						)
-					}
 				}
 			}
 		}
