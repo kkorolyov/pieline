@@ -1,5 +1,4 @@
 import { themes } from "@storybook/theming";
-import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import Theme, { Palette } from "../src/component/common/Theme";
 import { ApiContext } from "../src/context";

@@ -19,6 +19,8 @@ export type I18nContextProps = {
   projectAssets?: string;
   projectMembers?: string;
 
+  filterTitle?: string;
+
   errorRegister?: string;
   errorLogIn?: string;
 
@@ -48,6 +50,8 @@ export const i18nDefault: I18nContextProps = [
   "projectAbout",
   "projectAssets",
   "projectMembers",
+
+  "filterTitle",
 
   "errorRegister",
   "errorLogIn",

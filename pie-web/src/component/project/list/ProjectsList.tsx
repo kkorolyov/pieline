@@ -1,11 +1,13 @@
 import { Button, List, ListItem, ListItemText, Paper } from "@material-ui/core";
-import { Add, FilterList } from "@material-ui/icons";
+import { Add } from "@material-ui/icons";
 import Link from "component/common/control/Link";
-import Menu from "component/common/control/Menu";
-import { I18nContext } from "context";
-import { Project_Project } from "gql";
-import { useContext } from "react";
+import Waitable from "component/common/wrapper/Waitable";
+import { ApiContext, I18nContext } from "context";
+import { useExecutor, useResult } from "hooks";
+import { useContext, useState } from "react";
+import { useHistory } from "react-router";
 import styled from "styled-components";
+import Filters from "./Filters";
 
 const Layout = styled(Paper)`
   display: grid;
@@ -14,69 +16,79 @@ const Layout = styled(Paper)`
     "filters actions"
     "results results";
 `;
-const Filters = styled.span`
-  grid-area: "filters";
+const AreaFilters = styled(Filters)`
+  grid-area: filters;
 `;
-const Actions = styled.span`
-  grid-area: "actions";
+const AreaActions = styled.span`
+  grid-area: actions;
 `;
-const Results = styled(List)`
-  grid-area: "results";
+const AreaResults = styled(List)`
+  grid-area: results;
+  overflow: auto;
+  max-height: 500px;
 `;
 
 export type ProjectsListProps = {
   /**
-   * Projects to display.
+   * Number of projects to load per page.
    */
-  value: Project_Project[];
-
-  /**
-   * Callback invoked with requested projects filter.
-   */
-  // TODO This should be a complex protobuf message
-  onFilter: (filter: string) => void;
-  /**
-   * Callback invoked on request to create new project.
-   */
-  onCreate: () => void;
+  limit: number;
 };
-const ProjectsList = ({ value, onFilter, onCreate }: ProjectsListProps) => {
+/**
+ * Searchable projects list.
+ */
+const ProjectsList = ({ limit }: ProjectsListProps) => {
   const i18n = useContext(I18nContext);
+  const { searchProjects } = useContext(ApiContext);
+  const searchExecutor = useExecutor(searchProjects);
+
+  const history = useHistory();
+
+  const [token, setToken] = useState<string | null>();
+
+  useResult(searchExecutor, ({ token: resToken }) => {
+    setToken(resToken);
+  });
 
   return (
     <Layout>
-      <Filters>
-        <Menu
-          anchor={
-            <Button title={i18n.helpFilterProjects}>
-              <FilterList />
-            </Button>
-          }
+      <AreaFilters
+        onChange={({ titlePattern }) => {
+          searchExecutor.execute({
+            titlePattern,
+            chunk: {
+              token,
+              size: limit,
+            },
+          });
+        }}
+      />
+      <AreaActions>
+        <Button
+          title={i18n.helpCreateProject}
+          onClick={() => history.push("/projects/new")}
         >
-          {/* TODO Filters */}
-        </Menu>
-      </Filters>
-      <Actions>
-        <Button title={i18n.helpCreateProject} onClick={() => onCreate()}>
           <Add />
         </Button>
-      </Actions>
+      </AreaActions>
 
-      <Results>
-        {value.map(({ id, details }) => (
-          <ListItem
-            key={id?.value}
-            button
-            component={Link}
-            to={`/projects/${id?.value}`}
-          >
-            <ListItemText
-              primary={details?.title}
-              secondary={details?.description}
-            />
-          </ListItem>
-        ))}
-      </Results>
+      <AreaResults>
+        <Waitable waiting={searchExecutor.waiting}>
+          {searchExecutor.result?.result?.map((project) => (
+            <ListItem
+              key={project?.id?.value}
+              button
+              component={Link}
+              to={`/projects/${project?.id?.value}`}
+            >
+              <ListItemText
+                primary={project?.details?.title}
+                secondary={project?.details?.description}
+              />
+            </ListItem>
+          ))}
+        </Waitable>
+      </AreaResults>
     </Layout>
   );
 };

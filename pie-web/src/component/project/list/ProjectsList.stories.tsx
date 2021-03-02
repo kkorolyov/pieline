@@ -1,5 +1,4 @@
 import { Story } from "@storybook/react";
-import { wrapId } from "api/graphql/client";
 import ProjectsList, { ProjectsListProps } from "./ProjectsList";
 
 export default {
@@ -16,31 +15,12 @@ const Template: Story<ProjectsListProps> = (props) => (
   <ProjectsList {...props} />
 );
 
-export const Empty = Template.bind({});
+export const Smol = Template.bind({});
+Smol.args = {
+  limit: 5,
+};
 
-export const Full = Template.bind({});
-Full.args = {
-  value: [
-    {
-      id: wrapId("wun"),
-      details: {
-        title: "Project wun",
-        description: "The first",
-      },
-    },
-    {
-      id: wrapId("tu"),
-      details: {
-        title: "Project tu",
-        description: "The latter",
-      },
-    },
-    {
-      id: wrapId("tree"),
-      details: {
-        title: "Project tree",
-        description: "The final",
-      },
-    },
-  ],
+export const BigBoi = Template.bind({});
+BigBoi.args = {
+  limit: 50,
 };
