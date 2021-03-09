@@ -69,18 +69,13 @@ dependencies {
 	implementation("de.mkammerer:argon2-jvm:$argon2Version")
 
 	// observability
+	val slf4jVersion: String by project
 	val log4jVersion: String by project
 	val jacksonVersion: String by project
 
-	implementation(platform("org.apache.logging.log4j:log4j-bom:$log4jVersion"))
-	listOf(
-		"log4j-api",
-		"log4j-core",
-		"log4j-slf4j-impl"
-	).forEach {
-		implementation("org.apache.logging.log4j:$it")
-	}
-	implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
+	implementation("org.slf4j:slf4j-api:$slf4jVersion")
+	runtimeOnly("org.apache.logging.log4j:log4j-slf4j18-impl:$log4jVersion")
+	runtimeOnly("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:$jacksonVersion")
 
 	val opentracingVersion: String by project
 	val opentracingGrpcVersion: String by project
