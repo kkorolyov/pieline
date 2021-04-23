@@ -1191,10 +1191,10 @@ grpc-tools@^1.10.0:
   dependencies:
     node-pre-gyp "^0.15.0"
 
-grpc@^1.24.4:
-  version "1.24.5"
-  resolved "https://registry.yarnpkg.com/grpc/-/grpc-1.24.5.tgz#ea39fa44b0397c5881009337de9e8b44b919fe54"
-  integrity sha512-+dY6lfLPovblJO5QitBQM2L67efI5JjBzCqJQURSINPzoFHos+5bs4DHwtes7BF+dkx5eN3fx/VUFRCmWTsE7g==
+grpc@^1.24.7:
+  version "1.24.7"
+  resolved "https://registry.yarnpkg.com/grpc/-/grpc-1.24.7.tgz#58d8eb2a8a9c11ccd678f27403ba54ee4ea3d895"
+  integrity sha512-AFWychfq60LBUrelOWgT5PWk05n98z7/C8qCgeNAJ4YvK8khVNSlbEHMLaCu7COqbX1JwJxSbzw9B9YhnzKeYQ==
   dependencies:
     "@types/bytebuffer" "^5.0.40"
     lodash.camelcase "^4.3.0"
