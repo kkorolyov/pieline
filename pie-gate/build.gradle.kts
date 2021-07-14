@@ -16,7 +16,7 @@ tasks.wrapper {
 plugins {
 	kotlin("jvm") version "1.4.20"
 	application
-	id("com.google.protobuf") version "0.8.15"
+	id("com.google.protobuf") version "0.8.17"
 	idea
 }
 group = "dev.kkorolyov"
